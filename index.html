@@ -1820,3 +1820,648 @@ function showPrivacy(){
             </p>
 
             <brr
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Happyuserer</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#000;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+}
+
+.app{
+    width:100%;
+    max-width:420px;
+    height:100vh;
+    overflow:hidden;
+    position:relative;
+    color:#fff;
+    background:linear-gradient(
+        180deg,
+        #170027 0%,
+        #26104a 47%,
+        #c631c6 100%
+    );
+}
+
+.status{
+    height:36px;
+    padding:8px 12px 0;
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    font-size:12px;
+    position:relative;
+    z-index:20;
+}
+
+.device{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:4px;
+    background:#000;
+    border:1px solid #333;
+    border-radius:18px;
+    padding:7px 28px;
+}
+
+.page{
+    height:calc(100vh - 36px);
+    overflow:auto;
+    padding-bottom:72px;
+    scrollbar-width:none;
+}
+
+.page::-webkit-scrollbar{
+    display:none;
+}
+
+.header{
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    font-size:20px;
+    font-weight:700;
+}
+
+.back{
+    position:absolute;
+    left:16px;
+    border:1px solid #6d537f;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    background:transparent;
+    color:#fff;
+    font-size:20px;
+}
+
+.coins{
+    position:absolute;
+    right:14px;
+    font-size:13px;
+    background:#25174b;
+    border-radius:20px;
+    padding:5px 8px;
+}
+
+.tabs{
+    margin:3px 22px 25px;
+    height:38px;
+    border-radius:22px;
+    background:#211a45;
+    box-shadow:0 0 13px #7c36a4;
+    display:flex;
+    padding:3px;
+}
+
+.tabs button{
+    flex:1;
+    border:0;
+    background:transparent;
+    color:#fff;
+    border-radius:20px;
+    font-size:14px;
+}
+
+.tabs button.active{
+    background:linear-gradient(90deg,#6610aa,#a41dc0);
+}
+
+.hero{
+    margin:0 20px 10px;
+    height:122px;
+    border-radius:7px;
+    background:linear-gradient(135deg,#f7f7f7,#ddd);
+    color:#111;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-weight:900;
+    font-size:25px;
+    overflow:hidden;
+}
+
+.hero span{
+    color:#b11;
+    font-size:32px;
+}
+
+.dots{
+    text-align:center;
+    margin:4px 0 12px;
+}
+
+.dots i{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    background:#fff;
+    border-radius:50%;
+    margin:0 3px;
+    opacity:.7;
+}
+
+.dots i:first-child{
+    opacity:1;
+}
+
+.section-title{
+    font-size:17px;
+    font-weight:bold;
+    margin:10px 14px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    padding:0 14px;
+}
+
+.tile{
+    height:118px;
+    border-radius:9px;
+    border:1px solid #ddd;
+    overflow:hidden;
+    position:relative;
+    background:linear-gradient(
+        135deg,
+        #6e08b3,
+        #1d1460 45%,
+        #ef9d20
+    );
+    cursor:pointer;
+}
+
+.tile:nth-child(2n){
+    background:linear-gradient(
+        135deg,
+        #06134c,
+        #1462c7,
+        #42107e
+    );
+}
+
+.tile:nth-child(3n){
+    background:linear-gradient(
+        135deg,
+        #f0c22d,
+        #7e19ad,
+        #f55
+    );
+}
+
+.tile:after{
+    content:attr(data-name);
+    position:absolute;
+    left:4px;
+    right:4px;
+    bottom:7px;
+    text-align:center;
+    font-weight:900;
+    font-size:14px;
+    text-shadow:0 2px 3px #000;
+}
+
+.tile .emoji{
+    font-size:48px;
+    text-align:center;
+    margin-top:16px;
+}
+
+.bottom{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:#050505;
+    display:flex;
+    z-index:30;
+}
+
+.nav{
+    flex:1;
+    border:0;
+    background:transparent;
+    color:#fff;
+    font-size:9px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+}
+
+.nav .ico{
+    font-size:22px;
+}
+
+.nav.active .ico{
+    background:linear-gradient(
+        135deg,
+        #9b28c8,
+        #d64cd2
+    );
+    padding:11px;
+    border-radius:0 0 12px 12px;
+    margin-top:-22px;
+}
+
+.match{
+    margin:16px 18px;
+    background:#fff;
+    color:#111;
+    border-radius:8px;
+    padding:15px 14px 20px;
+    text-align:center;
+}
+
+.match h3{
+    font-size:15px;
+    line-height:18px;
+}
+
+.match .date{
+    font-size:10px;
+    font-weight:bold;
+    margin:2px;
+}
+
+.match .chips{
+    display:flex;
+    gap:5px;
+    margin:10px 0 7px;
+}
+
+.chip{
+    flex:1;
+    background:linear-gradient(
+        90deg,
+        #8c20ad,
+        #a92ab9
+    );
+    color:#fff;
+    padding:9px 3px;
+    border-radius:7px;
+    font-size:12px;
+}
+
+.stats{
+    display:flex;
+    gap:5px;
+}
+
+.stat{
+    flex:1;
+    background:#9222ad;
+    color:#fff;
+    border-radius:7px;
+    padding:8px;
+    font-size:11px;
+}
+
+.stat b{
+    display:block;
+    padding-top:4px;
+}
+
+.view{
+    background:#29245d;
+    color:#fff;
+    border:0;
+    border-radius:15px;
+    padding:7px 12px;
+    font-size:10px;
+    margin-top:10px;
+}
+
+.details{
+    text-align:left;
+    margin:0 15px;
+    color:#aaa;
+    font-size:12px;
+    line-height:31px;
+}
+
+.details span{
+    float:right;
+}
+
+.info-box{
+    margin:0 0 10px;
+    background:linear-gradient(
+        180deg,
+        #7775ae,
+        #3c1d63
+    );
+    border-radius:25px 25px 0 0;
+    padding:16px 14px;
+    color:#eee;
+}
+
+.info-box h4{
+    text-align:center;
+    margin-bottom:12px;
+}
+
+.pills{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin:8px;
+}
+
+.pill{
+    background:linear-gradient(
+        90deg,
+        #2b2772,
+        #741aa4
+    );
+    padding:9px 28px;
+    border-radius:22px;
+    font-size:12px;
+    border:0;
+    color:#fff;
+}
+
+.rules{
+    padding:0 4px;
+}
+
+.rule{
+    display:flex;
+    align-items:flex-start;
+    gap:7px;
+    background:#17142f;
+    border:2px solid #77709b;
+    border-radius:19px;
+    padding:7px 8px;
+    margin:7px 0;
+    font-size:13px;
+    line-height:17px;
+}
+
+.num{
+    min-width:31px;
+    height:31px;
+    border-radius:50%;
+    background:#fff;
+    color:#111;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:#0009;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+
+.modal{
+    width:90%;
+    max-width:340px;
+    background:#320071;
+    border-radius:7px;
+    padding:36px 20px 24px;
+    text-align:center;
+    box-shadow:0 0 20px #000;
+}
+
+.modal h3{
+    margin-bottom:14px;
+}
+
+.modal p{
+    line-height:30px;
+}
+
+.close{
+    position:absolute;
+    margin:-28px 0 0 130px;
+    border:0;
+    background:#ddd;
+    color:#fff;
+    border-radius:50%;
+    width:22px;
+    height:22px;
+}
+
+.profile-top{
+    text-align:center;
+    padding:30px 0 15px;
+}
+
+.avatar{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:#fff;
+    margin:auto;
+    color:#26104a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:55px;
+    border:4px solid #251040;
+}
+
+.profile-top .name{
+    margin-top:12px;
+    font-size:15px;
+}
+
+.profile-top small{
+    color:#aaa;
+}
+
+.menu{
+    padding:0 16px;
+}
+
+.menu button{
+    width:100%;
+    height:45px;
+    border:0;
+    border-radius:7px;
+    background:#28005b;
+    color:#ddd;
+    text-align:left;
+    padding:0 30px;
+    margin:5px 0;
+    font-size:15px;
+    box-shadow:0 2px 6px #9b57a8;
+}
+
+.menu button span{
+    float:right;
+}
+
+.winner{
+    text-align:center;
+    padding-top:45px;
+}
+
+.winner .bigavatar{
+    width:130px;
+    height:130px;
+    margin:auto;
+    border-radius:50%;
+    background:#fafafa;
+    color:#2474bf;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:65px;
+}
+
+.winner h4{
+    margin-top:18px;
+    color:#aaa;
+}
+
+.winner .score{
+    color:#aaa;
+    margin-top:3px;
+}
+
+.rank-tabs{
+    margin:20px 50px;
+}
+
+.rank{
+    margin:10px 23px;
+    background:#191536;
+    border:1px solid #655d84;
+    border-radius:25px;
+    padding:12px 8px;
+    color:#aaa;
+}
+
+.rank b{
+    display:inline-block;
+    width:35px;
+}
+
+.rank em{
+    float:right;
+    border:1px solid #655d84;
+    border-radius:20px;
+    padding:5px 10px;
+    font-style:normal;
+}
+
+.screen{
+    display:none;
+}
+
+.screen.active{
+    display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- STATUS -->
+    <div class="status">
+        <span>11:00</span>
+
+        <span class="device">
+            ◉ &nbsp; 1 device
+        </span>
+
+        <span>
+            Vo LTE&nbsp; ◔ 4G&nbsp; ◉ 68
+        </span>
+    </div>
+
+
+    <!-- HOME -->
+    <div id="home" class="page screen active">
+
+        <div class="header">
+            HAPPYUSERER
+
+            <span class="coins">
+                🪙10
+            </span>
+        </div>
+
+
+        <div class="hero">
+            HAPPY
+            <span>USERER</span>
+
+            <br>
+
+            <small style="font-size:12px">
+                IMPORTANT RULES • ID • HUD • TEAMUP
+            </small>
+        </div>
+
+
+        <div class="dots">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+        </div>
+
+
+        <div class="section-title">
+            E-sports
+        </div>
+
+
+        <div class="grid">
+
+            <div class="tile" data-name="FREE FIRE MAX">
+                <div class="emoji">🔥</div>
+            </div>
+
+            <div class="tile" data-name="HIGH PERKILL">
+                <div class="emoji">⚡</div>
+            </div>
+
+            <div class="tile" data-name="FREE FIRE MAX">
+                <div class="emoji">🏆</div>
+            </div>
+
+            <div class="tile" data-name="LONE WOLF 2.0">
+                <div class="emoji">🎮</div>
+            </div>
+
+            <div class="tile" data-name="SURVIVAL MATCH">
+                <div class="emoji">🔥</
