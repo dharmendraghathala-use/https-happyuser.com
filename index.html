@@ -1,1406 +1,1788 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1.0,
-      maximum-scale=1.0,
-      user-scalable=no">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HappyUser</title>
 
 <style>
-:root{
-    --bg1:#170025;
-    --bg2:#4a1769;
-    --bg3:#cf4fca;
-    --purple:#8d32bd;
-    --purple2:#6e1da1;
-    --line:#a53bd0;
-    --text:#fff;
-    --muted:#d7c8df;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial;
+  background:#09050d;
+  color:#fff
 }
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html,body{
-    width:100%;
-    height:100%;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#08000d;
-    color:white;
-}
-
-button{
-    font:inherit;
-    border:0;
-    cursor:pointer;
-}
-
-.app{
-    width:100%;
-    height:100dvh;
-    max-width:720px;
-    margin:auto;
-    position:relative;
-    overflow:hidden;
-    background:
-    linear-gradient(
-        180deg,
-        var(--bg1) 0%,
-        #2d0a43 45%,
-        #bf4ac0 100%
-    );
-}
-
-/* ================= SCREEN ================= */
-
 .screen{
-    width:100%;
-    height:100%;
-    overflow-y:auto;
-    padding-bottom:85px;
-    display:none;
+  min-height:100vh;
+  background:radial-gradient(circle at 50% 0,#55156f,#09050d 60%);
+  padding:18px
 }
-
-.screen.active{
-    display:block;
+.box,.card{
+  background:#170b20;
+  border:1px solid #493052;
+  border-radius:16px;
+  padding:18px
 }
-
-::-webkit-scrollbar{
-    width:0;
+.box{
+  max-width:430px;
+  margin:8vh auto
 }
-
-/* ================= TOP BAR ================= */
-
-.topbar{
-    height:76px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:12px 18px;
-
-    position:sticky;
-    top:0;
-    z-index:10;
-
-    background:rgba(16,0,26,.72);
-    backdrop-filter:blur(10px);
-}
-
 .logo{
-    font-size:25px;
-    font-weight:800;
+  text-align:center;
+  font-size:30px;
+  font-weight:900
 }
-
-.center-title{
-    font-size:26px;
-    font-weight:800;
+.logo span,.accent{
+  color:#c24ddd
 }
-
-.iconbtn{
-    width:46px;
-    height:46px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(255,255,255,.35);
-
-    background:rgba(255,255,255,.08);
-
-    color:white;
-
-    font-size:25px;
+.muted,.small{
+  color:#ad9db2;
+  font-size:12px
 }
-
-.coin{
-    background:#21105c;
-
-    border:3px solid #531bb0;
-
-    border-radius:24px;
-
-    padding:7px 12px;
-
-    font-size:18px;
+.muted{
+  text-align:center;
+  margin:7px 0 18px
 }
-
-/* ================= HERO ================= */
-
+label{
+  display:block;
+  font-size:12px;
+  margin:12px 0 5px;
+  color:#d4c6d8
+}
+input,select{
+  width:100%;
+  padding:12px;
+  border-radius:9px;
+  border:1px solid #56345f;
+  background:#0e0712;
+  color:#fff
+}
+button{
+  border:0;
+  border-radius:9px;
+  padding:12px;
+  background:linear-gradient(90deg,#7721b3,#b73bd0);
+  color:#fff;
+  font-weight:bold;
+  margin-top:10px;
+  width:100%;
+  cursor:pointer
+}
+.secondary{
+  background:#35253d
+}
+.link{
+  background:none;
+  color:#dc8bf2;
+  text-decoration:underline
+}
+.msg{
+  display:none;
+  background:#28152f;
+  padding:10px;
+  border-radius:8px;
+  margin-top:10px;
+  font-size:12px
+}
+.show{
+  display:block
+}
+.hidden{
+  display:none
+}
+.app{
+  display:none;
+  min-height:100vh;
+  padding-bottom:72px
+}
+.top{
+  height:62px;
+  background:#14091b;
+  border-bottom:1px solid #392542;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+  position:sticky;
+  top:0;
+  z-index:5
+}
+.brand{
+  font-weight:900;
+  font-size:22px
+}
+.content{
+  max-width:950px;
+  margin:auto;
+  padding:15px
+}
+.page{
+  display:none
+}
+.page.active{
+  display:block
+}
 .hero{
-    padding:18px;
+  background:linear-gradient(135deg,#321040,#190c22);
+  border:1px solid #493052;
+  border-radius:15px;
+  padding:18px
 }
-
-.hero h1{
-    font-size:32px;
-    margin-bottom:8px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:12px
 }
-
-.hero p{
-    color:#ddd0e2;
+.grid4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:12px
 }
-
-/* ================= BANNER ================= */
-
-.banner{
-    margin:10px 18px 18px;
-
-    padding:18px;
-
-    border-radius:18px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #7822a7,
-        #c33cc2
-    );
-
-    box-shadow:
-    0 12px 30px rgba(0,0,0,.22);
+.value{
+  font-size:21px;
+  font-weight:900;
+  margin-top:5px
 }
-
-.banner h2{
-    font-size:23px;
+.list{
+  display:grid;
+  gap:9px;
+  margin-top:10px
 }
-
-.banner p{
-    margin-top:6px;
-    color:#f4e8f7;
+.item{
+  background:#1b0d24;
+  border:1px solid #38223f;
+  border-radius:10px;
+  padding:12px
 }
-
-/* ================= SECTION ================= */
-
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:12px 18px;
-
-    font-size:20px;
-    font-weight:700;
+.item h4{
+  margin:0 0 5px
 }
-
-/* ================= GAMES ================= */
-
-.game-grid{
-    display:grid;
-
-    grid-template-columns:
-    repeat(2,1fr);
-
-    gap:12px;
-
-    padding:0 18px;
+.item p{
+  margin:4px 0;
+  color:#b8aabc;
+  font-size:11px
 }
-
-.game{
-    min-height:110px;
-
-    border-radius:17px;
-
-    padding:15px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #531178,
-        #8d2bb5
-    );
-
-    border:1px solid #b34bd1;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-
-    color:white;
-
-    box-shadow:
-    0 8px 20px rgba(0,0,0,.16);
-}
-
-.game .emoji{
-    font-size:36px;
-    margin-bottom:auto;
-}
-
-.game b{
-    font-size:18px;
-}
-
-/* ================= MATCH ================= */
-
-.match{
-    margin:14px 18px;
-
-    background:white;
-    color:#111;
-
-    border-radius:17px;
-
-    padding:16px;
-
-    box-shadow:
-    0 10px 28px rgba(0,0,0,.25);
-}
-
-.match h3{
-    text-align:center;
-
-    font-size:18px;
-
-    line-height:1.25;
-}
-
-.match .date{
-    text-align:center;
-
-    font-size:13px;
-
-    font-weight:700;
-
-    margin:7px 0 12px;
-}
-
-/* ================= STATS ================= */
-
-.stats{
-    display:grid;
-
-    grid-template-columns:
-    repeat(3,1fr);
-
-    gap:7px;
-}
-
-.stat .label{
-    background:
-    linear-gradient(
-        90deg,
-        #9136ba,
-        #7830ad
-    );
-
-    color:#e7dbea;
-
-    border-radius:12px;
-
-    padding:10px 5px;
-
-    text-align:center;
-
-    font-weight:700;
-
-    font-size:13px;
-}
-
-.stat .value{
-    text-align:center;
-
-    padding:8px 2px;
-
-    font-size:18px;
-
-    font-weight:800;
-}
-
-/* ================= TABS ================= */
-
-.tabs{
-    margin:14px 18px;
-
-    background:#171434;
-
-    border-radius:35px;
-
-    padding:4px;
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(3,1fr);
-
-    border:3px solid rgba(255,255,255,.16);
-
-    box-shadow:
-    0 0 20px rgba(199,90,255,.22);
-}
-
-.tab{
-    padding:12px 5px;
-
-    border-radius:28px;
-
-    background:transparent;
-
-    color:white;
-}
-
-.tab.active{
-    background:
-    linear-gradient(
-        90deg,
-        #7223a4,
-        #8e2cbd
-    );
-}
-
-/* ================= PROFILE ================= */
-
-.profile-head{
-    text-align:center;
-
-    padding:28px 18px 20px;
-}
-
-.profile-head h1{
-    font-size:32px;
-}
-
-.avatar{
-    width:120px;
-    height:120px;
-
-    margin:25px auto 14px;
-
-    border-radius:50%;
-
-    background:white;
-
-    color:#7b299f;
-
-    display:grid;
-    place-items:center;
-
-    font-size:52px;
-    font-weight:700;
-}
-
-.profile-head h2{
-    font-size:20px;
-}
-
-/* ================= MENU ================= */
-
-.menu-list{
-    padding:0 38px;
-}
-
-.menu-item{
-    width:100%;
-
-    margin:7px 0;
-
-    padding:20px 28px;
-
-    border-radius:15px;
-
-    border:1px solid #8d2eb4;
-
-    background:
-    linear-gradient(
-        90deg,
-        #2b0a42,
-        #180020
-    );
-
-    color:white;
-
-    text-align:left;
-
-    font-size:19px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-}
-
-.menu-item:hover{
-    background:#46105e;
-}
-
-/* ================= CARD ================= */
-
-.card{
-    margin:18px;
-
-    padding:20px;
-
-    border-radius:18px;
-
-    background:rgba(255,255,255,.08);
-
-    border:1px solid rgba(255,255,255,.18);
-}
-
-/* ================= INPUT ================= */
-
-.field{
-    margin:12px 0;
-}
-
-.field label{
-    display:block;
-
-    margin-bottom:7px;
-
-    color:#ddd;
-}
-
-.field input{
-    width:100%;
-
-    padding:13px;
-
-    border-radius:10px;
-
-    border:1px solid #9340b9;
-
-    background:#16001f;
-
-    color:white;
-
-    outline:none;
-}
-
-/* ================= BUTTON ================= */
-
-.primary{
-    width:100%;
-
-    padding:14px;
-
-    border-radius:12px;
-
-    background:
-    linear-gradient(
-        90deg,
-        #8429b0,
-        #b23dc3
-    );
-
-    color:white;
-
-    font-weight:700;
-
-    margin-top:8px;
-}
-
-/* ================= BOTTOM NAV ================= */
-
 .bottom{
-    position:absolute;
-
-    left:0;
-    right:0;
-    bottom:0;
-
-    height:76px;
-
-    background:#0d0711;
-
-    border-top:
-    1px solid rgba(255,255,255,.12);
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(4,1fr);
-
-    z-index:30;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65px;
+  background:#14091b;
+  border-top:1px solid #392542;
+  display:flex;
+  z-index:10
 }
-
-.nav{
-    background:transparent;
-
-    color:#aaa;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:4px;
-
-    font-size:12px;
+.bottom button{
+  background:none;
+  margin:0;
+  border-radius:0;
+  font-size:10px;
+  color:#9e90a5
 }
-
-.nav .ico{
-    font-size:24px;
+.bottom button.active{
+  background:#29132f;
+  color:#fff
 }
-
-.nav.active{
-    color:white;
-}
-
-/* ================= FLOAT BUTTON ================= */
-
-.fab{
-    position:absolute;
-
-    right:28px;
-    bottom:94px;
-
-    width:68px;
-    height:68px;
-
-    border-radius:50%;
-
-    background:
-    radial-gradient(
-        circle,
-        #d454b8,
-        #5c0b82
-    );
-
-    border:3px solid #8d43d2;
-
-    box-shadow:
-    0 8px 20px rgba(0,0,0,.35);
-
-    color:white;
-
-    font-size:28px;
-
-    z-index:25;
-}
-
-/* ================= MODAL ================= */
-
 .modal{
-    position:absolute;
-
-    inset:0;
-
-    background:rgba(0,0,0,.62);
-
-    z-index:50;
-
-    display:none;
-
-    align-items:flex-end;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000b;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:20
 }
-
 .modal.show{
-    display:flex;
+  display:flex
 }
-
-.sheet{
-    width:100%;
-
-    background:#160020;
-
-    border-radius:
-    22px 22px 0 0;
-
-    padding:22px;
-
-    border-top:
-    1px solid #9a39bd;
+.modal>div{
+  width:min(440px,100%);
+  max-height:90vh;
+  overflow:auto
 }
-
-.sheet h2{
-    margin-bottom:15px;
+.adminnav{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:12px 0
 }
-
-.sheet button{
-    width:100%;
-
-    padding:15px;
-
-    margin:6px 0;
-
-    border-radius:12px;
-
-    background:#2d0a40;
-
-    color:white;
-
-    text-align:left;
+.table{
+  overflow:auto
 }
-
-/* ================= TOAST ================= */
-
-.toast{
-    position:absolute;
-
-    left:50%;
-    bottom:90px;
-
-    transform:translateX(-50%);
-
-    background:white;
-
-    color:#17001f;
-
-    padding:12px 18px;
-
-    border-radius:22px;
-
-    display:none;
-
-    z-index:80;
-
-    white-space:nowrap;
-
-    font-weight:700;
+table{
+  width:100%;
+  min-width:600px;
+  border-collapse:collapse;
+  font-size:11px
 }
-
-.toast.show{
-    display:block;
+td,th{
+  padding:8px;
+  border-bottom:1px solid #33203a;
+  text-align:left
 }
-
-.small{
-    font-size:13px;
-    color:#cbbbd2;
-}
-
-@media(min-width:721px){
-
-    .app{
-        border-left:1px solid #30103d;
-        border-right:1px solid #30103d;
-    }
-
+@media(max-width:650px){
+  .grid4{
+    grid-template-columns:repeat(2,1fr)
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<section id="auth" class="screen">
+<div class="box">
 
-<!-- ==================================================
-                     HOME
-================================================== -->
+<div class="logo">
+  Happy<span>User</span>
+</div>
 
-<section id="home" class="screen active">
+<div class="muted">
+  Tournament • Wallet • Profile
+</div>
 
-    <div class="topbar">
+<div id="login">
 
-        <button
-            class="iconbtn"
-            onclick="openSheet()">
-            ☰
-        </button>
+<label>Login Type</label>
 
-        <div class="logo">
-            HappyUser
-        </div>
+<select id="type" onchange="typeChange()">
+  <option value="user">User Login</option>
+  <option value="admin">Admin Login</option>
+</select>
 
-        <div class="coin">
-            👑
-            <span id="coinHome">10</span>
-        </div>
+<label id="idlab">User ID</label>
 
-    </div>
+<input
+  id="id"
+  placeholder="HU123456"
+  autocomplete="username"
+>
 
+<label>Password</label>
 
-    <div class="hero">
+<input
+  id="pass"
+  type="password"
+  placeholder="Password"
+  autocomplete="current-password"
+>
 
-        <h1>
-            Welcome,
-            <span id="homeName">
-                HappyUser
-            </span>
-            👋
-        </h1>
-
-        <p>
-            Play matches, join challenges
-            and enjoy the game.
-        </p>
-
-    </div>
-
-
-    <div class="banner">
-
-        <h2>
-            FREE FIRE MAX
-        </h2>
-
-        <p>
-            Choose a match and join now.
-        </p>
-
-    </div>
-
-
-    <div class="section-title">
-
-        <span>
-            Games
-        </span>
-
-        <span class="small">
-            View all
-        </span>
-
-    </div>
-
-
-    <div class="game-grid">
-
-        <button
-            class="game"
-            onclick="openGame()">
-
-            <span class="emoji">
-                🔥
-            </span>
-
-            <b>
-                Free Fire Max
-            </b>
-
-            <span class="small">
-                Battle matches
-            </span>
-
-        </button>
-
-
-        <button
-            class="game"
-            onclick="toast('Coming soon')">
-
-            <span class="emoji">
-                🎮
-            </span>
-
-            <b>
-                Free Fire
-            </b>
-
-            <span class="small">
-                Coming soon
-            </span>
-
-        </button>
-
-    </div>
-
-
-    <div class="section-title">
-
-        <span>
-            Upcoming Match
-        </span>
-
-        <span class="small">
-            1 match
-        </span>
-
-    </div>
-
-
-    <div id="homeMatch"></div>
-
-
-    <button
-        class="fab"
-        onclick="toast('Support opened')">
-        👾
-    </button>
-
-</section>
-
-
-<!-- ==================================================
-                     GAME
-================================================== -->
-
-<section id="game" class="screen">
-
-    <div class="topbar">
-
-        <button
-            class="iconbtn"
-            onclick="showScreen('home')">
-            ‹
-        </button>
-
-        <div class="center-title">
-            FREE FIRE MAX
-        </div>
-
-        <div class="coin">
-            👑 10
-        </div>
-
-    </div>
-
-
-    <div class="tabs">
-
-        <button
-            class="tab active"
-            onclick="setTab(this,'ongoing')">
-            Ongoing
-        </button>
-
-        <button
-            class="tab"
-            onclick="setTab(this,'upcoming')">
-            Upcoming
-        </button>
-
-        <button
-            class="tab"
-            onclick="setTab(this,'result')">
-            Result
-        </button>
-
-    </div>
-
-
-    <div id="gameList"></div>
-
-</section>
-
-
-<!-- ==================================================
-                     HISTORY
-================================================== -->
-
-<section id="history" class="screen">
-
-    <div class="topbar">
-
-        <div class="center-title">
-            History
-        </div>
-
-        <button
-            class="iconbtn"
-            onclick="clearHistory()">
-            ↻
-        </button>
-
-    </div>
-
-
-    <div id="historyList"></div>
-
-</section>
-
-
-<!-- ==================================================
-                     PROFILE
-================================================== -->
-
-<section id="profile" class="screen">
-
-    <div class="topbar">
-
-        <button
-            class="iconbtn"
-            onclick="openSheet()">
-            ☰
-        </button>
-
-        <div class="center-title">
-            Profile
-        </div>
-
-        <div style="width:46px"></div>
-
-    </div>
-
-
-    <div class="profile-head">
-
-        <div class="avatar">
-            H
-        </div>
-
-        <h2 id="profileName">
-            HappyUser
-        </h2>
-
-    </div>
-
-
-    <div class="menu-list">
-
-        <button
-            class="menu-item"
-            onclick="profileForm()">
-            My Profile
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="passwordForm()">
-            Change Password
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="wallet()">
-            Wallet
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="historyNav()">
-            My Wallet History
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Top Players opened')">
-            Top Players
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Scratch Cards opened')">
-            Scratch Cards
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('My Challenges opened')">
-            My Challenges
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Thanks for your feedback!')">
-            Feedback
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('HappyUser App v1.0')">
-            About Us
-            <span>›</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Terms & Conditions')">
-            Terms & Conditions
-            <span>›</span>
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-                       MORE
-================================================== -->
-
-<section id="more" class="screen">
-
-    <div class="topbar">
-
-        <div class="center-title">
-            More
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <h2>
-            HappyUser
-        </h2>
-
-        <p
-            class="small"
-            style="margin-top:8px">
-
-            Simple tournament app demo.
-
-        </p>
-
-    </div>
-
-
-    <div class="menu-list">
-
-        <button
-            class="menu-item"
-            onclick="profileNav()">
-
-            My Profile
-
-            <span>›</span>
-
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Notifications are enabled')">
-
-            Notifications
-
-            <span>›</span>
-
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Help & Support opened')">
-
-            Help & Support
-
-            <span>›</span>
-
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toast('Logged out demo')">
-
-            Logout
-
-            <span>›</span>
-
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-                     FLOAT BUTTON
-================================================== -->
+<button onclick="login()">Login</button>
 
 <button
-    class="fab"
-    onclick="toast('Support opened')">
-    👾
+  class="secondary"
+  onclick="showAdminLogin()">
+  Admin Login
 </button>
 
+<button
+  id="regbtn"
+  class="secondary"
+  onclick="regBox()">
+  New User / Register
+</button>
 
-<!-- ==================================================
-                     BOTTOM NAV
-================================================== -->
+<button
+  id="forgotbtn"
+  class="link"
+  onclick="forgotBox()">
+  Forgot Password
+</button>
+
+</div>
+
+
+<div id="register" class="hidden">
+
+<h3>Create User</h3>
+
+<div class="small">
+This device can create only one User ID.
+</div>
+
+<label>Name</label>
+<input id="rn">
+
+<label>Mobile</label>
+<input id="rm" inputmode="tel">
+
+<button onclick="register()">
+Create User ID
+</button>
+
+<button class="secondary" onclick="back()">
+Back
+</button>
+
+</div>
+
+
+<div id="forgot" class="hidden">
+
+<h3>Change Password</h3>
+
+<label>User ID</label>
+<input id="fid">
+
+<label>Current Password</label>
+<input id="fop" type="password">
+
+<label>New Password</label>
+<input id="fnp" type="password">
+
+<button onclick="changePass()">
+Change Password
+</button>
+
+<button class="secondary" onclick="back()">
+Back
+</button>
+
+<div class="small">
+Default new user password is happyuser.
+</div>
+
+</div>
+
+<div id="msg" class="msg"></div>
+
+</div>
+</section>
+
+
+<section id="user" class="app">
+
+<div class="top">
+
+<div class="brand">
+Happy<span class="accent">User</span>
+</div>
+
+<button
+style="width:auto;margin:0"
+onclick="logout()">
+Logout
+</button>
+
+</div>
+
+
+<main class="content">
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h2>
+Welcome, <span id="un"></span> 👋
+</h2>
+
+<div class="small">
+User ID: <b id="ui"></b>
+</div>
+
+</div>
+
+<div class="grid4">
+
+<div class="card">
+<div class="small">Balance</div>
+<div id="ub" class="value">₹0</div>
+</div>
+
+<div class="card">
+<div class="small">Tournaments</div>
+<div id="tc" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Joined</div>
+<div id="jc" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Status</div>
+<div class="value">Active</div>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:12px">
+
+<h3>Tournaments</h3>
+
+<div id="featured" class="list"></div>
+
+</div>
+
+</section>
+
+
+<section id="tours" class="page">
+
+<div class="card">
+
+<h3>All Tournaments</h3>
+
+<div id="all" class="list"></div>
+
+</div>
+
+</section>
+
+
+<section id="wallet" class="page">
+
+<div class="card">
+
+<h3>My Wallet</h3>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="small">
+Balance
+</div>
+
+<div id="wb" class="value">
+₹0
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="small">
+Add Money UPI
+</div>
+
+<b>9351881703-1@fam</b>
+
+</div>
+
+</div>
+
+<button onclick="addMoney()">
+Add Money
+</button>
+
+<button
+class="secondary"
+onclick="withdraw()">
+Withdraw — Bank/UPI
+</button>
+
+</div>
+
+<div
+class="card"
+style="margin-top:12px">
+
+<h3>Wallet History</h3>
+
+<div id="uh" class="list"></div>
+
+</div>
+
+</section>
+
+
+<section id="profile" class="page">
+
+<div class="card">
+
+<h3>My Profile</h3>
+
+<label>Name</label>
+<input id="pn">
+
+<label>Mobile</label>
+<input id="pm">
+
+<button onclick="saveProfile()">
+Save Profile
+</button>
+
+<button
+class="secondary"
+onclick="forgotBox()">
+Change Password
+</button>
+
+</div>
+
+</section>
+
+</main>
+
 
 <nav class="bottom">
 
-    <button
-        class="nav active"
-        data-screen="home"
-        onclick="showScreen('home')">
+<button
+class="active"
+onclick="page('home',this)">
+Home
+</button>
 
-        <span class="ico">
-            ⌂
-        </span>
+<button
+onclick="page('tours',this)">
+Tournaments
+</button>
 
-        Home
+<button
+onclick="page('wallet',this)">
+Wallet
+</button>
 
-    </button>
-
-
-    <button
-        class="nav"
-        data-screen="history"
-        onclick="showScreen('history')">
-
-        <span class="ico">
-            ▣
-        </span>
-
-        History
-
-    </button>
-
-
-    <button
-        class="nav"
-        data-screen="profile"
-        onclick="showScreen('profile')">
-
-        <span class="ico">
-            ♙
-        </span>
-
-        Profile
-
-    </button>
-
-
-    <button
-        class="nav"
-        data-screen="more"
-        onclick="showScreen('more')">
-
-        <span class="ico">
-            ⋮
-        </span>
-
-        More
-
-    </button>
+<button
+onclick="page('profile',this)">
+Profile
+</button>
 
 </nav>
 
-
-<!-- ==================================================
-                       MENU SHEET
-================================================== -->
-
-<div
-    id="sheet"
-    class="modal"
-    onclick="if(event.target===this)closeSheet()">
-
-    <div class="sheet">
-
-        <h2>
-            HappyUser Menu
-        </h2>
+</section>
 
 
-        <button
-            onclick="profileNav();closeSheet()">
+<section id="admin" class="app">
 
-            👤 My Profile
+<div class="top">
 
-        </button>
+<div class="brand">
+Happy<span class="accent">User</span> Admin
+</div>
 
+<button
+style="width:auto;margin:0"
+onclick="adminLogout()">
+Lock
+</button>
 
-        <button
-            onclick="historyNav();closeSheet()">
+</div>
 
-            ▣ History
+<main class="content">
 
-        </button>
+<div class="hero">
 
+<h2>
+Admin Control Center
+</h2>
 
-        <button
-            onclick="wallet();closeSheet()">
+<div class="small">
+Private Admin Access
+</div>
 
-            💰 Wallet
+</div>
 
-        </button>
+<div class="grid4">
 
+<div class="card">
+<div class="small">Users</div>
+<div id="au" class="value">0</div>
+</div>
 
-        <button
-            onclick="toast('Settings opened');closeSheet()">
+<div class="card">
+<div class="small">Payments</div>
+<div id="ap" class="value">0</div>
+</div>
 
-            ⚙ Settings
+<div class="card">
+<div class="small">Withdrawals</div>
+<div id="aw" class="value">0</div>
+</div>
 
-        </button>
+<div class="card">
+<div class="small">Tournaments</div>
+<div id="at" class="value">0</div>
+</div>
 
+</div>
 
-        <button
-            onclick="closeSheet()">
+<div class="adminnav">
 
-            ✕ Close
+<button onclick="ad('adash')">
+Dashboard
+</button>
 
-        </button>
+<button onclick="ad('users')">
+Users
+</button>
 
-    </div>
+<button onclick="ad('payments')">
+Payments
+</button>
+
+<button onclick="ad('atours')">
+Tournaments
+</button>
+
+<button onclick="ad('rooms')">
+Rooms
+</button>
+
+<button onclick="ad('history')">
+Wallet History
+</button>
+
+<button onclick="ad('security')">
+Security
+</button>
+
+</div>
+
+<div id="adash" class="card apage">
+
+<h3>Dashboard</h3>
+
+<div class="small">
+Only Admin can view payment, tournament,
+room and wallet details.
+</div>
 
 </div>
 
 
-<!-- ==================================================
-                       TOAST
-================================================== -->
+<div id="users" class="card apage hidden">
 
-<div
-    id="toast"
-    class="toast">
+<h3>Users</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Balance</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="ut"></tbody>
+
+</table>
+
 </div>
 
+</div>
+
+
+<div id="payments" class="card apage hidden">
+
+<h3>Payments</h3>
+
+<div class="small">
+Add Money UPI: 9351881703-1@fam
+</div>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Time</th>
+<th>User</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="pt"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div id="atours" class="card apage hidden">
+
+<h3>Create Tournament</h3>
+
+<label>Tournament Name</label>
+<input id="tn">
+
+<label>Display Name</label>
+<input id="td">
+
+<label>Description</label>
+<input id="tx">
+
+<div class="grid">
+
+<div>
+<label>Date/Time</label>
+<input id="dt" type="datetime-local">
+</div>
+
+<div>
+<label>Type</label>
+
+<select id="tt">
+<option>Solo</option>
+<option>Duo</option>
+<option>Squad</option>
+</select>
+
+</div>
+
+<div>
+<label>Map</label>
+<input id="tm" value="BERMUDA">
+</div>
+
+<div>
+<label>Entry</label>
+<input id="te" type="number" value="10">
+</div>
+
+<div>
+<label>Prize</label>
+<input id="tp" type="number" value="380">
+</div>
+
+<div>
+<label>Join Limit</label>
+<input id="tl" type="number" value="1">
+</div>
+
+</div>
+
+<button onclick="createTour()">
+Publish Tournament
+</button>
+
+<hr>
+
+<div id="atl" class="list"></div>
+
+</div>
+
+
+<div id="rooms" class="card apage hidden">
+
+<h3>Room ID / Password</h3>
+
+<label>Tournament ID</label>
+<input id="rt">
+
+<label>Room ID</label>
+<input id="ri">
+
+<label>Room Password</label>
+<input id="rp">
+
+<label>Share after</label>
+<input id="rd" value="10 minutes">
+
+<button onclick="saveRoom()">
+Save Room
+</button>
+
+<div id="rl" class="list"></div>
+
+</div>
+
+
+<div id="history" class="card apage hidden">
+
+<h3>Full Wallet History</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Time</th>
+<th>User</th>
+<th>Type</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="ht"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div id="security" class="card apage hidden">
+
+<h3>Tournament Security</h3>
+
+<label>Login timer</label>
+<input id="lt" type="number" value="45">
+
+<label>Room release delay</label>
+<input id="sr" value="10 minutes">
+
+<label>Withdrawal processing</label>
+<input id="sw" value="20 minutes">
+
+<label>Suspicious attempts limit</label>
+<input id="sa" type="number" value="5">
+
+<button onclick="saveSecurity()">
+Save Security
+</button>
+
+</div>
+
+</main>
+
+</section>
+
+
+<div id="modal" class="modal">
+
+<div class="card">
+
+<h3 id="mt"></h3>
+
+<div id="mb"></div>
+
+<button
+class="secondary"
+onclick="closeModal()">
+Close
+</button>
+
+</div>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-                     MATCH DATA
-===================================================== */
+const KEY='happyuser_final_v2';
+const DEVICE='happyuser_device_v2';
 
-const MATCHES = [
+const ADMIN='9351881703';
+const ADMINPASS='anitanitu';
 
-    {
-        id:23090,
+const EMPTY={
+users:[],
+tournaments:[],
+payments:[],
+withdrawals:[],
+history:[],
+rooms:{},
+security:{
+loginTimer:45,
+roomDelay:'10 minutes',
+withdraw:'20 minutes',
+attempts:5
+}
+};
 
-        title:
-        'FF DUO MATCH - POV ALLOWED - HORSE BAN ❌ #23090',
+let db;
 
-        date:
-        '2026-08-09 11:30 AM',
+try{
+db=JSON.parse(localStorage.getItem(KEY)||'null');
+}catch(e){
+db=null;
+}
 
-        prize:380,
+if(!db || typeof db!=='object'){
+db=JSON.parse(JSON.stringify(EMPTY));
+}
 
-        kill:3,
+[
+'users',
+'tournaments',
+'payments',
+'withdrawals',
+'history'
+].forEach(k=>{
+if(!Array.isArray(db[k])) db[k]=[];
+});
 
-        entry:5,
+if(!db.rooms || typeof db.rooms!=='object'){
+db.rooms={};
+}
 
-        type:'Duo',
+if(!db.security){
+db.security=EMPTY.security;
+}
 
-        version:'TPP',
+let me=null;
 
-        map:'BERMUDA',
+const $=x=>document.getElementById(x);
 
-        status:'ongoing'
-    },
+const save=()=>{
+localStorage.setItem(KEY,JSON.stringify(db));
+};
 
-
-    {
-        id:23091,
-
-        title:
-        'FF SQUAD MATCH - BERMUDA',
-
-        date:
-        '2026-08-09 05:30 PM',
-
-        prize:500,
-
-        kill:5,
-
-        entry:10,
-
-        type:'Squad',
-
-        version:'TPP',
-
-        map:'BERMUDA',
-
-        status:'upcoming'
-    }
-
-];
-
-
-/* =====================================================
-                  LOCAL STORAGE DATA
-===================================================== */
-
-let name =
-localStorage.getItem(
-    'happyuser_name'
-) || 'HappyUser';
+const msg=x=>{
+$('msg').textContent=x;
+$('msg').className='msg show';
+};
 
 
-let walletCoins =
-Number(
-    localStorage.getItem(
-        'happyuser_coins'
-    ) || 10
+/* LOGIN TYPE */
+
+function typeChange(){
+
+const isAdmin=$('type').value==='admin';
+
+$('idlab').textContent=
+isAdmin ? 'Admin ID' : 'User ID';
+
+$('id').placeholder=
+isAdmin ? 'Enter Admin ID' : 'HU123456';
+
+$('regbtn').classList.toggle(
+'hidden',
+isAdmin
 );
 
-
-let joined =
-JSON.parse(
-    localStorage.getItem(
-        'happyuser_joined'
-    ) || '[]'
+$('forgotbtn').classList.toggle(
+'hidden',
+isAdmin
 );
 
+/*
+Admin mode me ID/password
+kabhi auto-fill nahi honge.
+*/
 
-/* =====================================================
-                       SHORT $
-===================================================== */
+if(isAdmin){
 
-function $(id){
+$('id').value='';
+$('pass').value='';
 
-    return document.getElementById(id);
+}else{
+
+/*
+User mode me registered User ID
+automatically show ho sakti hai.
+*/
+
+const savedId=
+String(localStorage.getItem(DEVICE)||'');
+
+if(savedId){
+
+$('id').value=savedId;
+$('pass').value='happyuser';
+
+}
+
+}
 
 }
 
 
-/* =====================================================
-                    CHANGE SCREEN
-===================================================== */
+/* ADMIN LOGIN SCREEN */
 
-function showScreen(id){
+function showAdminLogin(){
 
-    document
-    .querySelectorAll('.screen')
-    .forEach(
-        screen =>
-        screen.classList.remove('active')
-    );
+$('type').value='admin';
 
+typeChange();
 
-    $(id)
-    .classList
-    .add('active');
+$('id').value='';
+$('pass').value='';
 
-
-    document
-    .querySelectorAll('.nav')
-    .forEach(nav => {
-
-        nav.classList.toggle(
-            'active',
-            nav.dataset.screen === id
-        );
-
-    });
-
-
-    if(id === 'home'){
-
-        renderHome();
-
-    }
-
-
-    if(id === 'history'){
-
-        renderHistory();
-
-    }
-
-
-    window.scrollTo(0,0);
+$('id').focus();
 
 }
 
 
-/* =====================================================
-                    HOME RENDER
-===================================================== */
+/* REGISTER */
 
-function renderHome(){
+function regBox(){
 
-    $(
+if(localStorage.getItem(DEVICE)){
+
+return msg(
+'This device already has a User ID.'
+);
+
+}
+
+show('register');
+
+}
+
+
+/* SHOW LOGIN / REGISTER / FORGOT */
+
+function show(x){
+
+[
+'login',
+'register',
+'forgot'
+].forEach(y=>{
+$(y).classList.add('hidden');
+});
+
+$(x).classList.remove('hidden');
+
+$('msg').className='msg';
+
+}
+
+
+/* BACK */
+
+function back(){
+
+show('login');
+
+typeChange();
+
+}
+
+
+/* USER ID GENERATOR */
+
+function uid(){
+
+let x;
+
+do{
+
+x=
+'HU'+
+Math.floor(
+100000+
+Math.random()*900000
+);
+
+}
+while(
+db.users.some(
+u=>u.id===x
+)
+);
+
+return x;
+
+}
+
+
+/* REGISTER */
+
+function register(){
+
+if(localStorage.getItem(DEVICE)){
+
+return msg(
+'Only one User ID can be created on this device.'
+);
+
+}
+
+let n=$('rn').value.trim();
+let m=$('rm').value.trim();
+
+if(!n || !m){
+
+return msg(
+'Name and mobile required.'
+);
+
+}
+
+let u={
+
+id:uid(),
+
+name:n,
+
+mobile:m,
+
+password:'happyuser',
+
+balance:0,
+
+status:'Active',
+
+joined:[],
+
+createdAt:new Date().toLocaleString()
+
+};
+
+db.users.push(u);
+
+save();
+
+localStorage.setItem(
+DEVICE,
+u.id
+);
+
+/*
+New User ID login screen par
+automatically show.
+*/
+
+$('type').value='user';
+
+typeChange();
+
+$('id').value=u.id;
+$('pass').value='happyuser';
+
+back();
+
+msg(
+'Your User ID: '+
+u.id+
+' | Password: happyuser'
+);
+
+}
+
+
+/* LOGIN */
+
+function login(){
+
+const t=$('type').value;
+
+const id=$('id').value.trim();
+
+const p=$('pass').value.trim();
+
+if(!id || !p){
+
+return msg(
+'ID aur password enter karein.'
+);
+
+}
+
+
+/* ADMIN */
+
+if(t==='admin'){
+
+if(
+id===ADMIN &&
+p===ADMINPASS
+){
+
+openAdmin();
+
+return;
+
+}
+
+return msg(
+'Invalid Admin ID or Password.'
+);
+
+}
+
+
+/* USER */
+
+const uidValue=
+id.toUpperCase();
+
+let u=
+db.users.find(
+x=>
+String(x.id||'')
+.trim()
+.toUpperCase()
+===uidValue
+);
+
+
+/*
+Agar device me saved ID hai,
+use bhi check karo.
+*/
+
+if(!u){
+
+const savedId=
+String(
+localStorage.getItem(DEVICE)||''
+)
+.trim()
+.toUpperCase();
+
+if(savedId===uidValue){
+
+u=db.users.find(
+x=>
+String(x.id||'')
+.trim()
+.toUpperCase()
+===savedId
+);
+
+}
+
+}
+
+
+if(!u){
+
+return msg(
+'User ID not found. Pehle New User / Register karein.'
+);
+
+}
+
+if(u.status!=='Active'){
+
+return msg(
+'Account blocked.'
+);
+
+}
+
+
+const userPass=
+String(
+u.password || 'happyuser'
+);
+
+if(p!==userPass){
+
+return msg(
+'Wrong password. Default password: happyuser'
+);
+
+}
+
+
+/*
+Old user record me password missing ho
+to default password set karo.
+*/
+
+if(!u.password){
+
+u.password='happyuser';
+
+save();
+
+}
+
+me=u;
+
+openUser();
+
+}
+
+
+/* ADMIN QUICK FILL DISABLED */
+/*
+Purana quickAdmin function intentionally
+use nahi kiya gaya hai.
+Admin credentials automatically
+screen par show nahi honge.
+*/
+
+
+/* PASSWORD CHANGE */
+
+function changePass(){
+
+let u=
+db.users.find(
+x=>
+x.id===
+$('fid').value
+.trim()
+.toUpperCase()
+);
+
+if(
+!u ||
+String(u.password||'happyuser')
+!==$('fop').value
+){
+
+return msg(
+'User ID/current password incorrect.'
+);
+
+}
+
+if(!$('fnp').value){
+
+return msg(
+'New password required.'
+);
+
+}
+
+u.password=
+$('fnp').value;
+
+save();
+
+back();
+
+msg(
+'Password changed successfully.'
+);
+
+}
+
+
+/* USER OPEN */
+
+function openUser(){
+
+$('auth').style.display='none';
+
+$('user').style.display='block';
+
+$('admin').style.display='none';
+
+renderUser();
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+me=null;
+
+$('user').style.display='none';
+
+$('auth').style.display='block';
+
+back();
+
+}
+
+
+/* USER PAGE */
+
+function page(id,b){
+
+document
+.querySelectorAll('#user .page')
+.forEach(x=>
+x.classList.remove('active')
+);
+
+$(id).classList.add('active');
+
+document
+.querySelectorAll('#user .bottom button')
+.forEach(x=>
+x.classList.remove('active')
+);
+
+b.classList.add('active');
+
+renderUser();
+
+}
+
+
+/* USER RENDER */
+
+function renderUser(){
+
+let u=
+db.users.find(
+x=>x.id===me.id
+);
+
+if(!u)return;
+
+me=u;
+
+$('un').textContent=u.name;
+
+$('ui').textContent=u.id;
+
+$('ub').textContent='₹'+u.balance;
+
+$('wb').textContent='₹'+u.balance;
+
+$('tc').textContent=
+db.tournaments.length;
+
+$('jc').textContent=
+u.joined.length;
+
+$('pn').value=u.name;
+
+$('pm').value=u.mobile;
+
+
+let c=
+db.tournaments
+.map(t=>`
+
+<div class=item>
+
+<h4>
+${t.display||t.name}
+</h4>
+
+<p>
+${t.description||''}
+</p>
+
+<p>
+${t.date} •
+${t.type} •
+${t.map}
+</p>
+
+<p>
+Entry ₹${t.entry} •
+Prize ₹${t.prize}
+</p>
+
+<button onclick="join('${t.id}')">
+
+${
+u.joined.includes(t.id)
+?'Joined'
+:'Join Tournament'
+}
+
+</button>
+
+</div>
+
+`)
+.join('')
+
+||
+
+'<div class=small>No tournaments yet.</div>';
+
+$('featured').innerHTML=c;
+
+$('all').innerHTML=c;
+
+
+$('uh').innerHTML=
+db.history
+.filter(x=>x.user===u.id)
+.map(x=>`
+
+<div class=item>
+
+<b>
+${x.type} ₹${x.amount}
+</b>
+
+<p>
+${x.time} • ${x.status}
+</p>
+
+</div>
+
+`)
+.join('')
+
+||
+
+'<div class=small>No history.</div>';
+
+}
+
+
+/* JOIN */
+
+function join(id){
+
+let t=
+db.tournaments.find(
+x=>x.id===id
+);
+
+let u=
+db.users.find(
+x=>x.id===me.id
+);
+
+if(u.joined.includes(id)){
+
+return alert(
+'Already joined.'
+);
+
+}
+
+if(u.balance<t.entry){
+
+return alert(
+'Insufficient wallet balance.'
+);
+
+}
+
+u.balance-=t.entry;
+
+u.joined.push(id);
+
+db.history.unshift({
+
+time:new Date().toLocaleString(),
+
+user:u.id,
+
+type:'Tournament Entry',
+
+amount:t.entry,
+
+method:'Wallet',
+
+status:'Success'
+
+});
+
+save();
+
+renderUser();
+
+alert(
+'Joined successfully.'
+);
+
+}
+
+
+/* ADD MONEY */
+
+function addMoney(){
+
+open(
+'Add Money',
+`
+
+<label>Amount</label>
+
+<input
+id="aa"
+type="number"
+>
+
+<p class=small>
+UPI:
+<b>9351881703-1@fam</b>
+</p>
+
+<button onclick="deposit()">
+Submit Payment
+</button>
+
+`
+);
+
+}
+
+
+function deposit(){
+
+let a=+$('aa').value;
+
+if(a<=0){
+
+return alert(
+'Enter amount.'
+);
+
+}
+
+db.payments.unshift({
+
+time:new Date().toLocaleString(),
+
+user:me.id,
+
+amount:a,
+
+upi:'9351881703-1@fam',
+
+status:'Pending'
+
+});
+
+save();
+
+closeModal();
+
+alert(
+'Payment submitted. Admin approval required.'
+);
+
+}
+
+
+/* WITHDRAW */
+
+function withdraw(){
+
+open(
+'Withdrawal',
+`
+
+<label>Amount</label>
+
+<input id=wa type=number>
+
+<label>Method</label>
+
+<select id=wm>
+
+<option>Bank UPI</option>
+<option>UPI</option>
+
+</select>
+
+<label>
+Bank/UPI Details
+</label>
+
+<input id=wd>
+
+<p class=small>
+Processing target: 20 minutes.
+</p>
+
+<button onclick=wdraw()>
+Submit Withdrawal
+</button>
+
+`
+);
+
+}
+
+
+function wdraw(){
+
+let a=+$('wa').value;
+
+let u=
+db.users.find(
+x=>x.id===me.id
+);
+
+if(
+a<=0 ||
+a>u.balance ||
+!$('wd').value
+){
+
+return alert(
+'Check details.'
+);
+
+}
+
+u.balance-=a;
+
+db.withdrawals.unshift({
+
+time:new Date().toLocaleString(),
+
+user:u.id,
+
+amount:a,
+
+method:$('wm').value,
+
+status:'Pending'
+
+});
+
+db.history.unshift({
+
+time:new Date().toLocaleString(),
+
+user:u.id,
+
+type:'Withdrawal',
+
+amount:a,
+
+method:$('wm').value,
+
+status:'Pending'
+
+});
+
+save();
+
+closeModal();
+
+renderUser();
+
+alert(
+'Withdrawal submitted.'
+);
+
+}
+
+
+/* PROFILE */
+
+function saveProfile(){
+
+let u=
+db.users.find(
+x=>x.id===me.id
+);
+
+u.name=
+$('pn').value ||
+u.name;
+
+u.mobile=
+$('pm').value ||
+u.mobile;
+
+save();
+
+renderUser();
+
+alert(
+'Profile updated.'
+);
+
+}
+
+
+/* MODAL */
+
+function open(t,b){
+
+$('mt').textContent=t;
+
+$('mb').inne
