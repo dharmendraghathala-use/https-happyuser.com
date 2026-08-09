@@ -1,26 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HappyUser App</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#09050d;
+  color:#fff
+}
+.screen{
+  min-height:100vh;
+  padding:18px;
+  background:radial-gradient(circle at top,#55156f,#09050d 60%)
+}
+.box,.card{
+  background:#170b20;
+  border:1px solid #493052;
+  border-radius:16px;
+  padding:18px
+}
+.box{
+  max-width:430px;
+  margin:8vh auto
+}
+.logo{
+  text-align:center;
+  font-size:30px;
+  font-weight:900
+}
+.logo span,.accent{color:#c24ddd}
+.muted,.small{
+  color:#ad9db2;
+  font-size:12px
+}
+.muted{
+  text-align:center;
+  margin:7px 0 18px
+}
+label{
+  display:block;
+  margin:12px 0 5px;
+  font-size:12px;
+  color:#d4c6d8
+}
+input,select{
+  width:100%;
+  padding:12px;
+  border-radius:9px;
+  border:1px solid #56345f;
+  background:#0e0712;
+  color:#fff;
+  outline:none
+}
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:0;
+  border-radius:9px;
+  color:#fff;
+  font-weight:bold;
+  background:linear-gradient(90deg,#7721b3,#b73bd0);
+  cursor:pointer
+}
+.secondary{background:#35253d}
+.link{
+  background:none;
+  color:#dc8bf2;
+  text-decoration:underline
+}
+.msg{
+  display:none;
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  background:#28152f;
+  font-size:12px
+}
+.show{display:block}
+.hidden{display:none}
+
+.app{
+  display:none;
+  min-height:100vh;
+  padding-bottom:75px
+}
+.top{
+  height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+  background:#14091b;
+  border-bottom:1px solid #392542;
+  position:sticky;
+  top:0;
+  z-index:5
+}
+.brand{
+  font-size:22px;
+  font-weight:900
+}
+.content{
+  max-width:950px;
+  margin:auto;
+  padding:15px
+}
+.page{display:none}
+.page.active{display:block}
+.hero{
+  padding:18px;
+  border-radius:15px;
+  border:1px solid #493052;
+  background:linear-gradient(135deg,#321040,#190c22)
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:12px
+}
+.grid4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:12px
+}
+.value{
+  margin-top:5px;
+  font-size:21px;
+  font-weight:900
+}
+.list{
+  display:grid;
+  gap:9px;
+  margin-top:10px
+}
+.item{
+  padding:12px;
+  border-radius:10px;
+  background:#1b0d24;
+  border:1px solid #38223f
+}
+.item h4{margin:0 0 5px}
+.item p{
+  margin:4px 0;
+  color:#b8aabc;
+  font-size:11px
+}
+.bottom{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:65px;
+  display:flex;
+  background:#14091b;
+  border-top:1px solid #392542;
+  z-index:10
+}
+.bottom button{
+  margin:0;
+  border-radius:0;
+  background:none;
+  color:#9e90a5;
+  font-size:10px
+}
+.bottom button.active{
+  background:#29132f;
+  color:#fff
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000b;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:20
+}
+.modal.show{display:flex}
+.modal>div{
+  width:min(440px,100%);
+  max-height:90vh;
+  overflow:auto
+}
+.adminnav{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:12px 0
+}
+.table{overflow:auto}
+table{
+  width:100%;
+  min-width:600px;
+  border-collapse:collapse;
+  font-size:11px
+}
+td,th{
+  padding:8px;
+  text-align:left;
+  border-bottom:1px solid #33203a
+}
+hr{
+  border:0;
+  border-top:1px solid #392542;
+  margin:18px 0
+}
+@media(max-width:650px){
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  .adminnav{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="auth" class="screen">
+
+<div class="box">
+
+<div class="logo">
+Happy<span>User</span>
+</div>
+
+<div class="muted">
+Tournament • Wallet • Profile
+</div>
+
+<div id="login">
+
+<label>Login Type</label>
+
+<select id="type" onchange="typeChange()">
+<option value="user">User Login</option>
+<option value="admin">Admin Login</option>
+</select>
+
+<label id="idlab">User ID</label>
+
+<input
+id="id"
+placeholder="HU123456"
+autocomplete="username"
+>
+
+<label>Password</label>
+
+<input
+id="pass"
+type="password"
+placeholder="Password"
+autocomplete="current-password"
+>
+
+<button onclick="login()">
+Login
+</button>
+
+<button
+class="secondary"
+onclick="adminMode()">
+Admin Login
+</button>
+
+<button
+id="regbtn"
+class="secondary"
+onclick="regBox()">
+New User / Register
+</button>
+
+<button
+id="forgotbtn"
+class="link"
+onclick="forgotBox()">
+Forgot Password
+</button>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<div id="register" class="hidden">
+
+<h3>Create User</h3>
+
+<div class="small">
+This device can create only one User ID.
+</div>
+
+<label>Name</label>
+<input id="rn">
+
+<label>Mobile</label>
+<input id="rm" inputmode="tel">
+
+<button onclick="register()">
+Create User ID
+</button>
+
+<button
+class="secondary"
+onclick="back()">
+Back
+</button>
+
+</div>
+
+
+<!-- PASSWORD -->
+
+<div id="forgot" class="hidden">
+
+<h3>Change Password</h3>
+
+<label>User ID</label>
+<input id="fid">
+
+<label>Current Password</label>
+<input id="fop" type="password">
+
+<label>New Password</label>
+<input id="fnp" type="password">
+
+<button onclick="changePass()">
+Change Password
+</button>
+
+<button
+class="secondary"
+onclick="back()">
+Back
+</button>
+
+</div>
+
+<div id="msg" class="msg"></div>
+
+</div>
+</section>
+
+
+<!-- ================= USER APP ================= -->
+
+<section id="user" class="app">
+
+<div class="top">
+
+<div class="brand">
+Happy<span class="accent">User</span>
+</div>
+
+<button
+style="width:auto;margin:0"
+onclick="logout()">
+Logout
+</button>
+
+</div>
+
+
+<main class="content">
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h2>
+Welcome, <span id="un"></span> 👋
+</h2>
+
+<div class="small">
+User ID: <b id="ui"></b>
+</div>
+
+</div>
+
+
+<div class="grid4">
+
+<div class="card">
+<div class="small">Balance</div>
+<div id="ub" class="value">₹0</div>
+</div>
+
+<div class="card">
+<div class="small">Tournaments</div>
+<div id="tc" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Joined</div>
+<div id="jc" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Status</div>
+<div class="value">Active</div>
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:12px">
+
+<h3>Tournaments</h3>
+
+<div id="featured" class="list"></div>
+
+</div>
+
+</section>
+
+
+<!-- TOURNAMENTS -->
+
+<section id="tours" class="page">
+
+<div class="card">
+
+<h3>All Tournaments</h3>
+
+<div id="all" class="list"></div>
+
+</div>
+
+</section>
+
+
+<!-- WALLET -->
+
+<section id="wallet" class="page">
+
+<div class="card">
+
+<h3>My Wallet</h3>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="small">
+Balance
+</div>
+
+<div id="wb" class="value">
+₹0
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="small">
+Add Money UPI
+</div>
+
+<b>9351881703-1@fam</b>
+
+</div>
+
+</div>
+
+<button onclick="addMoney()">
+Add Money
+</button>
+
+<button
+class="secondary"
+onclick="withdraw()">
+Withdraw — Bank/UPI
+</button>
+
+</div>
+
+
+<div
+class="card"
+style="margin-top:12px">
+
+<h3>Wallet History</h3>
+
+<div id="uh" class="list"></div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+<div class="card">
+
+<h3>My Profile</h3>
+
+<label>Name</label>
+<input id="pn">
+
+<label>Mobile</label>
+<input id="pm">
+
+<button onclick="saveProfile()">
+Save Profile
+</button>
+
+<button
+class="secondary"
+onclick="forgotBox()">
+Change Password
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<nav class="bottom">
+
+<button
+class="active"
+onclick="page('home',this)">
+Home
+</button>
+
+<button
+onclick="page('tours',this)">
+Tournaments
+</button>
+
+<button
+onclick="page('wallet',this)">
+Wallet
+</button>
+
+<button
+onclick="page('profile',this)">
+Profile
+</button>
+
+</nav>
+
+</section>
+
+
+<!-- ================= ADMIN ================= -->
+
+<section id="admin" class="app">
+
+<div class="top">
+
+<div class="brand">
+Happy<span class="accent">User</span> Admin
+</div>
+
+<button
+style="width:auto;margin:0"
+onclick="adminLogout()">
+Lock
+</button>
+
+</div>
+
+
+<main class="content">
+
+<div class="hero">
+
+<h2>
+Admin Control Center
+</h2>
+
+<div class="small">
+Private Admin Access
+</div>
+
+</div>
+
+
+<div class="grid4">
+
+<div class="card">
+<div class="small">Users</div>
+<div id="au" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Payments</div>
+<div id="ap" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Withdrawals</div>
+<div id="aw" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="small">Tournaments</div>
+<div id="at" class="value">0</div>
+</div>
+
+</div>
+
+
+<div class="adminnav">
+
+<button onclick="ad('adash')">
+Dashboard
+</button>
+
+<button onclick="ad('users')">
+Users
+</button>
+
+<button onclick="ad('payments')">
+Payments
+</button>
+
+<button onclick="ad('atours')">
+Tournaments
+</button>
+
+<button onclick="ad('rooms')">
+Rooms
+</button>
+
+<button onclick="ad('history')">
+Wallet History
+</button>
+
+<button onclick="ad('security')">
+Security
+</button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="adash" class="card apage">
+
+<h3>Dashboard</h3>
+
+<p class="small">
+Manage users, payments, tournaments,
+rooms and wallet history.
+</p>
+
+</div>
+
+
+<!-- USERS -->
+
+<div id="users" class="card apage hidden">
+
+<h3>Users</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Balance</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="ut"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- PAYMENTS -->
+
+<div id="payments" class="card apage hidden">
+
+<h3>Payments</h3>
+
+<div class="small">
+UPI: 9351881703-1@fam
+</div>
+
+<div class="table">
+
+<table>
+
+<thead>
+<tr>
+<th>Time</th>
+<th>User</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="pt"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- TOURNAMENT -->
+
+<div id="atours" class="card apage hidden">
+
+<h3>Create Tournament</h3>
+
+<label>Tournament Name</label>
+<input id="tn">
+
+<label>Display Name</label>
+<input id="td">
+
+<label>Description</label>
+<input id="tx">
+
+<div class="grid">
+
+<div>
+<label>Date / Time</label>
+<input id="dt" type="datetime-local">
+</div>
+
+<div>
+<label>Type</label>
+
+<select id="tt">
+<option>Solo</option>
+<option>Duo</option>
+<option>Squad</option>
+</select>
+
+</div>
+
+<div>
+<label>Map</label>
+<input id="tm" value="BERMUDA">
+</div>
+
+<div>
+<label>Entry</label>
+<input id="te" type="number" value="10">
+</div>
+
+<div>
+<label>Prize</label>
+<input id="tp" type="number" value="380">
+</div>
+
+<div>
+<label>Join Limit</label>
+<input id="tl" type="number" value="1">
+</div>
+
+</div>
+
+<button onclick="createTour()">
+Publish Tournament
+</button>
+
+<hr>
+
+<div id="atl" class="list"></div>
+
+</div>
+
+
+<!-- ROOMS -->
+
+<div id="rooms" class="card apage hidden">
+
+<h3>Room ID / Password</h3>
+
+<label>Tournament ID</label>
+<input id="rt">
+
+<label>Room ID</label>
+<input id="ri">
+
+<label>Room Password</label>
+<input id="rp">
+
+<label>Share After</label>
+<input id="rd" value="10 minutes">
+
+<button onclick="saveRoom()">
+Save Room
+</button>
+
+<div id="rl" class="list"></div>
+
+</div>
+
+
+<!-- HISTORY -->
+
+<div id="history" class="card apage hidden">
+
+<h3>Wallet History</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+<tr>
+<th>Time</th>
+<th>User</th>
+<th>Type</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="ht"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- SECURITY -->
+
+<div id="security" class="card apage hidden">
+
+<h3>Security</h3>
+
+<label>Login Timer</label>
+<input id="lt" type="number" value="45">
+
+<label>Room Release Delay</label>
+<input id="sr" value="10 minutes">
+
+<label>Withdrawal Processing</label>
+<input id="sw" value="20 minutes">
+
+<label>Suspicious Attempts Limit</label>
+<input id="sa" type="number" value="5">
+
+<button onclick="saveSecurity()">
+Save Security
+</button>
+
+</div>
+
+</main>
+
+</section>
+
+
+<!-- ================= MODAL ================= -->
+
+<div id="modal" class="modal">
+
+<div class="card">
+
+<h3 id="mt"></h3>
+
+<div id="mb"></div>
+
+<button
+class="secondary"
+onclick="closeModal()">
+Close
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================= DATABASE ================= */
+
+const KEY="happyuser_database_v1";
+const DEVICE="happyuser_device_v1";
+
+const ADMIN_ID="9351881703";
+const ADMIN_PASSWORD="anitanitu";
+
+const EMPTY={
+users:[],
+tournaments:[],
+payments:[],
+withdrawals:[],
+history:[],
+rooms:{},
+security:{
+loginTimer:45,
+roomDelay:"10 minutes",
+withdraw:"20 minutes",
+attempts:5
+}
+};
+
+let db=null;
+let me=null;
+
+
+/* LOAD DATABASE */
+
+try{
+
+db=JSON.parse(
+localStorage.getItem(KEY)||"null"
+);
+
+}catch(e){
+
+db=null;
+
+}
+
+if(
+!db ||
+typeof db!=="object"
+){
+
+db=
+JSON.parse(
+JSON.stringify(EMPTY)
+);
+
+}
+
+[
+"users",
+"tournaments",
+"payments",
+"withdrawals",
+"history"
+].forEach(k=>{
+
+if(!Array.isArray(db[k])){
+db[k]=[];
+}
+
+});
+
+if(
+!db.rooms ||
+typeof db.rooms!=="object"
+){
+
+db.rooms={};
+
+}
+
+if(!db.security){
+
+db.security=
+JSON.parse(
+JSON.stringify(EMPTY.security)
+);
+
+}
+
+
+/* HELPERS */
+
+const $=id=>
+document.getElementById(id);
+
+function save(){
+
+localStorage.setItem(
+KEY,
+JSON.stringify(db)
+);
+
+}
+
+function message(text){
+
+$("msg").textContent=text;
+
+$("msg").className=
+"msg show";
+
+}
+
+
+/* ================= LOGIN ================= */
+
 function typeChange(){
-  const isAdmin = $('type').value === 'admin';
 
-  $('idlab').textContent = isAdmin ? 'Admin ID' : 'User ID';
-  $('id').placeholder = isAdmin ? 'Admin ID' : 'HU123456';
+const admin=
+$("type").value==="admin";
 
-  // Admin select karte hi ID/password blank
-  if(isAdmin){
-    $('id').value = '';
-    $('pass').value = '';
-  }
+$("idlab").textContent=
+admin ? "Admin ID" : "User ID";
 
-  $('regbtn').classList.toggle('hidden', isAdmin);
-  $('forgotbtn').classList.toggle('hidden', isAdmin);
+$("id").placeholder=
+admin
+? "Enter Admin ID"
+: "HU123456";
+
+$("regbtn")
+.classList
+.toggle("hidden",admin);
+
+$("forgotbtn")
+.classList
+.toggle("hidden",admin);
+
+
+/*
+Admin select karne par
+ID/password blank rahenge.
+*/
+
+if(admin){
+
+$("id").value="";
+$("pass").value="";
+
+}else{
+
+const saved=
+localStorage.getItem(DEVICE)||"";
+
+if(saved){
+
+$("id").value=saved;
+
 }
-<button class="secondary" onclick="quickAdmin()">Admin Login</button>
-<button class="secondary" onclick="showAdminLogin()">Admin Login</button>
-function showAdminLogin(){
-  $('type').value = 'admin';
-  typeChange();
 
-  // Admin ID aur password blank rahenge
-  $('id').value = '';
-  $('pass').value = '';
-  $('id').focus();
 }
+
+}
+
+
+/* ADMIN BUTTON */
+
+function adminMode(){
+
+$("type").value="admin";
+
+typeChange();
+
+$("id").value="";
+$("pass").value="";
+
+$("id").focus();
+
+}
+
+
+/* SHOW BOX */
+
+function showBox(id){
+
+[
+"login",
+"register",
+"forgot"
+].forEach(x=>{
+$(x).classList.add("hidden");
+});
+
+$(id).classList.remove("hidden");
+
+$("msg").className="msg";
+
+}
+
+
+/* BACK */
+
+function back(){
+
+showBox("login");
+
+$("type").value="user";
+
+typeChange();
+
+}
+
+
+/* REGISTER BOX */
+
+function regBox(){
+
+if(localStorage.getItem(DEVICE)){
+
+return message(
+"This device already has a User ID."
+);
+
+}
+
+showBox("register");
+
+}
+
+
+/* FORGOT BOX */
+
+function forgotBox(){
+
+showBox("forgot");
+
+}
+
+
+/* GENERATE USER ID */
+
+function generateUserId(){
+
+let id;
+
+do{
+
+id=
+"HU"+
+Math.floor(
+100000+
+Math.random()*900000
+);
+
+}
+while(
+db.users.some(
+u=>u.id===id
+)
+);
+
+return id;
+
+}
+
+
+/* REGISTER */
+
+function register(){
+
+if(localStorage.getItem(DEVICE)){
+
+return message(
+"Only one User ID can be created on this device."
+);
+
+}
+
+const name=
+$("rn").value.trim();
+
+const mobile=
+$("rm").value.trim();
+
+if(!name || !mobile){
+
+return message(
+"Name and mobile required."
+);
+
+}
+
+const user={
+
+id:generateUserId(),
+
+name:name,
+
+mobile:mobile,
+
+password:"happyuser",
+
+balance:0,
+
+status:"Active",
+
+joined:[],
+
+createdAt:
+new Date().toLocaleString()
+
+};
+
+db.users.push(user);
+
+save();
+
+localStorage.setItem(
+DEVICE,
+user.id
+);
+
+$("type").value="user";
+
+$("id").value=user.id;
+
+$("pass").value="happyuser";
+
+showBox("login");
+
+message(
+"User ID: "+
+user.id+
+" | Password: happyuser"
+);
+
+}
+
+
+/* LOGIN */
+
+function login(){
+
+const type=
+$("type").value;
+
+const id=
+$("id").value.trim();
+
+const password=
+$("pass").value.trim();
+
+if(!id || !password){
+
+return message(
+"ID aur password enter karein."
+);
+
+}
+
+
+/* ADMIN */
+
+if(type==="admin"){
+
+if(
+id===ADMIN_ID &&
+password===ADMIN_PASSWORD
+){
+
+openAdmin();
+
+return;
+
+}
+
+return message(
+"Invalid Admin ID or Password."
+);
+
+}
+
+
+/* USER */
+
+const normalized=
+id.toUpperCase();
+
+const user=
+db.users.find(
+u=>
+String(u.id)
+.toUpperCase()
+===normalized
+);
+
+if(!user){
+
+return message(
+"User ID not found. Pehle Register karein."
+);
+
+}
+
+if(user.status!=="Active"){
+
+return message(
+"Account blocked."
+);
+
+}
+
+const savedPassword=
+user.password || "happyuser";
+
+if(password!==savedPassword){
+
+return message(
+"Wrong password. Default password: happyuser"
+);
+
+}
+
+me=user;
+
+openUser();
+
+}
+
+
+/* CHANGE PASSWORD */
+
+function changePass(){
+
+const id=
+$("fid").value.trim().toUpperCase();
+
+const current=
+$("fop").value;
+
+const next=
+$("fnp").value;
+
+const user=
+db.users.find(
+u=>
+String(u.id)
+.toUpperCase()
+===id
+);
+
+if(
+!user ||
+(current!==(user.password||"happyuser"))
+){
+
+return message(
+"User ID/current password incorrect."
+);
+
+}
+
+if(!next){
+
+return message(
+"New password required."
+);
+
+}
+
+user.password=next;
+
+save();
+
+back();
+
+message(
+"Password changed successfully."
+);
+
+}
+
+
+/* ================= USER APP ================= */
+
+function openUser(){
+
+$("auth").style.display="none";
+
+$("admin").style.display="none";
+
+$("user").style.display="block";
+
+renderUser();
+
+}
+
+
+function logout(){
+
+me=null;
+
+$("user").style.display="none";
+
+$("auth").style.display="block";
+
+back();
+
+}
+
+
+/* USER NAV */
+
+function page(id,button){
+
+document
+.querySelectorAll("#user .page")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+$(id).classList.add("active");
+
+document
+.querySelectorAll("#user .bottom button")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+button.classList.add("active");
+
+renderUser();
+
+}
+
+
+/* USER DATA */
+
+function renderUser(){
+
+if(!me)return;
+
+const user=
+db.users.find(
+u=>u.id===me.id
+);
+
+if(!user)return;
+
+me=user;
+
+$("un").textContent=
+user.name;
+
+$("ui").textContent=
+user.id;
+
+$("ub").textContent=
+"₹"+user.balance;
+
+$("wb").textContent=
+"₹"+user.balance;
+
+$("tc").textContent=
+db.tournaments.length;
+
+$("jc").textContent=
+user.joined.length;
+
+$("pn").value=
+user.name;
+
+$("pm").value=
+user.mobile;
+
+
+/* TOURNAMENT LIST */
+
+let html="";
+
+if(db.tournaments.length===0){
+
+html=
+'<div class="small">No tournaments yet.</div>';
+
+}else{
+
+db.tournaments.forEach(t=>{
+
+const joined=
+user.joined.includes(t.id);
+
+html+=`
+
+<div class="item">
+
+<h4>
+${escapeHtml(t.display||t.name)}
+</h4>
+
+<p>
+${escapeHtml(t.description||"")}
+</p>
+
+<p>
+${escapeHtml(t.date)}
+•
+${escapeHtml(t.type)}
+•
+${escapeHtml(t.map)}
+</p>
+
+<p>
+Entry ₹${t.entry}
+•
+Prize ₹${t.prize}
+</p>
+
+<button
+onclick="joinTournament('${t.id}')"
+${joined?"disabled":""}>
+
+${joined?"Joined":"Join Tournament"}
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+$("featured").innerHTML=html;
+$("all").innerHTML=html;
+
+
+/* HISTORY */
+
+const history=
+db.history.filter(
+h=>h.user===user.id
+);
+
+if(history.length===0){
+
+$("uh").innerHTML=
+'<div class="small">No history.</div>';
+
+}else{
+
+$("uh").innerHTML=
+history.map(h=>`
+
+<div class="item">
+
+<b>
+${escapeHtml(h.type)}
+₹${h.amount}
+</b>
+
+<p>
+${escapeHtml(h.time)}
+•
+${escapeHtml(h.status)}
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+}
+
+
+/* SAFE HTML */
+
+function escapeHtml(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* JOIN TOURNAMENT */
+
+function joinTournament(id){
+
+const tournament=
+db.tournaments.find(
+t=>t.id===id
+);
+
+const user=
+db.users.find(
+u=>u.id===me.id
+);
+
+if(!tournament || !user)return;
+
+if(user.joined.includes(id)){
+
+return alert(
+"Already joined."
+);
+
+}
+
+if(user.balance<tournament.entry){
+
+return alert(
+"Insufficient wallet balance."
+);
+
+}
+
+user.balance-=
+tournament.entry;
+
+user.joined.push(id);
+
+db.history.unshift({
+
+time:
+new Date().toLocaleString(),
+
+user:user.id,
+
+type:"Tournament Entry",
+
+amount:tournament.entry,
+
+method:"Wallet",
+
+status:"Success"
+
+});
+
+save();
+
+renderUser();
+
+alert(
+"Successfully joined tournament."
+);
+
+}
+
+
+/* ================= WALLET ================= */
+
+function addMoney(){
+
+openModal(
+"Add Money",
+`
+
+<label>Amount</label>
+
+<input
+id="aa"
+type="number"
+min="1"
+placeholder="Enter amount"
+>
+
+<p class="small">
+UPI:
+<b>9351881703-1@fam</b>
+</p>
+
+<button onclick="deposit()">
+Submit Payment
+</button>
+
+`
+);
+
+}
+
+
+function deposit(){
+
+const amount=
+Number($("aa").value);
+
+if(!amount || amount<=0){
+
+return alert(
+"Enter valid amount."
+);
+
+}
+
+db.payments.unshift({
+
+time:
+new Date().toLocaleString(),
+
+user:me.id,
+
+amount:amount,
+
+upi:"9351881703-1@fam",
+
+status:"Pending"
+
+});
+
+save();
+
+closeModal();
+
+alert(
+"Payment submitted. Admin approval required."
+);
+
+}
+
+
+/* WITHDRAW */
+
+function withdraw(){
+
+openModal(
+"Withdrawal",
+`
+
+<label>Amount</label>
+
+<input
+id="wa"
+type="number"
+min="1"
+placeholder="Amount"
+>
+
+  
