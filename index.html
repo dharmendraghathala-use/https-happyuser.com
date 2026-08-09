@@ -30,7 +30,7 @@ input,select{
 }
 .btn{
  width:100%;padding:15px;margin-top:14px;border:0;border-radius:12px;
- background:linear-gradient(90deg,#7620ca,#c12de2);color:#fff;font-weight:bold
+        background:linear-gradient(90deg,#7620ca,#c12de2);color:#fff;font-weight:bold
 }
 .dark{background:#35243d}
 .link{text-align:center;color:#db70ff;text-decoration:underline;margin-top:22px;display:block}
@@ -56,8 +56,7 @@ input,select{
 .dots{text-align:center}.dots i{
  display:inline-block;width:9px;height:9px;background:#777;border-radius:50%;margin:4px
 }.dots i:first-child{background:#fff}
-
-.heading{font-size:27px;font-weight:bold;padding:18px 20px 12px}
+        heading{font-size:27px;font-weight:bold;padding:18px 20px 12px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
 .game{
  height:170px;border:2px solid #9d75aa;border-radius:14px;
@@ -76,7 +75,7 @@ input,select{
 .game .icon{text-align:center;font-size:43px;font-weight:900;margin-top:28px}
 .game .name{
  position:absolute;bottom:37px;left:3px;right:3px;
- text-align:center;font-size:12px;font-weight:bold;text-shadow:2px 2px 4px #000
+        text-align:center;font-size:12px;font-weight:bold;text-shadow:2px 2px 4px #000
 }
 .game button{
  position:absolute;bottom:5px;left:10%;width:80%;
@@ -113,7 +112,7 @@ input,select{
 }
 
 .detail{
- margin:18px;padding:20px;border-radius:20px;background:#200b2c;border:1px solid #652579
+        margin:18px;padding:20px;border-radius:20px;background:#200b2c;border:1px solid #652579
 }
 .detail h2{text-align:center;font-size:21px;line-height:28px}
 .detail .date{text-align:center;color:#aaa;margin:7px}
@@ -138,7 +137,7 @@ input,select{
  background:#9823cd;color:#fff;font-weight:bold
 }
 .history{margin:18px;padding:18px;border-radius:17px;background:#211027}
-.tx{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #3d2546}
+        tx{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #3d2546}
 .plus{color:#35e68b}.minus{color:#ff5268}
 
 .profile{text-align:center;padding:25px 18px}
@@ -160,7 +159,7 @@ input,select{
  width:37px;height:37px;border-radius:50%;background:#7820ad;
  display:flex;align-items:center;justify-content:center
 }
-.wintext{flex:1}.prize{color:#35e68b;font-weight:bold}
+        .wintext{flex:1}.prize{color:#35e68b;font-weight:bold}
 
 .modal{
  position:fixed;inset:0;background:#000b;z-index:1000;
@@ -194,7 +193,7 @@ input,select{
 .bottom button.active{color:#e040ff}
 
 .toast{
- position:fixed;z-index:3000;bottom:90px;left:50%;
+        position:fixed;z-index:3000;bottom:90px;left:50%;
  transform:translateX(-50%);background:#fff;color:#222;
  padding:12px 20px;border-radius:30px;display:none
 }
@@ -236,8 +235,7 @@ input,select{
 
 <!-- APP -->
 <div id="app" class="hidden">
-
-<!-- HOME -->
+        <!-- HOME -->
 <section id="home" class="page active">
 <div class="top">
 <div class="logo">Happy<span>User</span></div>
@@ -276,8 +274,7 @@ const games=[
 ["☠","LONE WOLF"],
 ["BGMI","BATTLEGROUNDS"]
 ];
-
-document.write(games.map(g=>`
+        document.write(games.map(g=>`
 <div class="game">
 <div class="icon">${g[0]}</div>
 <div class="name">${g[1]}</div>
@@ -331,8 +328,7 @@ document.write(games.map(g=>`
 
 <button class="btn" onclick="joinOpen()">JOIN TOURNAMENT</button>
 </div>
-
-<div class="heading">Tournament Rules</div>
+        <div class="heading">Tournament Rules</div>
 <div class="rule">📜 ID Level 40+ Allowed</div>
 <div class="rule">🚫 Team Up Not Allowed</div>
 <div class="rule">🚫 Hacker Not Allowed</div>
@@ -398,8 +394,7 @@ document.write(games.map(g=>`
 <h2 id="profileName">HappyUser</h2>
 <p id="profileId"></p>
 </div>
-
-<div class="menu">
+        <div class="menu">
 <button onclick="profileInfo()">My Profile <span>›</span></button>
 <button onclick="info('Change Password','Password change option ready hai.')">Change Password <span>›</span></button>
 <button onclick="navWallet()">Wallet <span>›</span></button>
@@ -422,8 +417,7 @@ document.write(games.map(g=>`
 <button id="nProfile" onclick="navProfile()"><b>♙</b>PROFILE</button>
 </nav>
 </div>
-
-<!-- JOIN MODAL -->
+        <!-- JOIN MODAL -->
 <div id="joinModal" class="modal">
 <div class="modalCard">
 <div class="modalTop"><h2>Join Tournament</h2><button class="close" onclick="closeM('joinModal')">×</button></div>
@@ -465,8 +459,7 @@ verified payment gateway/backend required hai.
 <div id="withdrawModal" class="modal">
 <div class="modalCard">
 <div class="modalTop"><h2>Withdrawal</h2><button class="close" onclick="closeM('withdrawModal')">×</button></div>
-
-<label>Amount</label>
+        <label>Amount</label>
 <input id="withdrawAmount" type="number" min="1" placeholder="Enter Amount">
 
 <label>Bank / UPI</label>
@@ -504,7 +497,7 @@ const data={
 {id:"23101",title:"HIGH PER KILL MATCH",date:"2026-08-09 09:30 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:20,kill:15,prize:700,status:"upcoming"}],
 "LONE WOLF 2.0":[
 {id:"23110",title:"LONE WOLF 2.0",date:"2026-08-09 10:00 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"}],
-"SURVIVAL MATCH":[
+        "SURVIVAL MATCH":[
 {id:"23120",title:"SURVIVAL MATCH",date:"2026-08-09 10:20 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
 "CLASH SQUAD":[
 {id:"23130",title:"CLASH SQUAD",date:"2026-08-09 10:40 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:250,status:"upcoming"}],
@@ -524,8 +517,7 @@ if(!id||!p)return toast("User ID aur Password enter karein");
 localStorage.setItem("huUser",id);
 startApp(id);
 }
-
-function startApp(id){
+        function startApp(id){
 loginScreenOff();
 profileName.innerText=id;
 profileId.innerText="User ID: "+id;
@@ -556,7 +548,7 @@ function navWinner(){show("winners");nav("nWinner")}
 function navProfile(){show("profile");nav("nProfile")}
 function nav(id){
 document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+        document.getElementById(id).classList.add("active");
 }
 
 function openTournament(name){
@@ -568,4 +560,146 @@ render("ongoing");
 show("tournament");
 }
 
-f
+function filter (type,el){ document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active") );
+
+el.classList.add("active"); render(type); }
+
+[]).filter(x=>x.status===status);
+
+function render(status) { let arr=(data [currentGame] || if(!arr.length) { matches.innerHTML="<div class='history'><h3 style='text-align:center'>No matches available</h3></div>";
+
+return;
+
+}
+
+matches.innerHTML=arr.map(m=>'
+
+<div class="match">
+
+<h3>${m.title}</h3>
+
+<div class="center">#${m.id} ${m.date}</div>
+
+<div class="infoGrid">
+
+<div class="info"><b> Prize Pool</b><p>$
+
+{m.prize}</p></div>
+
+<div class="info"><b> Per Kill</b><p>$
+
+{m.kill}</p></div>
+
+<div class="info"><b> Entry Fee</b><p>$
+
+{m.entry}</p></div>
+
+<div class="info"><b>Type</b><p>${m.type}</p></
+
+div>
+
+<div class="info"><b>Version</b><p>${m.version}
+
+</p></div>
+
+<div class="info"><b>Map</b><p>${m.map}</p></
+
+div>
+
+</div>
+
+<button class="join" onclick='details($
+
+{JSON.stringify(m)})'>${status==="result"?"VIEW
+
+RESULT": "VIEW MATCH"}</button>
+        </div>').join("");
+
+}
+function details(m){
+
+current=m;
+
+dTitle. innerText=m.title;
+
+dDate. innerText=m.date;
+
+dType. innerText=m.type;
+
+dVersion.innerText=m.version;
+
+dMap. innerText=m.map;
+
+dEntry.innerText=m.entry;
+
+dPrize. innerText=m.prize;
+
+dKill.innerText=m.kill; show("details");
+
+}
+
+function joinOpen(){ if(current.status==="result") return toast("Result match join nahi ho sakta"); joinModal.classList.add("show"); }
+
+function join(){ let name=joinName.value.trim(),gid=gameId.value.trim (); if(!name||!gid) return toast("Name aur Game ID enter karein"); if(balanceValue<current.entry)return toast("Wallet balance kam hai");
+
+balanceValue-=current.entry;
+
+joined.push({ title:current.title, id:current.id, gameId:gid, entry:current.entry, date:new Date().toLocaleString() });
+
+historyData.push({ type: "Tournament Entry #"+current.id, amount:-current.entry, date:new Date().toLocaleString() });
+
+save(); update(); closeM("joinModal"); toast("Tournament successfully joined"); }
+
+function addOpen() { addAmount.value=""; addModal.classList.add("show"); }
+
+function copyUPI(){ navigator.clipboard?.writeText(UPI); toast("UPI copied: "+UPI); }
+
+function pay(){ let a=Number(addAmount.value); if(!a||a<=0) return toast("Valid amount enter karein");
+
+location.href= "upi://pay?pa="+encodeURIComponent(UPI)+ "&pn="+encodeURIComponent("HappyUser")+ "&am="+a.toFixed(2)+"&cu=INR"; }
+
+}
+function withdrawOpen() {
+
+withdrawAmount.value="";
+
+withdrawUPI.value="";
+
+withdrawModal.classList.add("show"); }
+
+function withdraw() { let a=Number (withdrawAmount.value); let u=withdrawUPI.value.trim();
+                     if(!a||a<=0) return toast("Valid amount enter karein"); if(!u)return toast("Bank / UPI ID enter karein"); if(a>balanceValue) return toast("Insufficient balance"); balanceValue-=a;
+
+historyData.push({ type: "Withdrawal", amount:-aа, date:new Date().toLocaleString(), upi:u, status: "Pending" });
+
+save(); update(); closeM("withdrawModal"); toast("Withdrawal request submitted"); }
+
+function profileInfo(){ info("My Profile", "User ID: "+profileId.inner Text+ "<br><br>Balance: } "+balanceValue.toFixed(2));
+
+function myMatches(){ let text=joined.length? joined.map(x=>'<div class="rule"><b>${x.title}</b><br>Game ID: ${x.gameId}<br>Entry: ${x.entry} <br>${x.date}</div>').join("") : "No joined matches."; info("My Matches", text); }
+}
+
+function info(title, body){ infoTitle.innerText=title; infoBody.innerHTML=body; infoModal.classList.add("show"); }
+
+function closeM(id) {document.getElementById(id).classList.remove("s how")}
+
+function save(){
+        localStorage.setItem("huBalance", balanceValue); localStorage.setItem("huHistory", JSON.stringify( historyData)); localStorage.setItem("huJoined", JSON.stringify(j oined)); }
+
+function update(){
+
+document.querySelectorAll(".bal").forEach(x=>x.i nnerText=Math.floor(balanceValue)); balance.innerText=balanceValue.toFixed(2);
+
+history.innerHTML=historyData.length? historyData.slice().reverse().map(x=>' <div class="tx"> <span>${x.type}<br><small>${x.date}</small></span> <b class="${x.amount>=0?"plus":"minus"}">$ {x.amount>=0?"+":"-"}$ {Math.abs(x.amount).toFixed(2)}</b> </div>').join("") :"<p style='color:#aaa;margin-top: 15px'>No transactions yet</p>"; }
+
+function logout(){ localStorage.removeItem("huUser"); location.reload(); }
+
+}
+function toast(msg) { let t=document.getElementById("toast"); t.innerText=msg;t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2500); }
+
+window.addEventListener("load", ()=>{ let u=localStorage.getItem("huUser"); if(u)startApp(u); }); </script>
+
+</body>
+
+</html>
+        
