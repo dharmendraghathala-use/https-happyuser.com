@@ -2,1113 +2,679 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
 
-<title>HAPPYUSER</title>
+<title>HappyUser</title>
 
 <style>
+:root{
+    --bg1:#170025;
+    --bg2:#4a1769;
+    --bg3:#cf4fca;
+    --purple:#8d32bd;
+    --purple2:#6e1da1;
+    --line:#a53bd0;
+    --text:#fff;
+    --muted:#d7c8df;
+}
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
 }
 
-body{
-    background:#08040d;
+html,body{
+    width:100%;
+    height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#08000d;
     color:white;
 }
 
+button{
+    font:inherit;
+    border:0;
+    cursor:pointer;
+}
+
 .app{
-    width:390px;
-    max-width:100%;
-    min-height:100vh;
+    width:100%;
+    height:100dvh;
+    max-width:720px;
     margin:auto;
-    background:linear-gradient(180deg,#19052b,#351052,#a942b6);
     position:relative;
-    padding-bottom:70px;
-}
-
-/* Header */
-.header{
-    height:50px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    font-weight:bold;
-}
-
-/* Banner */
-.banner{
-    margin:10px 14px;
-    height:120px;
-    border-radius:12px;
-    padding:18px;
-    background:linear-gradient(135deg,#71169a,#210638);
-    border:1px solid #963dc0;
-}
-
-.banner h1{
-    font-size:24px;
-    margin-bottom:8px;
-}
-
-.banner p{
-    font-size:11px;
-    color:#ddd;
-    line-height:18px;
-}
-
-/* Section */
-.section-title{
-    margin:18px 14px 8px;
-    font-size:13px;
-    font-weight:bold;
-}
-
-/* Cards */
-.cards{
-    padding:0 14px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
-.card{
-    height:120px;
-    border-radius:8px;
-    padding:6px;
-    background:linear-gradient(145deg,#47116a,#170822);
-    border:1px solid #733092;
-    cursor:pointer;
-}
-
-.card-image{
-    height:78px;
-    border-radius:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    font-size:11px;
-    font-weight:bold;
-    background:linear-gradient(135deg,#f04b30,#74149b);
-}
-
-.card:nth-child(2) .card-image{
-    background:linear-gradient(135deg,#164f77,#d53d82);
-}
-
-.card:nth-child(3) .card-image{
-    background:linear-gradient(135deg,#24733e,#71175f);
-}
-
-.card:nth-child(4) .card-image{
-    background:linear-gradient(135deg,#812d9d,#111d42);
-}
-
-.card:nth-child(5) .card-image{
-    background:linear-gradient(135deg,#bd472d,#42105d);
-}
-
-.card:nth-child(6) .card-image{
-    background:linear-gradient(135deg,#1d6972,#7d1d9d);
-}
-
-.card-name{
-    font-size:8px;
-    margin-top:6px;
-    color:#ddd;
-}
-
-/* Bottom Navigation */
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    width:390px;
-    max-width:100%;
-    height:65px;
-    background:#100719;
-    border-top:1px solid #642078;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-}
-
-.nav-item{
-    width:25%;
-    text-align:center;
-    font-size:9px;
-    color:#bca9c5;
-    cursor:pointer;
-}
-
-.nav-item.active{
-    color:white;
-}
-
-.icon{
-    display:block;
-    font-size:20px;
-    margin-bottom:4px;
-}
-
-/* Profile */
-.profile{
-    padding:15px;
-}
-
-.avatar{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:white;
-    color:#5b1770;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:10px auto;
-    font-size:25px;
-    font-weight:bold;
-}
-
-.profile-name{
-    text-align:center;
-    font-size:12px;
-    margin-bottom:15px;
-}
-
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
-
-.menu button{
-    height:38px;
-    border:none;
-    border-radius:7px;
-    color:white;
-    text-align:left;
-    padding:0 14px;
-    background:linear-gradient(90deg,#410c61,#260732);
-    border:1px solid #6d2489;
-    cursor:pointer;
-}
-
-.menu button span{
-    float:right;
-}
-
-/* Empty */
-.empty{
-    text-align:center;
-    margin-top:180px;
-    font-size:12px;
-    color:#ddd;
-}
-
-.empty-circle{
-    width:40px;
-    height:40px;
-    border:2px solid white;
-    border-radius:50%;
-    margin:0 auto 12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* Privacy */
-.privacy{
-    padding:15px;
-    font-size:11px;
-    line-height:18px;
-}
-
-.privacy h2{
-    font-size:15px;
-    margin-bottom:10px;
-}
-
-.back{
-    padding:10px 15px;
-    cursor:pointer;
-    font-size:12px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-    <div id="content"></div>
-
-    <div class="bottom-nav">
-
-        <div class="nav-item active" onclick="showHome(this)">
-            <span class="icon">⌂</span>
-            Home
-        </div>
-
-        <div class="nav-item" onclick="showHistory(this)">
-            <span class="icon">▣</span>
-            History
-        </div>
-
-        <div class="nav-item" onclick="showProfile(this)">
-            <span class="icon">♙</span>
-            Profile
-        </div>
-
-        <div class="nav-item" onclick="showMore(this)">
-            <span class="icon">⋮</span>
-            More
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-const content = document.getElementById("content");
-
-
-function setActive(element){
-
-    document.querySelectorAll(".nav-item")
-    .forEach(item => item.classList.remove("active"));
-
-    element.classList.add("active");
-}
-
-
-/* HOME */
-
-function showHome(element){
-
-    if(element) setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            HAPPYUSER
-        </div>
-
-        <div class="banner">
-
-            <h1>HAPPYUSER</h1>
-
-            <p>NEW PLAYERS PROGRAM</p>
-
-            <p>
-                Join tournaments • Win rewards •
-                Play with friends
-            </p>
-
-        </div>
-
-        <div class="section-title">
-            E-Sports
-        </div>
-
-        <div class="cards">
-
-            ${createCard("FREE FIRE","BOOYAH")}
-            ${createCard("BATTLE","ARENA")}
-            ${createCard("FREE FIRE","CLASH")}
-            ${createCard("SURVIVAL","BATTLE")}
-            ${createCard("HAPPYUSER","RUSH")}
-            ${createCard("CLASH","MATCH")}
-
-        </div>
-    `;
-}
-
-
-/* CARD */
-
-function createCard(title,subtitle){
-
-    return `
-
-        <div class="card"
-             onclick="alert('${title} selected')">
-
-            <div class="card-image">
-
-                ${title}<br>
-                ${subtitle}
-
-            </div>
-
-            <div class="card-name">
-                TOURNAMENT
-            </div>
-
-        </div>
-
-    `;
-}
-
-
-/* HISTORY */
-
-function showHistory(element){
-
-    setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            Winner History
-        </div>
-
-        <div class="empty">
-
-            <div class="empty-circle">
-                ✓
-            </div>
-
-            No history
-
-        </div>
-
-    `;
-
-}
-
-
-/* PROFILE */
-
-function showProfile(element){
-
-    setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            Profile
-        </div>
-
-        <div class="profile">
-
-            <div class="avatar">
-                H
-            </div>
-
-            <div class="profile-name">
-                HappyUser
-            </div>
-
-            <div class="menu">
-
-                <button>
-                    My Profile
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Change Password
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Wallet
-                    <span>›</span>
-                </button>
-
-                <button>
-                    My Wallet History
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Top Players
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Scratch Cards
-                    <span>›</span>
-                </button>
-
-                <button>
-                    My Challenges
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Feedback
-                    <span>›</span>
-                </button>
-
-                <button>
-                    About Us
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Terms & Conditions
-                    <span>›</span>
-                </button>
-
-                <button onclick="showPrivacy()">
-                    Privacy Policy
-                    <span>›</span>
-                </button>
-
-                <button>
-                    FAQs
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Customer Support
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Share App
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Logout
-                    <span>›</span>
-                </button>
-
-            </div>
-
-        </div>
-    `;
-}
-
-
-/* MORE */
-
-function showMore(element){
-
-    setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            More
-        </div>
-
-        <div class="profile">
-
-            <div class="menu">
-
-                <button onclick="showPrivacy()">
-                    Privacy Policy
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Terms & Conditions
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Customer Support
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Share App
-                    <span>›</span>
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-}
-
-
-/* PRIVACY POLICY */
-
-function showPrivacy(){
-
-    content.innerHTML = `
-
-        <div class="header">
-            Privacy Policy
-        </div>
-
-        <div class="back" onclick="showProfile()">
-            ‹ Back
-        </div>
-
-        <div class="privacy">
-
-            <h2>
-                Privacy Policy
-            </h2>
-
-            <p>
-                We care about the privacy and security
-                of your information.
-            </p>
-
-            <br>
-
-            <p>
-                This policy explains how HappyUser
-                collects, uses and protects information
-                when you use the application.
-            </p>
-
-            <br>
-
-            <p>
-                We may collect account details,
-                gameplay information, device information
-                and information that you provide while
-                using our services.
-            </p>
-
-            <br>
-
-            <p>
-                Your information may be used to provide
-                services, improve your experience,
-                prevent misuse and communicate important
-                updates.
-            </p>
-
-            <br>
-
-            <p>
-                We do not sell your personal information.
-                Information may be shared only when
-                required to provide a service or comply
-                with applicable law.
-            </p>
-
-        </div>
-    `;
-}
-
-
-/* FIRST SCREEN */
-
-showHome(
-    document.querySelector(".nav-item")
-);
-
-</script>
-
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>HAPPYUSER</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#08040d;
-    color:white;
-}
-
-.app{
-    width:390px;
-    max-width:100%;
-    min-height:100vh;
-    margin:auto;
+    overflow:hidden;
     background:
     linear-gradient(
         180deg,
-        #170329 0%,
-        #25063b 35%,
-        #b84fbd 100%
+        var(--bg1) 0%,
+        #2d0a43 45%,
+        #bf4ac0 100%
     );
-    min-height:100vh;
-    position:relative;
-    padding-bottom:80px;
 }
 
-/* ================= HEADER ================= */
+/* ================= SCREEN ================= */
 
-.header{
-    height:70px;
+.screen{
+    width:100%;
+    height:100%;
+    overflow-y:auto;
+    padding-bottom:85px;
+    display:none;
+}
+
+.screen.active{
+    display:block;
+}
+
+::-webkit-scrollbar{
+    width:0;
+}
+
+/* ================= TOP BAR ================= */
+
+.topbar{
+    height:76px;
     display:flex;
     align-items:center;
-    justify-content:center;
+    justify-content:space-between;
+    padding:12px 18px;
+
+    position:sticky;
+    top:0;
+    z-index:10;
+
+    background:rgba(16,0,26,.72);
+    backdrop-filter:blur(10px);
+}
+
+.logo{
     font-size:25px;
-    font-weight:bold;
-    position:relative;
+    font-weight:800;
 }
 
-.back-btn{
-    position:absolute;
-    left:18px;
-    top:18px;
-    width:48px;
-    height:48px;
+.center-title{
+    font-size:26px;
+    font-weight:800;
+}
+
+.iconbtn{
+    width:46px;
+    height:46px;
+
     border-radius:50%;
-    border:2px solid #67537b;
-    background:#171032;
+
+    border:1px solid rgba(255,255,255,.35);
+
+    background:rgba(255,255,255,.08);
+
     color:white;
-    font-size:28px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
+
+    font-size:25px;
 }
 
 .coin{
-    position:absolute;
-    right:10px;
-    top:20px;
-    height:40px;
-    min-width:82px;
-    padding:0 10px;
-    border-radius:25px;
-    background:#253071;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
+    background:#21105c;
+
+    border:3px solid #531bb0;
+
+    border-radius:24px;
+
+    padding:7px 12px;
+
     font-size:18px;
-    font-weight:bold;
 }
 
-.coin-icon{
-    width:29px;
-    height:29px;
-    border-radius:50%;
-    background:#f2df6c;
+/* ================= HERO ================= */
+
+.hero{
+    padding:18px;
+}
+
+.hero h1{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#ddd0e2;
+}
+
+/* ================= BANNER ================= */
+
+.banner{
+    margin:10px 18px 18px;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #7822a7,
+        #c33cc2
+    );
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,.22);
+}
+
+.banner h2{
+    font-size:23px;
+}
+
+.banner p{
+    margin-top:6px;
+    color:#f4e8f7;
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
     display:flex;
-    justify-content:center;
+    justify-content:space-between;
     align-items:center;
-    font-size:17px;
+
+    padding:12px 18px;
+
+    font-size:20px;
+    font-weight:700;
+}
+
+/* ================= GAMES ================= */
+
+.game-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:12px;
+
+    padding:0 18px;
+}
+
+.game{
+    min-height:110px;
+
+    border-radius:17px;
+
+    padding:15px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #531178,
+        #8d2bb5
+    );
+
+    border:1px solid #b34bd1;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+
+    color:white;
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.16);
+}
+
+.game .emoji{
+    font-size:36px;
+    margin-bottom:auto;
+}
+
+.game b{
+    font-size:18px;
+}
+
+/* ================= MATCH ================= */
+
+.match{
+    margin:14px 18px;
+
+    background:white;
+    color:#111;
+
+    border-radius:17px;
+
+    padding:16px;
+
+    box-shadow:
+    0 10px 28px rgba(0,0,0,.25);
+}
+
+.match h3{
+    text-align:center;
+
+    font-size:18px;
+
+    line-height:1.25;
+}
+
+.match .date{
+    text-align:center;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin:7px 0 12px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:7px;
+}
+
+.stat .label{
+    background:
+    linear-gradient(
+        90deg,
+        #9136ba,
+        #7830ad
+    );
+
+    color:#e7dbea;
+
+    border-radius:12px;
+
+    padding:10px 5px;
+
+    text-align:center;
+
+    font-weight:700;
+
+    font-size:13px;
+}
+
+.stat .value{
+    text-align:center;
+
+    padding:8px 2px;
+
+    font-size:18px;
+
+    font-weight:800;
 }
 
 /* ================= TABS ================= */
 
 .tabs{
-    margin:18px 18px 70px;
-    height:70px;
-    border-radius:40px;
-    padding:5px;
-    background:#211a4c;
-    border:2px solid #5c4c7b;
-    box-shadow:0 0 25px #713a86;
-    display:flex;
+    margin:14px 18px;
+
+    background:#171434;
+
+    border-radius:35px;
+
+    padding:4px;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    border:3px solid rgba(255,255,255,.16);
+
+    box-shadow:
+    0 0 20px rgba(199,90,255,.22);
 }
 
 .tab{
-    width:33.33%;
-    border:0;
+    padding:12px 5px;
+
+    border-radius:28px;
+
     background:transparent;
+
     color:white;
-    font-size:18px;
-    border-radius:35px;
-    cursor:pointer;
 }
 
 .tab.active{
-    background:linear-gradient(
-        90deg,
-        #6821a3,
-        #8b29bd
-    );
-}
-
-/* ================= TOURNAMENT LIST ================= */
-
-.tournament-list{
-    padding:0 14px;
-}
-
-/* ================= CARD ================= */
-
-.match-card{
-    background:#f4f3fa;
-    color:#292533;
-    border-radius:14px;
-    margin-bottom:28px;
-    padding:28px 14px 18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.35);
-}
-
-/* card top */
-
-.match-top{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.game-logo{
-    width:55px;
-    height:55px;
-    border-radius:50%;
     background:
-    linear-gradient(135deg,#f4bd57,#8d3797);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    color:white;
-    font-size:8px;
-    font-weight:bold;
-    border:2px solid #e7c56c;
-}
-
-.match-title{
-    flex:1;
-}
-
-.match-title h2{
-    font-size:20px;
-    line-height:24px;
-}
-
-.match-title p{
-    text-align:center;
-    font-size:14px;
-    font-weight:bold;
-    margin-top:3px;
-}
-
-.view{
-    color:#222;
-    font-size:18px;
-    text-decoration:underline;
-    cursor:pointer;
-}
-
-/* ================= INFO BOXES ================= */
-
-.info-row{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:5px;
-    margin-top:22px;
-}
-
-.info-box{
-    height:47px;
-    border-radius:12px;
-    background:linear-gradient(
-        135deg,
-        #9e42c7,
-        #8533a7
-    );
-    color:#f3eafa;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-    font-weight:bold;
-    text-align:center;
-}
-
-.info-value{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    text-align:center;
-    margin-top:4px;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.info-value div:first-child{
-    color:#f1b72f;
-}
-
-.info-value div:nth-child(2),
-.info-value div:nth-child(3){
-    color:#333;
-}
-
-/* ================= TYPE ================= */
-
-.type-row{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:5px;
-    margin-top:15px;
-}
-
-.type-box{
-    height:48px;
-    border-radius:12px;
-    background:#9439b7;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:16px;
-    font-weight:bold;
-}
-
-.type-value{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-/* ================= BOTTOM JOIN ================= */
-
-.join-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-top:25px;
-}
-
-.progress{
-    flex:1;
-    height:43px;
-    border-radius:9px;
-    background:#b982e3;
-    border:2px solid #28105b;
-    overflow:hidden;
-    position:relative;
-}
-
-.progress-fill{
-    height:100%;
-    background:#5a1b9b;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-    font-weight:bold;
-}
-
-.join-btn{
-    width:98px;
-    height:43px;
-    border:0;
-    border-radius:25px;
-    background:linear-gradient(
+    linear-gradient(
         90deg,
-        #5669a1,
-        #18295d
+        #7223a4,
+        #8e2cbd
     );
-    color:white;
-    font-size:17px;
-    cursor:pointer;
-}
-
-.join-btn:active{
-    transform:scale(.96);
-}
-
-/* ================= EMPTY ================= */
-
-.empty{
-    text-align:center;
-    padding-top:100px;
-    color:#ddd;
-}
-
-.empty-icon{
-    font-size:45px;
-    margin-bottom:15px;
-}
-
-/* ================= DETAILS ================= */
-
-.details{
-    padding:20px;
-}
-
-.details-box{
-    background:#f4f3fa;
-    color:#222;
-    border-radius:15px;
-    padding:20px;
-}
-
-.details-box h2{
-    color:#6b2094;
-    margin-bottom:20px;
-}
-
-.detail-item{
-    padding:14px;
-    margin-bottom:8px;
-    background:#eadbf1;
-    border-radius:8px;
-    display:flex;
-    justify-content:space-between;
-}
-
-.confirm-btn{
-    width:100%;
-    height:48px;
-    margin-top:15px;
-    border:0;
-    border-radius:25px;
-    background:#7927a8;
-    color:white;
-    font-size:17px;
-    font-weight:bold;
-}
-
-/* ================= FLOATING BUTTON ================= */
-
-.floating{
-    position:fixed;
-    right:18px;
-    bottom:75px;
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:
-    radial-gradient(circle,#d94b30,#31072f);
-    border:3px solid #7f42c7;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-    box-shadow:0 5px 15px #1b0027;
-    cursor:pointer;
-}
-
-/* ================= BOTTOM NAV ================= */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    width:390px;
-    max-width:100%;
-    height:65px;
-    background:#0b0610;
-    border-top:1px solid #52215f;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    z-index:50;
-}
-
-.nav-item{
-    width:25%;
-    text-align:center;
-    font-size:10px;
-    color:#aaa;
-    cursor:pointer;
-}
-
-.nav-item.active{
-    color:white;
-}
-
-.nav-icon{
-    display:block;
-    font-size:23px;
-    margin-bottom:3px;
 }
 
 /* ================= PROFILE ================= */
 
-.profile{
-    padding:20px;
+.profile-head{
+    text-align:center;
+
+    padding:28px 18px 20px;
+}
+
+.profile-head h1{
+    font-size:32px;
 }
 
 .avatar{
-    width:65px;
-    height:65px;
+    width:120px;
+    height:120px;
+
+    margin:25px auto 14px;
+
     border-radius:50%;
+
     background:white;
-    color:#6e238f;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:28px;
-    font-weight:bold;
-    margin:10px auto;
+
+    color:#7b299f;
+
+    display:grid;
+    place-items:center;
+
+    font-size:52px;
+    font-weight:700;
 }
 
-.profile-name{
-    text-align:center;
-    margin-bottom:20px;
-    font-weight:bold;
+.profile-head h2{
+    font-size:20px;
 }
 
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+/* ================= MENU ================= */
+
+.menu-list{
+    padding:0 38px;
 }
 
-.menu button{
-    height:43px;
-    border:1px solid #70258d;
-    border-radius:8px;
-    background:linear-gradient(
+.menu-item{
+    width:100%;
+
+    margin:7px 0;
+
+    padding:20px 28px;
+
+    border-radius:15px;
+
+    border:1px solid #8d2eb4;
+
+    background:
+    linear-gradient(
         90deg,
-        #410c61,
-        #260732
+        #2b0a42,
+        #180020
     );
+
     color:white;
+
     text-align:left;
-    padding:0 15px;
-    cursor:pointer;
+
+    font-size:19px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
 }
 
-.menu button span{
-    float:right;
+.menu-item:hover{
+    background:#46105e;
 }
 
-/* ================= BACK ================= */
+/* ================= CARD ================= */
 
-.back{
-    padding:5px 20px 15px;
-    cursor:pointer;
-    font-size:15px;
+.card{
+    margin:18px;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.18);
 }
 
-/* ================= MOBILE ================= */
+/* ================= INPUT ================= */
 
-@media(max-width:390px){
+.field{
+    margin:12px 0;
+}
+
+.field label{
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#ddd;
+}
+
+.field input{
+    width:100%;
+
+    padding:13px;
+
+    border-radius:10px;
+
+    border:1px solid #9340b9;
+
+    background:#16001f;
+
+    color:white;
+
+    outline:none;
+}
+
+/* ================= BUTTON ================= */
+
+.primary{
+    width:100%;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #8429b0,
+        #b23dc3
+    );
+
+    color:white;
+
+    font-weight:700;
+
+    margin-top:8px;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:76px;
+
+    background:#0d0711;
+
+    border-top:
+    1px solid rgba(255,255,255,.12);
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    z-index:30;
+}
+
+.nav{
+    background:transparent;
+
+    color:#aaa;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:4px;
+
+    font-size:12px;
+}
+
+.nav .ico{
+    font-size:24px;
+}
+
+.nav.active{
+    color:white;
+}
+
+/* ================= FLOAT BUTTON ================= */
+
+.fab{
+    position:absolute;
+
+    right:28px;
+    bottom:94px;
+
+    width:68px;
+    height:68px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        #d454b8,
+        #5c0b82
+    );
+
+    border:3px solid #8d43d2;
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.35);
+
+    color:white;
+
+    font-size:28px;
+
+    z-index:25;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.62);
+
+    z-index:50;
+
+    display:none;
+
+    align-items:flex-end;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.sheet{
+    width:100%;
+
+    background:#160020;
+
+    border-radius:
+    22px 22px 0 0;
+
+    padding:22px;
+
+    border-top:
+    1px solid #9a39bd;
+}
+
+.sheet h2{
+    margin-bottom:15px;
+}
+
+.sheet button{
+    width:100%;
+
+    padding:15px;
+
+    margin:6px 0;
+
+    border-radius:12px;
+
+    background:#2d0a40;
+
+    color:white;
+
+    text-align:left;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:absolute;
+
+    left:50%;
+    bottom:90px;
+
+    transform:translateX(-50%);
+
+    background:white;
+
+    color:#17001f;
+
+    padding:12px 18px;
+
+    border-radius:22px;
+
+    display:none;
+
+    z-index:80;
+
+    white-space:nowrap;
+
+    font-weight:700;
+}
+
+.toast.show{
+    display:block;
+}
+
+.small{
+    font-size:13px;
+    color:#cbbbd2;
+}
+
+@media(min-width:721px){
 
     .app{
-        width:100%;
-    }
-
-    .bottom-nav{
-        width:100%;
-    }
-
-    .match-title h2{
-        font-size:17px;
-    }
-
-    .info-box{
-        font-size:13px;
+        border-left:1px solid #30103d;
+        border-right:1px solid #30103d;
     }
 
 }
-
 </style>
 </head>
 
@@ -1116,376 +682,553 @@ body{
 
 <div class="app">
 
-<div id="content"></div>
+<!-- ==================================================
+                     HOME
+================================================== -->
 
-<div class="floating" onclick="showSupport()">
-    👾
-</div>
+<section id="home" class="screen active">
 
-<div class="bottom-nav">
+    <div class="topbar">
 
-    <div class="nav-item active"
-         onclick="showHome(this)">
-        <span class="nav-icon">⌂</span>
-        Home
+        <button
+            class="iconbtn"
+            onclick="openSheet()">
+            ☰
+        </button>
+
+        <div class="logo">
+            HappyUser
+        </div>
+
+        <div class="coin">
+            👑
+            <span id="coinHome">10</span>
+        </div>
+
     </div>
 
-    <div class="nav-item"
-         onclick="showHistory(this)">
-        <span class="nav-icon">▣</span>
-        History
+
+    <div class="hero">
+
+        <h1>
+            Welcome,
+            <span id="homeName">
+                HappyUser
+            </span>
+            👋
+        </h1>
+
+        <p>
+            Play matches, join challenges
+            and enjoy the game.
+        </p>
+
     </div>
 
-    <div class="nav-item"
-         onclick="showProfile(this)">
-        <span class="nav-icon">♙</span>
-        Profile
+
+    <div class="banner">
+
+        <h2>
+            FREE FIRE MAX
+        </h2>
+
+        <p>
+            Choose a match and join now.
+        </p>
+
     </div>
 
-    <div class="nav-item"
-         onclick="showMore(this)">
-        <span class="nav-icon">⋮</span>
-        More
+
+    <div class="section-title">
+
+        <span>
+            Games
+        </span>
+
+        <span class="small">
+            View all
+        </span>
+
     </div>
 
-</div>
 
-</div>
+    <div class="game-grid">
 
+        <button
+            class="game"
+            onclick="openGame()">
 
-<script>
+            <span class="emoji">
+                🔥
+            </span>
 
-/* ================= DATA ================= */
+            <b>
+                Free Fire Max
+            </b>
 
-const matches = [
+            <span class="small">
+                Battle matches
+            </span>
 
-{
-    id:"53053",
-    type:"DUO",
-    time:"10:30 AM",
-    prize:"380",
-    kill:"10",
-    fee:"12",
-    players:"35/48",
-    percent:73
-},
-
-{
-    id:"53054",
-    type:"SQUAD",
-    time:"10:45 AM",
-    prize:"380",
-    kill:"7",
-    fee:"8",
-    players:"4/48",
-    percent:8
-},
-
-{
-    id:"53055",
-    type:"DUO",
-    time:"11:00 AM",
-    prize:"380",
-    kill:"10",
-    fee:"12",
-    players:"12/48",
-    percent:25
-},
-
-{
-    id:"53056",
-    type:"SQUAD",
-    time:"11:15 AM",
-    prize:"500",
-    kill:"8",
-    fee:"10",
-    players:"20/48",
-    percent:42
-}
-
-];
-
-const content =
-document.getElementById("content");
+        </button>
 
 
-/* ================= ACTIVE NAV ================= */
+        <button
+            class="game"
+            onclick="toast('Coming soon')">
 
-function setActive(element){
+            <span class="emoji">
+                🎮
+            </span>
 
-    document
-    .querySelectorAll(".nav-item")
-    .forEach(item =>
-        item.classList.remove("active")
-    );
+            <b>
+                Free Fire
+            </b>
 
-    if(element){
-        element.classList.add("active");
-    }
-}
+            <span class="small">
+                Coming soon
+            </span>
+
+        </button>
+
+    </div>
 
 
-/* ================= HEADER ================= */
+    <div class="section-title">
 
-function header(){
+        <span>
+            Upcoming Match
+        </span>
 
-return `
+        <span class="small">
+            1 match
+        </span>
 
-<div class="header">
+    </div>
 
-    <button class="back-btn"
-            onclick="showHome()">
-        ←
+
+    <div id="homeMatch"></div>
+
+
+    <button
+        class="fab"
+        onclick="toast('Support opened')">
+        👾
     </button>
 
-    FREE FIRE MAX
+</section>
 
-    <div class="coin">
 
-        <div class="coin-icon">
-            👑
+<!-- ==================================================
+                     GAME
+================================================== -->
+
+<section id="game" class="screen">
+
+    <div class="topbar">
+
+        <button
+            class="iconbtn"
+            onclick="showScreen('home')">
+            ‹
+        </button>
+
+        <div class="center-title">
+            FREE FIRE MAX
         </div>
 
-        10
-
-    </div>
-
-</div>
-
-`;
-
-}
-
-
-/* ================= HOME ================= */
-
-function showHome(element){
-
-    if(element){
-        setActive(element);
-    }
-
-    content.innerHTML = `
-
-        ${header()}
-
-        <div class="tabs">
-
-            <button class="tab"
-                    onclick="changeTab(this,'ongoing')">
-                Ongoing
-            </button>
-
-            <button class="tab active"
-                    onclick="changeTab(this,'upcoming')">
-                Upcoming
-            </button>
-
-            <button class="tab"
-                    onclick="changeTab(this,'result')">
-                Result
-            </button>
-
-        </div>
-
-        <div id="matchList"
-             class="tournament-list">
-
-        </div>
-
-    `;
-
-    showMatches("upcoming");
-}
-
-
-/* ================= TABS ================= */
-
-function changeTab(button,type){
-
-    document
-    .querySelectorAll(".tab")
-    .forEach(tab =>
-        tab.classList.remove("active")
-    );
-
-    button.classList.add("active");
-
-    showMatches(type);
-}
-
-
-/* ================= MATCH LIST ================= */
-
-function showMatches(type){
-
-    const list =
-    document.getElementById("matchList");
-
-    if(type === "result"){
-
-        list.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    🏆
-                </div>
-
-                No result available
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-    if(type === "ongoing"){
-
-        list.innerHTML =
-        matches.slice(0,2)
-        .map(match =>
-            createMatch(match,true)
-        )
-        .join("");
-
-        return;
-    }
-
-    list.innerHTML =
-    matches
-    .map(match =>
-        createMatch(match,false)
-    )
-    .join("");
-}
-
-
-/* ================= MATCH CARD ================= */
-
-function createMatch(match,ongoing){
-
-return `
-
-<div class="match-card">
-
-    <div class="match-top">
-
-        <div class="game-logo">
-            FREE<br>
-            FIRE<br>
-            MAX
-        </div>
-
-        <div class="match-title">
-
-            <h2>
-                FREE FIRE ${match.type}
-                MATCH #${match.id}
-            </h2>
-
-            <p>
-                2026-08-09 ${match.time}
-            </p>
-
-        </div>
-
-        <div class="view"
-             onclick="showDetails('${match.id}')">
-
-            view
-
+        <div class="coin">
+            👑 10
         </div>
 
     </div>
 
 
-    <!-- INFO -->
+    <div class="tabs">
 
-    <div class="info-row">
+        <button
+            class="tab active"
+            onclick="setTab(this,'ongoing')">
+            Ongoing
+        </button>
 
-        <div class="info-box">
-            🏆 Prize pool⌄
+        <button
+            class="tab"
+            onclick="setTab(this,'upcoming')">
+            Upcoming
+        </button>
+
+        <button
+            class="tab"
+            onclick="setTab(this,'result')">
+            Result
+        </button>
+
+    </div>
+
+
+    <div id="gameList"></div>
+
+</section>
+
+
+<!-- ==================================================
+                     HISTORY
+================================================== -->
+
+<section id="history" class="screen">
+
+    <div class="topbar">
+
+        <div class="center-title">
+            History
         </div>
 
-        <div class="info-box">
-            🛡 Per Kill:
+        <button
+            class="iconbtn"
+            onclick="clearHistory()">
+            ↻
+        </button>
+
+    </div>
+
+
+    <div id="historyList"></div>
+
+</section>
+
+
+<!-- ==================================================
+                     PROFILE
+================================================== -->
+
+<section id="profile" class="screen">
+
+    <div class="topbar">
+
+        <button
+            class="iconbtn"
+            onclick="openSheet()">
+            ☰
+        </button>
+
+        <div class="center-title">
+            Profile
         </div>
 
-        <div class="info-box">
-            ➜ Entry Fee:
+        <div style="width:46px"></div>
+
+    </div>
+
+
+    <div class="profile-head">
+
+        <div class="avatar">
+            H
+        </div>
+
+        <h2 id="profileName">
+            HappyUser
+        </h2>
+
+    </div>
+
+
+    <div class="menu-list">
+
+        <button
+            class="menu-item"
+            onclick="profileForm()">
+            My Profile
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="passwordForm()">
+            Change Password
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="wallet()">
+            Wallet
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="historyNav()">
+            My Wallet History
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Top Players opened')">
+            Top Players
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Scratch Cards opened')">
+            Scratch Cards
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('My Challenges opened')">
+            My Challenges
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Thanks for your feedback!')">
+            Feedback
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('HappyUser App v1.0')">
+            About Us
+            <span>›</span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Terms & Conditions')">
+            Terms & Conditions
+            <span>›</span>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+                       MORE
+================================================== -->
+
+<section id="more" class="screen">
+
+    <div class="topbar">
+
+        <div class="center-title">
+            More
         </div>
 
     </div>
 
 
-    <div class="info-value">
+    <div class="card">
 
-        <div>👑 ${match.prize}</div>
+        <h2>
+            HappyUser
+        </h2>
 
-        <div>₹ ${match.kill}</div>
+        <p
+            class="small"
+            style="margin-top:8px">
 
-        <div>₹ ${match.fee}</div>
+            Simple tournament app demo.
 
-    </div>
-
-
-    <!-- TYPE -->
-
-    <div class="type-row">
-
-        <div class="type-box">
-            Type
-        </div>
-
-        <div class="type-box">
-            Version:
-        </div>
-
-        <div class="type-box">
-            Map:
-        </div>
+        </p>
 
     </div>
 
 
-    <div class="type-value">
+    <div class="menu-list">
 
-        <div>
-            ${match.type}
-        </div>
+        <button
+            class="menu-item"
+            onclick="profileNav()">
 
-        <div>
-            TPP
-        </div>
+            My Profile
 
-        <div>
-            BERMUDA
-        </div>
+            <span>›</span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Notifications are enabled')">
+
+            Notifications
+
+            <span>›</span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Help & Support opened')">
+
+            Help & Support
+
+            <span>›</span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            onclick="toast('Logged out demo')">
+
+            Logout
+
+            <span>›</span>
+
+        </button>
 
     </div>
 
+</section>
 
-    <!-- JOIN -->
 
-    <div class="join-row">
+<!-- ==================================================
+                     FLOAT BUTTON
+================================================== -->
 
-        <div class="progress">
+<button
+    class="fab"
+    onclick="toast('Support opened')">
+    👾
+</button>
 
-            <div class="progress-fill"
-                 style="width:${match.percent}%">
 
-                ${match.players}
+<!-- ==================================================
+                     BOTTOM NAV
+================================================== -->
 
-            </div>
+<nav class="bottom">
 
-        </div>
+    <button
+        class="nav active"
+        data-screen="home"
+        onclick="showScreen('home')">
 
-        <button class="join-btn"
-                onclick="joinMatch('${match.id}')">
+        <span class="ico">
+            ⌂
+        </span>
 
-            Join
+        Home
+
+    </button>
+
+
+    <button
+        class="nav"
+        data-screen="history"
+        onclick="showScreen('history')">
+
+        <span class="ico">
+            ▣
+        </span>
+
+        History
+
+    </button>
+
+
+    <button
+        class="nav"
+        data-screen="profile"
+        onclick="showScreen('profile')">
+
+        <span class="ico">
+            ♙
+        </span>
+
+        Profile
+
+    </button>
+
+
+    <button
+        class="nav"
+        data-screen="more"
+        onclick="showScreen('more')">
+
+        <span class="ico">
+            ⋮
+        </span>
+
+        More
+
+    </button>
+
+</nav>
+
+
+<!-- ==================================================
+                       MENU SHEET
+================================================== -->
+
+<div
+    id="sheet"
+    class="modal"
+    onclick="if(event.target===this)closeSheet()">
+
+    <div class="sheet">
+
+        <h2>
+            HappyUser Menu
+        </h2>
+
+
+        <button
+            onclick="profileNav();closeSheet()">
+
+            👤 My Profile
+
+        </button>
+
+
+        <button
+            onclick="historyNav();closeSheet()">
+
+            ▣ History
+
+        </button>
+
+
+        <button
+            onclick="wallet();closeSheet()">
+
+            💰 Wallet
+
+        </button>
+
+
+        <button
+            onclick="toast('Settings opened');closeSheet()">
+
+            ⚙ Settings
+
+        </button>
+
+
+        <button
+            onclick="closeSheet()">
+
+            ✕ Close
 
         </button>
 
@@ -1493,975 +1236,171 @@ return `
 
 </div>
 
-`;
+
+<!-- ==================================================
+                       TOAST
+================================================== -->
+
+<div
+    id="toast"
+    class="toast">
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+                     MATCH DATA
+===================================================== */
+
+const MATCHES = [
+
+    {
+        id:23090,
+
+        title:
+        'FF DUO MATCH - POV ALLOWED - HORSE BAN ❌ #23090',
+
+        date:
+        '2026-08-09 11:30 AM',
+
+        prize:380,
+
+        kill:3,
+
+        entry:5,
+
+        type:'Duo',
+
+        version:'TPP',
+
+        map:'BERMUDA',
+
+        status:'ongoing'
+    },
+
+
+    {
+        id:23091,
+
+        title:
+        'FF SQUAD MATCH - BERMUDA',
+
+        date:
+        '2026-08-09 05:30 PM',
+
+        prize:500,
+
+        kill:5,
+
+        entry:10,
+
+        type:'Squad',
+
+        version:'TPP',
+
+        map:'BERMUDA',
+
+        status:'upcoming'
+    }
+
+];
+
+
+/* =====================================================
+                  LOCAL STORAGE DATA
+===================================================== */
+
+let name =
+localStorage.getItem(
+    'happyuser_name'
+) || 'HappyUser';
+
+
+let walletCoins =
+Number(
+    localStorage.getItem(
+        'happyuser_coins'
+    ) || 10
+);
+
+
+let joined =
+JSON.parse(
+    localStorage.getItem(
+        'happyuser_joined'
+    ) || '[]'
+);
+
+
+/* =====================================================
+                       SHORT $
+===================================================== */
+
+function $(id){
+
+    return document.getElementById(id);
 
 }
 
 
-/* ================= DETAILS ================= */
-
-function showDetails(id){
-
-    const match =
-    matches.find(x => x.id === id);
-
-    if(!match) return;
-
-    content.innerHTML = `
-
-        ${header()}
-
-        <div class="back"
-             onclick="showHome()">
-
-            ← Back
-
-        </div>
-
-        <div class="details">
-
-            <div class="details-box">
-
-                <h2>
-                    FREE FIRE ${match.type}
-                    MATCH #${match.id}
-                </h2>
-
-                <div class="detail-item">
-                    <span>Time</span>
-                    <b>${match.time}</b>
-                </div>
-
-                <div class="detail-item">
-                    <span>Prize Pool</span>
-                    <b>₹ ${match.prize}</b>
-                </div>
-
-                <div class="detail-item">
-                    <span>Per Kill</span>
-                    <b>₹ ${match.kill}</b>
-                </div>
-
-                <div class="detail-item">
-                    <span>Entry Fee</span>
-                    <b>₹ ${match.fee}</b>
-                </div>
-
-                <div class="detail-item">
-                    <span>Type</span>
-                    <b>${match.type}</b>
-                </div>
-
-                <div class="detail-item">
-                    <span>Version</span>
-                    <b>TPP</b>
-                </div>
-
-                <div class="detail-item">
-                    <span>Map</span>
-                    <b>BERMUDA</b>
-                </div>
-
-                <button class="confirm-btn"
-                        onclick="joinMatch('${match.id}')">
-
-                    JOIN MATCH
-
-                </button>
-
-            </div>
-
-        </div>
-    `;
-}
-
-
-/* ================= JOIN ================= */
-
-function joinMatch(id){
-
-    const match =
-    matches.find(x => x.id === id);
-
-    if(!match) return;
-
-    content.innerHTML = `
-
-        ${header()}
-
-        <div class="empty">
-
-            <div class="empty-icon">
-                ✅
-            </div>
-
-            <h2>
-                Match Joined
-            </h2>
-
-            <p style="margin-top:10px;">
-                FREE FIRE ${match.type}
-                #${match.id}
-            </p>
-
-            <button class="confirm-btn"
-                    style="width:200px"
-                    onclick="showHome()">
-
-                GO HOME
-
-            </button>
-
-        </div>
-
-    `;
-}
-
-
-/* ================= HISTORY ================= */
-
-function showHistory(element){
-
-    setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            Winner History
-        </div>
-
-        <div class="empty">
-
-            <div class="empty-icon">
-                🏆
-            </div>
-
-            No history
-
-        </div>
-
-    `;
-}
-
-
-/* ================= PROFILE ================= */
-
-function showProfile(element){
-
-    setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            Profile
-        </div>
-
-        <div class="profile">
-
-            <div class="avatar">
-                H
-            </div>
-
-            <div class="profile-name">
-                HAPPYUSER
-            </div>
-
-            <div class="menu">
-
-                <button>
-                    My Profile
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Change Password
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Wallet
-                    <span>›</span>
-                </button>
-
-                <button>
-                    My Wallet History
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Top Players
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Scratch Cards
-                    <span>›</span>
-                </button>
-
-                <button>
-                    My Challenges
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Feedback
-                    <span>›</span>
-                </button>
-
-                <button>
-                    About Us
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Terms & Conditions
-                    <span>›</span>
-                </button>
-
-                <button onclick="showPrivacy()">
-                    Privacy Policy
-                    <span>›</span>
-                </button>
-
-                <button>
-                    FAQs
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Customer Support
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Share App
-                    <span>›</span>
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-}
-
-
-/* ================= MORE ================= */
-
-function showMore(element){
-
-    setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            More
-        </div>
-
-        <div class="profile">
-
-            <div class="menu">
-
-                <button onclick="showPrivacy()">
-                    Privacy Policy
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Terms & Conditions
-                    <span>›</span>
-                </button>
-
-                <button onclick="showSupport()">
-                    Customer Support
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Share App
-                    <span>›</span>
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-}
-
-
-/* ================= PRIVACY ================= */
-
-function showPrivacy(){
-
-    content.innerHTML = `
-
-        <div class="header">
-            Privacy Policy
-        </div>
-
-        <div class="back"
-             onclick="showProfile()">
-
-            ← Back
-
-        </div>
-
-        <div class="privacy"
-             style="padding:20px;line-height:22px;">
-
-            <h2>Privacy Policy</h2>
-
-            <br>
-
-            <p>
-                We care about the privacy and security
-                of your information.
-            </p>
-
-            <brr
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<title>Happyuserer</title>
-
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,body{
-    height:100%;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#000;
-}
-
-body{
-    display:flex;
-    justify-content:center;
-}
-
-.app{
-    width:100%;
-    max-width:420px;
-    height:100vh;
-    overflow:hidden;
-    position:relative;
-    color:#fff;
-    background:linear-gradient(
-        180deg,
-        #170027 0%,
-        #26104a 47%,
-        #c631c6 100%
+/* =====================================================
+                    CHANGE SCREEN
+===================================================== */
+
+function showScreen(id){
+
+    document
+    .querySelectorAll('.screen')
+    .forEach(
+        screen =>
+        screen.classList.remove('active')
     );
-}
-
-.status{
-    height:36px;
-    padding:8px 12px 0;
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-    font-size:12px;
-    position:relative;
-    z-index:20;
-}
-
-.device{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    top:4px;
-    background:#000;
-    border:1px solid #333;
-    border-radius:18px;
-    padding:7px 28px;
-}
-
-.page{
-    height:calc(100vh - 36px);
-    overflow:auto;
-    padding-bottom:72px;
-    scrollbar-width:none;
-}
-
-.page::-webkit-scrollbar{
-    display:none;
-}
-
-.header{
-    height:56px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    font-size:20px;
-    font-weight:700;
-}
-
-.back{
-    position:absolute;
-    left:16px;
-    border:1px solid #6d537f;
-    border-radius:50%;
-    width:30px;
-    height:30px;
-    background:transparent;
-    color:#fff;
-    font-size:20px;
-}
-
-.coins{
-    position:absolute;
-    right:14px;
-    font-size:13px;
-    background:#25174b;
-    border-radius:20px;
-    padding:5px 8px;
-}
-
-.tabs{
-    margin:3px 22px 25px;
-    height:38px;
-    border-radius:22px;
-    background:#211a45;
-    box-shadow:0 0 13px #7c36a4;
-    display:flex;
-    padding:3px;
-}
-
-.tabs button{
-    flex:1;
-    border:0;
-    background:transparent;
-    color:#fff;
-    border-radius:20px;
-    font-size:14px;
-}
-
-.tabs button.active{
-    background:linear-gradient(90deg,#6610aa,#a41dc0);
-}
-
-.hero{
-    margin:0 20px 10px;
-    height:122px;
-    border-radius:7px;
-    background:linear-gradient(135deg,#f7f7f7,#ddd);
-    color:#111;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    font-weight:900;
-    font-size:25px;
-    overflow:hidden;
-}
-
-.hero span{
-    color:#b11;
-    font-size:32px;
-}
-
-.dots{
-    text-align:center;
-    margin:4px 0 12px;
-}
-
-.dots i{
-    display:inline-block;
-    width:7px;
-    height:7px;
-    background:#fff;
-    border-radius:50%;
-    margin:0 3px;
-    opacity:.7;
-}
-
-.dots i:first-child{
-    opacity:1;
-}
-
-.section-title{
-    font-size:17px;
-    font-weight:bold;
-    margin:10px 14px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-    padding:0 14px;
-}
-
-.tile{
-    height:118px;
-    border-radius:9px;
-    border:1px solid #ddd;
-    overflow:hidden;
-    position:relative;
-    background:linear-gradient(
-        135deg,
-        #6e08b3,
-        #1d1460 45%,
-        #ef9d20
-    );
-    cursor:pointer;
-}
-
-.tile:nth-child(2n){
-    background:linear-gradient(
-        135deg,
-        #06134c,
-        #1462c7,
-        #42107e
-    );
-}
-
-.tile:nth-child(3n){
-    background:linear-gradient(
-        135deg,
-        #f0c22d,
-        #7e19ad,
-        #f55
-    );
-}
-
-.tile:after{
-    content:attr(data-name);
-    position:absolute;
-    left:4px;
-    right:4px;
-    bottom:7px;
-    text-align:center;
-    font-weight:900;
-    font-size:14px;
-    text-shadow:0 2px 3px #000;
-}
-
-.tile .emoji{
-    font-size:48px;
-    text-align:center;
-    margin-top:16px;
-}
-
-.bottom{
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
-    height:60px;
-    background:#050505;
-    display:flex;
-    z-index:30;
-}
-
-.nav{
-    flex:1;
-    border:0;
-    background:transparent;
-    color:#fff;
-    font-size:9px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
-}
-
-.nav .ico{
-    font-size:22px;
-}
-
-.nav.active .ico{
-    background:linear-gradient(
-        135deg,
-        #9b28c8,
-        #d64cd2
-    );
-    padding:11px;
-    border-radius:0 0 12px 12px;
-    margin-top:-22px;
-}
-
-.match{
-    margin:16px 18px;
-    background:#fff;
-    color:#111;
-    border-radius:8px;
-    padding:15px 14px 20px;
-    text-align:center;
-}
-
-.match h3{
-    font-size:15px;
-    line-height:18px;
-}
-
-.match .date{
-    font-size:10px;
-    font-weight:bold;
-    margin:2px;
-}
-
-.match .chips{
-    display:flex;
-    gap:5px;
-    margin:10px 0 7px;
-}
-
-.chip{
-    flex:1;
-    background:linear-gradient(
-        90deg,
-        #8c20ad,
-        #a92ab9
-    );
-    color:#fff;
-    padding:9px 3px;
-    border-radius:7px;
-    font-size:12px;
-}
-
-.stats{
-    display:flex;
-    gap:5px;
-}
-
-.stat{
-    flex:1;
-    background:#9222ad;
-    color:#fff;
-    border-radius:7px;
-    padding:8px;
-    font-size:11px;
-}
 
-.stat b{
-    display:block;
-    padding-top:4px;
-}
-
-.view{
-    background:#29245d;
-    color:#fff;
-    border:0;
-    border-radius:15px;
-    padding:7px 12px;
-    font-size:10px;
-    margin-top:10px;
-}
-
-.details{
-    text-align:left;
-    margin:0 15px;
-    color:#aaa;
-    font-size:12px;
-    line-height:31px;
-}
-
-.details span{
-    float:right;
-}
-
-.info-box{
-    margin:0 0 10px;
-    background:linear-gradient(
-        180deg,
-        #7775ae,
-        #3c1d63
-    );
-    border-radius:25px 25px 0 0;
-    padding:16px 14px;
-    color:#eee;
-}
-
-.info-box h4{
-    text-align:center;
-    margin-bottom:12px;
-}
-
-.pills{
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    margin:8px;
-}
-
-.pill{
-    background:linear-gradient(
-        90deg,
-        #2b2772,
-        #741aa4
-    );
-    padding:9px 28px;
-    border-radius:22px;
-    font-size:12px;
-    border:0;
-    color:#fff;
-}
-
-.rules{
-    padding:0 4px;
-}
 
-.rule{
-    display:flex;
-    align-items:flex-start;
-    gap:7px;
-    background:#17142f;
-    border:2px solid #77709b;
-    border-radius:19px;
-    padding:7px 8px;
-    margin:7px 0;
-    font-size:13px;
-    line-height:17px;
-}
-
-.num{
-    min-width:31px;
-    height:31px;
-    border-radius:50%;
-    background:#fff;
-    color:#111;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-}
-
-.modal-bg{
-    position:fixed;
-    inset:0;
-    background:#0009;
-    z-index:100;
-    display:none;
-    align-items:center;
-    justify-content:center;
-}
-
-.modal{
-    width:90%;
-    max-width:340px;
-    background:#320071;
-    border-radius:7px;
-    padding:36px 20px 24px;
-    text-align:center;
-    box-shadow:0 0 20px #000;
-}
-
-.modal h3{
-    margin-bottom:14px;
-}
-
-.modal p{
-    line-height:30px;
-}
-
-.close{
-    position:absolute;
-    margin:-28px 0 0 130px;
-    border:0;
-    background:#ddd;
-    color:#fff;
-    border-radius:50%;
-    width:22px;
-    height:22px;
-}
-
-.profile-top{
-    text-align:center;
-    padding:30px 0 15px;
-}
-
-.avatar{
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    background:#fff;
-    margin:auto;
-    color:#26104a;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:55px;
-    border:4px solid #251040;
-}
+    $(id)
+    .classList
+    .add('active');
 
-.profile-top .name{
-    margin-top:12px;
-    font-size:15px;
-}
 
-.profile-top small{
-    color:#aaa;
-}
+    document
+    .querySelectorAll('.nav')
+    .forEach(nav => {
 
-.menu{
-    padding:0 16px;
-}
+        nav.classList.toggle(
+            'active',
+            nav.dataset.screen === id
+        );
 
-.menu button{
-    width:100%;
-    height:45px;
-    border:0;
-    border-radius:7px;
-    background:#28005b;
-    color:#ddd;
-    text-align:left;
-    padding:0 30px;
-    margin:5px 0;
-    font-size:15px;
-    box-shadow:0 2px 6px #9b57a8;
-}
+    });
 
-.menu button span{
-    float:right;
-}
 
-.winner{
-    text-align:center;
-    padding-top:45px;
-}
+    if(id === 'home'){
 
-.winner .bigavatar{
-    width:130px;
-    height:130px;
-    margin:auto;
-    border-radius:50%;
-    background:#fafafa;
-    color:#2474bf;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:65px;
-}
+        renderHome();
 
-.winner h4{
-    margin-top:18px;
-    color:#aaa;
-}
+    }
 
-.winner .score{
-    color:#aaa;
-    margin-top:3px;
-}
 
-.rank-tabs{
-    margin:20px 50px;
-}
+    if(id === 'history'){
 
-.rank{
-    margin:10px 23px;
-    background:#191536;
-    border:1px solid #655d84;
-    border-radius:25px;
-    padding:12px 8px;
-    color:#aaa;
-}
+        renderHistory();
 
-.rank b{
-    display:inline-block;
-    width:35px;
-}
+    }
 
-.rank em{
-    float:right;
-    border:1px solid #655d84;
-    border-radius:20px;
-    padding:5px 10px;
-    font-style:normal;
-}
 
-.screen{
-    display:none;
-}
+    window.scrollTo(0,0);
 
-.screen.active{
-    display:block;
 }
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-    <!-- STATUS -->
-    <div class="status">
-        <span>11:00</span>
-
-        <span class="device">
-            ◉ &nbsp; 1 device
-        </span>
-
-        <span>
-            Vo LTE&nbsp; ◔ 4G&nbsp; ◉ 68
-        </span>
-    </div>
-
-
-    <!-- HOME -->
-    <div id="home" class="page screen active">
-
-        <div class="header">
-            HAPPYUSERER
-
-            <span class="coins">
-                🪙10
-            </span>
-        </div>
-
-
-        <div class="hero">
-            HAPPY
-            <span>USERER</span>
-
-            <br>
-
-            <small style="font-size:12px">
-                IMPORTANT RULES • ID • HUD • TEAMUP
-            </small>
-        </div>
-
-
-        <div class="dots">
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-        </div>
-
-
-        <div class="section-title">
-            E-sports
-        </div>
-
-
-        <div class="grid">
-
-            <div class="tile" data-name="FREE FIRE MAX">
-                <div class="emoji">🔥</div>
-            </div>
 
-            <div class="tile" data-name="HIGH PERKILL">
-                <div class="emoji">⚡</div>
-            </div>
 
-            <div class="tile" data-name="FREE FIRE MAX">
-                <div class="emoji">🏆</div>
-            </div>
+/* =====================================================
+                    HOME RENDER
+===================================================== */
 
-            <div class="tile" data-name="LONE WOLF 2.0">
-                <div class="emoji">🎮</div>
-            </div>
+function renderHome(){
 
-            <div class="tile" data-name="SURVIVAL MATCH">
-                <div class="emoji">🔥</
+    $(
