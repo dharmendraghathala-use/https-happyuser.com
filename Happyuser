@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Battle OP</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#08040d;
+    color:white;
+}
+
+.app{
+    width:390px;
+    max-width:100%;
+    min-height:100vh;
+    margin:auto;
+    background:linear-gradient(180deg,#19052b,#351052,#a942b6);
+    position:relative;
+    padding-bottom:70px;
+}
+
+/* Header */
+.header{
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* Banner */
+.banner{
+    margin:10px 14px;
+    height:120px;
+    border-radius:12px;
+    padding:18px;
+    background:linear-gradient(135deg,#71169a,#210638);
+    border:1px solid #963dc0;
+}
+
+.banner h1{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.banner p{
+    font-size:11px;
+    color:#ddd;
+    line-height:18px;
+}
+
+/* Section */
+.section-title{
+    margin:18px 14px 8px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* Cards */
+.cards{
+    padding:0 14px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.card{
+    height:120px;
+    border-radius:8px;
+    padding:6px;
+    background:linear-gradient(145deg,#47116a,#170822);
+    border:1px solid #733092;
+    cursor:pointer;
+}
+
+.card-image{
+    height:78px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:11px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#f04b30,#74149b);
+}
+
+.card:nth-child(2) .card-image{
+    background:linear-gradient(135deg,#164f77,#d53d82);
+}
+
+.card:nth-child(3) .card-image{
+    background:linear-gradient(135deg,#24733e,#71175f);
+}
+
+.card:nth-child(4) .card-image{
+    background:linear-gradient(135deg,#812d9d,#111d42);
+}
+
+.card:nth-child(5) .card-image{
+    background:linear-gradient(135deg,#bd472d,#42105d);
+}
+
+.card:nth-child(6) .card-image{
+    background:linear-gradient(135deg,#1d6972,#7d1d9d);
+}
+
+.card-name{
+    font-size:8px;
+    margin-top:6px;
+    color:#ddd;
+}
+
+/* Bottom Navigation */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    width:390px;
+    max-width:100%;
+    height:65px;
+    background:#100719;
+    border-top:1px solid #642078;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+.nav-item{
+    width:25%;
+    text-align:center;
+    font-size:9px;
+    color:#bca9c5;
+    cursor:pointer;
+}
+
+.nav-item.active{
+    color:white;
+}
+
+.icon{
+    display:block;
+    font-size:20px;
+    margin-bottom:4px;
+}
+
+/* Profile */
+.profile{
+    padding:15px;
+}
+
+.avatar{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:white;
+    color:#5b1770;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:10px auto;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.profile-name{
+    text-align:center;
+    font-size:12px;
+    margin-bottom:15px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.menu button{
+    height:38px;
+    border:none;
+    border-radius:7px;
+    color:white;
+    text-align:left;
+    padding:0 14px;
+    background:linear-gradient(90deg,#410c61,#260732);
+    border:1px solid #6d2489;
+    cursor:pointer;
+}
+
+.menu button span{
+    float:right;
+}
+
+/* Empty */
+.empty{
+    text-align:center;
+    margin-top:180px;
+    font-size:12px;
+    color:#ddd;
+}
+
+.empty-circle{
+    width:40px;
+    height:40px;
+    border:2px solid white;
+    border-radius:50%;
+    margin:0 auto 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Privacy */
+.privacy{
+    padding:15px;
+    font-size:11px;
+    line-height:18px;
+}
+
+.privacy h2{
+    font-size:15px;
+    margin-bottom:10px;
+}
+
+.back{
+    padding:10px 15px;
+    cursor:pointer;
+    font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div id="content"></div>
+
+    <div class="bottom-nav">
+
+        <div class="nav-item active" onclick="showHome(this)">
+            <span class="icon">⌂</span>
+            Home
+        </div>
+
+        <div class="nav-item" onclick="showHistory(this)">
+            <span class="icon">▣</span>
+            History
+        </div>
+
+        <div class="nav-item" onclick="showProfile(this)">
+            <span class="icon">♙</span>
+            Profile
+        </div>
+
+        <div class="nav-item" onclick="showMore(this)">
+            <span class="icon">⋮</span>
+            More
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const content = document.getElementById("content");
+
+
+function setActive(element){
+
+    document.querySelectorAll(".nav-item")
+    .forEach(item => item.classList.remove("active"));
+
+    element.classList.add("active");
+}
+
+
+/* HOME */
+
+function showHome(element){
+
+    if(element) setActive(element);
+
+    content.innerHTML = `
+
+        <div class="header">
+            BATTLE OP
+        </div>
+
+        <div class="banner">
+
+            <h1>BATTLE OP</h1>
+
+            <p>NEW PLAYERS PROGRAM</p>
+
+            <p>
+                Join tournaments • Win rewards •
+                Play with friends
+            </p>
+
+        </div>
+
+        <div class="section-title">
+            E-Sports
+        </div>
+
+        <div class="cards">
+
+            ${createCard("FREE FIRE","BOOYAH")}
+            ${createCard("BATTLE","ARENA")}
+            ${createCard("FREE FIRE","CLASH")}
+            ${createCard("SURVIVAL","BATTLE")}
+            ${createCard("BATTLE OP","RUSH")}
+            ${createCard("CLASH","MATCH")}
+
+        </div>
+    `;
+}
+
+
+/* CARD */
+
+function createCard(title,subtitle){
+
+    return `
+
+        <div class="card"
+             onclick="alert('${title} selected')">
+
+            <div class="card-image">
+
+                ${title}<br>
+                ${subtitle}
+
+            </div>
+
+            <div class="card-name">
+                TOURNAMENT
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* HISTORY */
+
+function showHistory(element){
+
+    setActive(element);
+
+    content.innerHTML = `
+
+        <div class="header">
+            Winner History
+        </div>
+
+        <div class="empty">
+
+            <div class="empty-circle">
+                ✓
+            </div>
+
+            No history
+
+        </div>
+
+    `;
+}
+
+
+/* PROFILE */
+
+function showProfile(element){
+
+    setActive(element);
+
+    content.innerHTML = `
+
+        <div class="header">
+            Profile
+        </div>
+
+        <div class="profile">
+
+            <div class="avatar">
+                G
+            </div>
+
+            <div class="profile-name">
+                Ghathala
+            </div>
+
+            <div class="menu">
+
+                <button>My Profile <span>›</span></button>
+
+                <button>Change Password <span>›</span></button>
+
+                <button>Wallet <span>›</span></button>
+
+                <button>My Wallet History <span>›</span></button>
+
+                <button>Top Players <span>›</span></button>
+
+                <button>Scratch Cards <span>›</span></button>
+
+                <button>My Challenges <span>›</span></button>
+
+                <button>Feedback <span>›</span></button>
+
+                <button>About Us <span>›</span></button>
+
+                <button>Terms & Conditions <span>›</span></button>
+
+                <button onclick="showPrivacy()">
+                    Privacy Policy <span>›</span>
+                </button>
+
+                <button>FAQs <span>›</span></button>
+
+                <button>Customer Support <span>›</span></button>
+
+                <button>Share App <span>›</span></button>
+
+                <button>Logout <span>›</span></button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* MORE */
+
+function showMore(element){
+
+    setActive(element);
+
+    content.innerHTML = `
+
+        <div class="header">
+            More
+        </div>
+
+        <div class="profile">
+
+            <div class="menu">
+
+                <button onclick="showPrivacy()">
+                    Privacy Policy <span>›</span>
+                </button>
+
+                <button>
+                    Terms & Conditions <span>›</span>
+                </button>
+
+                <button>
+                    Customer Support <span>›</span>
+                </button>
+
+                <button>
+                    Share App <span>›</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* PRIVACY POLICY */
+
+function showPrivacy(){
+
+    content.innerHTML = `
+
+        <div class="header">
+            Privacy Policy
+        </div>
+
+        <div class="back" onclick="showProfile()">
+            ‹ Back
+        </div>
+
+        <div class="privacy">
+
+            <h2>
+                Privacy Policy
+            </h2>
+
+            <p>
+                We care about the privacy and security
+                of your information.
+            </p>
+
+            <br>
+
+            <p>
+                This policy explains how Battle OP
+                collects, uses and protects information
+                when you use the application.
+            </p>
+
+            <br>
+
+            <p>
+                We may collect account details,
+                gameplay information, device information
+                and information that you provide while
+                using our services.
+            </p>
+
+            <br>
+
+            <p>
+                Your information may be used to provide
+                services, improve your experience,
+                prevent misuse and communicate important
+                updates.
+            </p>
+
+            <br>
+
+            <p>
+                We do not sell your personal information.
+                Information may be shared only when
+                required to provide a service or comply
+                with applicable law.
+            </p>
+
+        </div>
+    `;
+}
+
+
+/* FIRST SCREEN */
+
+showHome(
+    document.querySelector(".nav-item")
+);
+
+</script>
+
+</body>
+</html>
