@@ -551,7 +551,7 @@ document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("activ
         document.getElementById(id).classList.add("active");
 }
 
-function openTournament(name){
+	function openTournament(name){
 currentGame=name;
 tourTitle.innerText=name;
 document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
@@ -560,146 +560,182 @@ render("ongoing");
 show("tournament");
 }
 
-function filter (type,el){ document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active") );
+function filter(type,el){
+document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+render(type);
+}
 
-el.classList.add("active"); render(type); }
-
-[]).filter(x=>x.status===status);
-
-function render(status) { let arr=(data [currentGame] || if(!arr.length) { matches.innerHTML="<div class='history'><h3 style='text-align:center'>No matches available</h3></div>";
-
+function render(status){
+let arr=(data[currentGame]||[]).filter(x=>x.status===status);
+if(!arr.length){
+matches.innerHTML="<div class='history'><h3 style='text-align:center'>No matches available</h3></div>";
 return;
-
 }
-
-matches.innerHTML=arr.map(m=>'
-
+matches.innerHTML=arr.map(m=>`
 <div class="match">
-
 <h3>${m.title}</h3>
-
-<div class="center">#${m.id} ${m.date}</div>
-
+<div class="center">#${m.id} • ${m.date}</div>
 <div class="infoGrid">
-
-<div class="info"><b> Prize Pool</b><p>$
-
-{m.prize}</p></div>
-
-<div class="info"><b> Per Kill</b><p>$
-
-{m.kill}</p></div>
-
-<div class="info"><b> Entry Fee</b><p>$
-
-{m.entry}</p></div>
-
-<div class="info"><b>Type</b><p>${m.type}</p></
-
-div>
-
-<div class="info"><b>Version</b><p>${m.version}
-
-</p></div>
-
-<div class="info"><b>Map</b><p>${m.map}</p></
-
-div>
-
+<div class="info"><b>🏆 Prize Pool</b><p>₹${m.prize}</p></div>
+<div class="info"><b>🛡 Per Kill</b><p>₹${m.kill}</p></div>
+<div class="info"><b>↪ Entry Fee</b><p>₹${m.entry}</p></div>
+<div class="info"><b>Type</b><p>${m.type}</p></div>
+<div class="info"><b>Version</b><p>${m.version}</p></div>
+<div class="info"><b>Map</b><p>${m.map}</p></div>
 </div>
-
-<button class="join" onclick='details($
-
-{JSON.stringify(m)})'>${status==="result"?"VIEW
-
-RESULT": "VIEW MATCH"}</button>
-        </div>').join("");
-
+<button class="join" onclick='details(${JSON.stringify(m)})'>${status==="result"?"VIEW RESULT":"VIEW MATCH"}</button>
+</div>`).join("");
 }
+
 function details(m){
-
 current=m;
-
-dTitle. innerText=m.title;
-
-dDate. innerText=m.date;
-
-dType. innerText=m.type;
-
+dTitle.innerText=m.title;
+dDate.innerText=m.date;
+dType.innerText=m.type;
 dVersion.innerText=m.version;
-
-dMap. innerText=m.map;
-
+dMap.innerText=m.map;
 dEntry.innerText=m.entry;
-
-dPrize. innerText=m.prize;
-
-dKill.innerText=m.kill; show("details");
-
+dPrize.innerText=m.prize;
+dKill.innerText=m.kill;
+show("details");
 }
 
-function joinOpen(){ if(current.status==="result") return toast("Result match join nahi ho sakta"); joinModal.classList.add("show"); }
+function joinOpen(){
+if(current.status==="result")return toast("Result match join nahi ho sakta");
+joinModal.classList.add("show");
+}
 
-function join(){ let name=joinName.value.trim(),gid=gameId.value.trim (); if(!name||!gid) return toast("Name aur Game ID enter karein"); if(balanceValue<current.entry)return toast("Wallet balance kam hai");
+function join(){
+let name=joinName.value.trim(),gid=gameId.value.trim();
+if(!name||!gid)return toast("Name aur Game ID enter karein");
+if(balanceValue<current.entry)return toast("Wallet balance kam hai");
 
 balanceValue-=current.entry;
 
-joined.push({ title:current.title, id:current.id, gameId:gid, entry:current.entry, date:new Date().toLocaleString() });
+joined.push({
+title:current.title,
+id:current.id,
+gameId:gid,
+entry:current.entry,
+date:new Date().toLocaleString()
+});
 
-historyData.push({ type: "Tournament Entry #"+current.id, amount:-current.entry, date:new Date().toLocaleString() });
+historyData.push({
+type:"Tournament Entry #"+current.id,
+amount:-current.entry,
+date:new Date().toLocaleString()
+});
 
-save(); update(); closeM("joinModal"); toast("Tournament successfully joined"); }
-
-function addOpen() { addAmount.value=""; addModal.classList.add("show"); }
-
-function copyUPI(){ navigator.clipboard?.writeText(UPI); toast("UPI copied: "+UPI); }
-
-function pay(){ let a=Number(addAmount.value); if(!a||a<=0) return toast("Valid amount enter karein");
-
-location.href= "upi://pay?pa="+encodeURIComponent(UPI)+ "&pn="+encodeURIComponent("HappyUser")+ "&am="+a.toFixed(2)+"&cu=INR"; }
-
+save();update();closeM("joinModal");
+toast("Tournament successfully joined");
 }
-function withdrawOpen() {
 
+function addOpen(){
+addAmount.value="";
+addModal.classList.add("show");
+}
+
+function copyUPI(){
+navigator.clipboard?.writeText(UPI);
+toast("UPI copied: "+UPI);
+}
+
+function pay(){
+let a=Number(addAmount.value);
+if(!a||a<=0)return toast("Valid amount enter karein");
+
+location.href=
+"upi://pay?pa="+encodeURIComponent(UPI)+
+"&pn="+encodeURIComponent("HappyUser")+
+"&am="+a.toFixed(2)+"&cu=INR";
+}
+
+function withdrawOpen(){
 withdrawAmount.value="";
-
 withdrawUPI.value="";
-
-withdrawModal.classList.add("show"); }
-
-function withdraw() { let a=Number (withdrawAmount.value); let u=withdrawUPI.value.trim();
-                     if(!a||a<=0) return toast("Valid amount enter karein"); if(!u)return toast("Bank / UPI ID enter karein"); if(a>balanceValue) return toast("Insufficient balance"); balanceValue-=a;
-
-historyData.push({ type: "Withdrawal", amount:-aа, date:new Date().toLocaleString(), upi:u, status: "Pending" });
-
-save(); update(); closeM("withdrawModal"); toast("Withdrawal request submitted"); }
-
-function profileInfo(){ info("My Profile", "User ID: "+profileId.inner Text+ "<br><br>Balance: } "+balanceValue.toFixed(2));
-
-function myMatches(){ let text=joined.length? joined.map(x=>'<div class="rule"><b>${x.title}</b><br>Game ID: ${x.gameId}<br>Entry: ${x.entry} <br>${x.date}</div>').join("") : "No joined matches."; info("My Matches", text); }
+withdrawModal.classList.add("show");
 }
 
-function info(title, body){ infoTitle.innerText=title; infoBody.innerHTML=body; infoModal.classList.add("show"); }
+function withdraw(){
+let a=Number(withdrawAmount.value);
+let u=withdrawUPI.value.trim();
 
-function closeM(id) {document.getElementById(id).classList.remove("s how")}
+if(!a||a<=0)return toast("Valid amount enter karein");
+if(!u)return toast("Bank / UPI ID enter karein");
+if(a>balanceValue)return toast("Insufficient balance");
+
+balanceValue-=a;
+
+historyData.push({
+type:"Withdrawal",
+amount:-a,
+date:new Date().toLocaleString(),
+upi:u,
+status:"Pending"
+});
+
+save();update();closeM("withdrawModal");
+toast("Withdrawal request submitted");
+}
+
+function profileInfo(){
+info("My Profile",
+"User ID: "+profileId.innerText+
+"<br><br>Balance: ₹"+balanceValue.toFixed(2));
+}
+
+function myMatches(){
+let text=joined.length?
+joined.map(x=>`<div class="rule"><b>${x.title}</b><br>Game ID: ${x.gameId}<br>Entry: ₹${x.entry}<br>${x.date}</div>`).join("")
+:"No joined matches.";
+info("My Matches",text);
+}
+
+function info(title,body){
+infoTitle.innerText=title;
+infoBody.innerHTML=body;
+infoModal.classList.add("show");
+}
+
+function closeM(id){document.getElementById(id).classList.remove("show")}
 
 function save(){
-        localStorage.setItem("huBalance", balanceValue); localStorage.setItem("huHistory", JSON.stringify( historyData)); localStorage.setItem("huJoined", JSON.stringify(j oined)); }
+localStorage.setItem("huBalance",balanceValue);
+localStorage.setItem("huHistory",JSON.stringify(historyData));
+localStorage.setItem("huJoined",JSON.stringify(joined));
+}
 
 function update(){
+document.querySelectorAll(".bal").forEach(x=>x.innerText=Math.floor(balanceValue));
+balance.innerText=balanceValue.toFixed(2);
 
-document.querySelectorAll(".bal").forEach(x=>x.i nnerText=Math.floor(balanceValue)); balance.innerText=balanceValue.toFixed(2);
-
-history.innerHTML=historyData.length? historyData.slice().reverse().map(x=>' <div class="tx"> <span>${x.type}<br><small>${x.date}</small></span> <b class="${x.amount>=0?"plus":"minus"}">$ {x.amount>=0?"+":"-"}$ {Math.abs(x.amount).toFixed(2)}</b> </div>').join("") :"<p style='color:#aaa;margin-top: 15px'>No transactions yet</p>"; }
-
-function logout(){ localStorage.removeItem("huUser"); location.reload(); }
-
+history.innerHTML=historyData.length?
+historyData.slice().reverse().map(x=>`
+<div class="tx">
+<span>${x.type}<br><small>${x.date}</small></span>
+<b class="${x.amount>=0?"plus":"minus"}">${x.amount>=0?"+":"-"}₹${Math.abs(x.amount).toFixed(2)}</b>
+</div>`).join("")
+:"<p style='color:#aaa;margin-top:15px'>No transactions yet</p>";
 }
-function toast(msg) { let t=document.getElementById("toast"); t.innerText=msg;t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2500); }
 
-window.addEventListener("load", ()=>{ let u=localStorage.getItem("huUser"); if(u)startApp(u); }); </script>
+function logout(){
+localStorage.removeItem("huUser");
+location.reload();
+}
+
+function toast(msg){
+let t=document.getElementById("toast");
+t.innerText=msg;t.classList.add("show");
+setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+window.addEventListener("load",()=>{
+let u=localStorage.getItem("huUser");
+if(u)startApp(u);
+});
+</script>
 
 </body>
-
 </html>
-        
+									
