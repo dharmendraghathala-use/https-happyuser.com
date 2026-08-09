@@ -3,1189 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>HAPPYUSER</title>
+<title>HappyUser</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-    background:#08040d;
-    color:white;
+  font-family:Arial,sans-serif;
+  background:#f4f6f8;
+  color:#222;
 }
-
-.app{
-    width:390px;
-    max-width:100%;
-    min-height:100vh;
-    margin:auto;
-    background:linear-gradient(180deg,#19052b,#351052,#a942b6);
-    position:relative;
-    padding-bottom:70px;
-}
-
-/* Header */
 .header{
-    height:50px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    font-weight:bold;
+  background:#111827;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-size:24px;
+  font-weight:bold;
 }
-
-/* Banner */
-.banner{
-    margin:10px 14px;
-    height:120px;
-    border-radius:12px;
-    padding:18px;
-    background:linear-gradient(135deg,#71169a,#210638);
-    border:1px solid #963dc0;
+.balance{
+  margin:18px;
+  padding:22px;
+  border-radius:15px;
+  background:white;
+  text-align:center;
+  box-shadow:0 3px 12px #0001;
 }
-
-.banner h1{
-    font-size:24px;
-    margin-bottom:8px;
-}
-
-.banner p{
-    font-size:11px;
-    color:#ddd;
-    line-height:18px;
-}
-
-/* Section */
-.section-title{
-    margin:18px 14px 8px;
-    font-size:13px;
-    font-weight:bold;
-}
-
-/* Cards */
-.cards{
-    padding:0 14px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
+.balance small{color:#777}
+.balance h1{margin-top:8px;color:#16a34a}
+.container{padding:0 18px 25px}
 .card{
-    height:120px;
-    border-radius:8px;
-    padding:6px;
-    background:linear-gradient(145deg,#47116a,#170822);
-    border:1px solid #733092;
-    cursor:pointer;
+  background:white;
+  padding:18px;
+  margin-top:15px;
+  border-radius:15px;
+  box-shadow:0 3px 12px #0001;
 }
-
-.card-image{
-    height:78px;
-    border-radius:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    font-size:11px;
-    font-weight:bold;
-    background:linear-gradient(135deg,#f04b30,#74149b);
+.card h2{font-size:19px;margin-bottom:14px}
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:9px;
+  margin-bottom:10px;
+  font-size:16px;
 }
-
-.card:nth-child(2) .card-image{
-    background:linear-gradient(135deg,#164f77,#d53d82);
+button{
+  width:100%;
+  border:0;
+  padding:13px;
+  border-radius:9px;
+  color:white;
+  background:#2563eb;
+  font-size:16px;
+  font-weight:bold;
 }
-
-.card:nth-child(3) .card-image{
-    background:linear-gradient(135deg,#24733e,#71175f);
+.withdraw{background:#dc2626}
+.upi{
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  padding:12px;
+  border-radius:9px;
+  margin-bottom:12px;
+  word-break:break-all;
 }
-
-.card:nth-child(4) .card-image{
-    background:linear-gradient(135deg,#812d9d,#111d42);
+#status{
+  margin-top:12px;
+  text-align:center;
+  font-weight:bold;
 }
-
-.card:nth-child(5) .card-image{
-    background:linear-gradient(135deg,#bd472d,#42105d);
+.history{
+  margin-top:10px;
+  font-size:14px;
 }
-
-.card:nth-child(6) .card-image{
-    background:linear-gradient(135deg,#1d6972,#7d1d9d);
+.history div{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #eee;
 }
-
-.card-name{
-    font-size:8px;
-    margin-top:6px;
-    color:#ddd;
-}
-
-/* Bottom Navigation */
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    width:390px;
-    max-width:100%;
-    height:65px;
-    background:#100719;
-    border-top:1px solid #642078;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-}
-
-.nav-item{
-    width:25%;
-    text-align:center;
-    font-size:9px;
-    color:#bca9c5;
-    cursor:pointer;
-}
-
-.nav-item.active{
-    color:white;
-}
-
-.icon{
-    display:block;
-    font-size:20px;
-    margin-bottom:4px;
-}
-
-/* Profile */
-.profile{
-    padding:15px;
-}
-
-.avatar{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:white;
-    color:#5b1770;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:10px auto;
-    font-size:25px;
-    font-weight:bold;
-}
-
-.profile-name{
-    text-align:center;
-    font-size:12px;
-    margin-bottom:15px;
-}
-
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
-
-.menu button{
-    height:38px;
-    border:none;
-    border-radius:7px;
-    color:white;
-    text-align:left;
-    padding:0 14px;
-    background:linear-gradient(90deg,#410c61,#260732);
-    border:1px solid #6d2489;
-    cursor:pointer;
-}
-
-.menu button span{
-    float:right;
-}
-
-/* Empty */
-.empty{
-    text-align:center;
-    margin-top:180px;
-    font-size:12px;
-    color:#ddd;
-}
-
-.empty-circle{
-    width:40px;
-    height:40px;
-    border:2px solid white;
-    border-radius:50%;
-    margin:0 auto 12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* Privacy */
-.privacy{
-    padding:15px;
-    font-size:11px;
-    line-height:18px;
-}
-
-.privacy h2{
-    font-size:15px;
-    margin-bottom:10px;
-}
-
-.back{
-    padding:10px 15px;
-    cursor:pointer;
-    font-size:12px;
-}
+.credit{color:#16a34a}
+.debit{color:#dc2626}
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="header">HappyUser</div>
 
-    <div id="content"></div>
+<div class="balance">
+  <small>Available Balance</small>
+  <h1>₹<span id="balance">0.00</span></h1>
+</div>
 
-    <div class="bottom-nav">
+<div class="container">
 
-        <div class="nav-item active" onclick="showHome(this)">
-            <span class="icon">⌂</span>
-            Home
-        </div>
+  <div class="card">
+    <h2>Add Money</h2>
 
-        <div class="nav-item" onclick="showHistory(this)">
-            <span class="icon">▣</span>
-            History
-        </div>
-
-        <div class="nav-item" onclick="showProfile(this)">
-            <span class="icon">♙</span>
-            Profile
-        </div>
-
-        <div class="nav-item" onclick="showMore(this)">
-            <span class="icon">⋮</span>
-            More
-        </div>
-
+    <div class="upi">
+      <b>UPI ID:</b><br>
+      9351881703-1@fam
     </div>
+
+    <input
+      type="number"
+      id="addAmount"
+      placeholder="Enter amount"
+      min="1"
+    >
+
+    <button onclick="addMoney()">
+      Add Money
+    </button>
+
+    <div id="paymentStatus"></div>
+  </div>
+
+  <div class="card">
+    <h2>Withdrawal</h2>
+
+    <input
+      type="number"
+      id="withdrawAmount"
+      placeholder="Enter withdrawal amount"
+      min="1"
+    >
+
+    <input
+      type="text"
+      id="withdrawUpi"
+      placeholder="Enter withdrawal UPI ID"
+    >
+
+    <button class="withdraw" onclick="withdrawMoney()">
+      Withdraw
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Transaction History</h2>
+    <div id="history" class="history">
+      <div>No transactions yet</div>
+    </div>
+  </div>
 
 </div>
 
-
 <script>
+let balance = Number(localStorage.getItem("happyuser_balance")) || 0;
+let transactions =
+  JSON.parse(localStorage.getItem("happyuser_transactions")) || [];
 
-const content = document.getElementById("content");
+function updateBalance(){
+  document.getElementById("balance").textContent =
+    balance.toFixed(2);
 
-
-function setActive(element){
-
-    document.querySelectorAll(".nav-item")
-    .forEach(item => item.classList.remove("active"));
-
-    element.classList.add("active");
+  localStorage.setItem(
+    "happyuser_balance",
+    balance.toFixed(2)
+  );
 }
 
-
-/* HOME */
-
-function showHome(element){
-
-    if(element) setActive(element);
-
-    content.innerHTML = `
-
-        <div class="header">
-            HAPPYUSER
-        </div>
-
-        <div class="banner">
-
-            <h1>HAPPYUSER</h1>
-
-            <p>NEW PLAYERS PROGRAM</p>
-
-            <p>
-                Join tournaments • Win rewards •
-                Play with friends
-            </p>
-
-        </div>
-
-        <div class="section-title">
-            E-Sports
-        </div>
-
-        <div class="cards">
-
-            ${createCard("FREE FIRE","BOOYAH")}
-            ${createCard("BATTLE","ARENA")}
-            ${createCard("FREE FIRE","CLASH")}
-            ${createCard("SURVIVAL","BATTLE")}
-            ${createCard("HAPPYUSER","RUSH")}
-            ${createCard("CLASH","MATCH")}
-
-        </div>
-    `;
+function saveTransactions(){
+  localStorage.setItem(
+    "happyuser_transactions",
+    JSON.stringify(transactions)
+  );
 }
 
+function showHistory(){
+  const box = document.getElementById("history");
 
-/* CARD */
+  if(transactions.length === 0){
+    box.innerHTML = "<div>No transactions yet</div>";
+    return;
+  }
 
-function createCard(title,subtitle){
-
-    return `
-
-        <div class="card"
-             onclick="alert('${title} selected')">
-
-            <div class="card-image">
-
-                ${title}<br>
-                ${subtitle}
-
-            </div>
-
-            <div class="card-name">
-                TOURNAMENT
-            </div>
-
-        </div>
-
-    `;
+  box.innerHTML = transactions
+    .slice()
+    .reverse()
+    .map(t => `
+      <div>
+        <span>
+          ${t.type}<br>
+          <small>${t.date}</small>
+        </span>
+        <b class="${t.amount > 0 ? "credit" : "debit"}">
+          ${t.amount > 0 ? "+" : ""}₹${Math.abs(t.amount).toFixed(2)}
+        </b>
+      </div>
+    `)
+    .join("");
 }
 
+function addMoney(){
+  const amount =
+    Number(document.getElementById("addAmount").value);
 
-/* HISTORY */
+  if(!amount || amount <= 0){
+    alert("Enter a valid amount");
+    return;
+  }
 
-function showHistory(element){
+  /*
+    IMPORTANT:
+    Real UPI payment confirmation must come from
+    a verified payment gateway/backend.
 
-    setActive(element);
+    This demo button does NOT verify an actual UPI payment.
+    It only demonstrates the balance/transaction UI.
+  */
 
-    content.innerHTML = `
+  document.getElementById("paymentStatus").innerHTML =
+    "UPI payment ke baad verified gateway confirmation par balance credit karein.";
 
-        <div class="header">
-            Winner History
-        </div>
-
-        <div class="empty">
-
-            <div class="empty-circle">
-                ✓
-            </div>
-
-            No history
-
-        </div>
-
-    `;
-
+  document.getElementById("addAmount").value = "";
 }
 
+function creditVerifiedPayment(amount, transactionId){
+  amount = Number(amount);
 
-/* PROFILE */
+  if(!amount || amount <= 0 || !transactionId){
+    return;
+  }
 
-function showProfile(element){
+  balance += amount;
 
-    setActive(element);
+  transactions.push({
+    type:"Add Money",
+    amount:amount,
+    transactionId:transactionId,
+    date:new Date().toLocaleString()
+  });
 
-    content.innerHTML = `
-
-        <div class="header">
-            Profile
-        </div>
-
-        <div class="profile">
-
-            <div class="avatar">
-                H
-            </div>
-
-            <div class="profile-name">
-                HappyUser
-            </div>
-
-            <div class="menu">
-
-                <button>
-                    My Profile
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Change Password
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Wallet
-                    <span>›</span>
-                </button>
-
-                <button>
-                    My Wallet History
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Top Players
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Scratch Cards
-                    <span>›</span>
-                </button>
-
-                <button>
-                    My Challenges
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Feedback
-                    <span>›</span>
-                </button>
-
-                <button>
-                    About Us
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Terms & Conditions
-                    <span>›</span>
-                </button>
-
-                <button onclick="showPrivacy()">
-                    Privacy Policy
-                    <span>›</span>
-                </button>
-
-                <button>
-                    FAQs
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Customer Support
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Share App
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Logout
-                    <span>›</span>
-                </button>
-
-            </div>
-
-        </div>
-    `;
+  saveTransactions();
+  updateBalance();
+  showHistory();
 }
 
+function withdrawMoney(){
+  const amount =
+    Number(document.getElementById("withdrawAmount").value);
 
-/* MORE */
+  const upi =
+    document.getElementById("withdrawUpi").value.trim();
 
-function showMore(element){
+  if(!amount || amount <= 0){
+    alert("Enter a valid withdrawal amount");
+    return;
+  }
 
-    setActive(element);
+  if(!upi){
+    alert("Enter withdrawal UPI ID");
+    return;
+  }
 
-    content.innerHTML = `
+  if(amount > balance){
+    alert("Insufficient balance");
+    return;
+  }
 
-        <div class="header">
-            More
-        </div>
+  balance -= amount;
 
-        <div class="profile">
+  transactions.push({
+    type:"Withdrawal",
+    amount:-amount,
+    upi:upi,
+    date:new Date().toLocaleString()
+  });
 
-            <div class="menu">
+  saveTransactions();
+  updateBalance();
+  showHistory();
 
-                <button onclick="showPrivacy()">
-                    Privacy Policy
-                    <span>›</span>
-                </button>
+  document.getElementById("withdrawAmount").value = "";
+  document.getElementById("withdrawUpi").value = "";
 
-                <button>
-                    Terms & Conditions
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Customer Support
-                    <span>›</span>
-                </button>
-
-                <button>
-                    Share App
-                    <span>›</span>
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
+  alert("Withdrawal request submitted");
 }
 
-
-/* PRIVACY POLICY */
-
-function showPrivacy(){
-
-    content.innerHTML = `
-
-        <div class="header">
-            Privacy Policy
-        </div>
-
-        <div class="back" onclick="showProfile()">
-            ‹ Back
-        </div>
-
-        <div class="privacy">
-
-            <h2>
-                Privacy Policy
-            </h2>
-
-            <p>
-                We care about the privacy and security
-                of your information.
-            </p>
-
-            <br>
-
-            <p>
-                This policy explains how HappyUser
-                collects, uses and protects information
-                when you use the application.
-            </p>
-
-            <br>
-
-            <p>
-                We may collect account details,
-                gameplay information, device information
-                and information that you provide while
-                using our services.
-            </p>
-
-            <br>
-
-            <p>
-                Your information may be used to provide
-                services, improve your experience,
-                prevent misuse and communicate important
-                updates.
-            </p>
-
-            <br>
-
-            <p>
-                We do not sell your personal information.
-                Information may be shared only when
-                required to provide a service or comply
-                with applicable law.
-            </p>
-
-        </div>
-    `;
-}
-
-
-/* FIRST SCREEN */
-
-showHome(
-    document.querySelector(".nav-item")
-);
-
+updateBalance();
+showHistory();
 </script>
 
 </body>
 </html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>HAPPYUSER</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#08040d;
-    color:white;
-}
-
-.app{
-    width:390px;
-    max-width:100%;
-    min-height:100vh;
-    margin:auto;
-    background:
-    linear-gradient(
-        180deg,
-        #170329 0%,
-        #25063b 35%,
-        #b84fbd 100%
-    );
-    min-height:100vh;
-    position:relative;
-    padding-bottom:80px;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-    font-weight:bold;
-    position:relative;
-}
-
-.back-btn{
-    position:absolute;
-    left:18px;
-    top:18px;
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    border:2px solid #67537b;
-    background:#171032;
-    color:white;
-    font-size:28px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-}
-
-.coin{
-    position:absolute;
-    right:10px;
-    top:20px;
-    height:40px;
-    min-width:82px;
-    padding:0 10px;
-    border-radius:25px;
-    background:#253071;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
-    font-size:18px;
-    font-weight:bold;
-}
-
-.coin-icon{
-    width:29px;
-    height:29px;
-    border-radius:50%;
-    background:#f2df6c;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:17px;
-}
-
-/* ================= TABS ================= */
-
-.tabs{
-    margin:18px 18px 70px;
-    height:70px;
-    border-radius:40px;
-    padding:5px;
-    background:#211a4c;
-    border:2px solid #5c4c7b;
-    box-shadow:0 0 25px #713a86;
-    display:flex;
-}
-
-.tab{
-    width:33.33%;
-    border:0;
-    background:transparent;
-    color:white;
-    font-size:18px;
-    border-radius:35px;
-    cursor:pointer;
-}
-
-.tab.active{
-    background:linear-gradient(
-        90deg,
-        #6821a3,
-        #8b29bd
-    );
-}
-
-/* ================= TOURNAMENT LIST ================= */
-
-.tournament-list{
-    padding:0 14px;
-}
-
-/* ================= CARD ================= */
-
-.match-card{
-    background:#f4f3fa;
-    color:#292533;
-    border-radius:14px;
-    margin-bottom:28px;
-    padding:28px 14px 18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.35);
-}
-
-/* card top */
-
-.match-top{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.game-logo{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:
-    linear-gradient(135deg,#f4bd57,#8d3797);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    color:white;
-    font-size:8px;
-    font-weight:bold;
-    border:2px solid #e7c56c;
-}
-
-.match-title{
-    flex:1;
-}
-
-.match-title h2{
-    font-size:20px;
-    line-height:24px;
-}
-
-.match-title p{
-    text-align:center;
-    font-size:14px;
-    font-weight:bold;
-    margin-top:3px;
-}
-
-.view{
-    color:#222;
-    font-size:18px;
-    text-decoration:underline;
-    cursor:pointer;
-}
-
-/* ================= INFO BOXES ================= */
-
-.info-row{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:5px;
-    margin-top:22px;
-}
-
-.info-box{
-    height:47px;
-    border-radius:12px;
-    background:linear-gradient(
-        135deg,
-        #9e42c7,
-        #8533a7
-    );
-    color:#f3eafa;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-    font-weight:bold;
-    text-align:center;
-}
-
-.info-value{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    text-align:center;
-    margin-top:4px;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.info-value div:first-child{
-    color:#f1b72f;
-}
-
-.info-value div:nth-child(2),
-.info-value div:nth-child(3){
-    color:#333;
-}
-
-/* ================= TYPE ================= */
-
-.type-row{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:5px;
-    margin-top:15px;
-}
-
-.type-box{
-    height:48px;
-    border-radius:12px;
-    background:#9439b7;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:16px;
-    font-weight:bold;
-}
-
-.type-value{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-/* ================= BOTTOM JOIN ================= */
-
-.join-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-top:25px;
-}
-
-.progress{
-    flex:1;
-    height:43px;
-    border-radius:9px;
-    background:#b982e3;
-    border:2px solid #28105b;
-    overflow:hidden;
-    position:relative;
-}
-
-.progress-fill{
-    height:100%;
-    background:#5a1b9b;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-    font-weight:bold;
-}
-
-.join-btn{
-    width:98px;
-    height:43px;
-    border:0;
-    border-radius:25px;
-    background:linear-gradient(
-        90deg,
-        #5669a1,
-        #18295d
-    );
-    color:white;
-    font-size:17px;
-    cursor:pointer;
-}
-
-.join-btn:active{
-    transform:scale(.96);
-}
-
-/* ================= EMPTY ================= */
-
-.empty{
-    text-align:center;
-    padding-top:100px;
-    color:#ddd;
-}
-
-.empty-icon{
-    font-size:45px;
-    margin-bottom:15px;
-}
-
-/* ================= DETAILS ================= */
-
-.details{
-    padding:20px;
-}
-
-.details-box{
-    background:#f4f3fa;
-    color:#222;
-    border-radius:15px;
-    padding:20px;
-}
-
-.details-box h2{
-    color:#6b2094;
-    margin-bottom:20px;
-}
-
-.detail-item{
-    padding:14px;
-    margin-bottom:8px;
-    background:#eadbf1;
-    border-radius:8px;
-    display:flex;
-    justify-content:space-between;
-}
-
-.confirm-btn{
-    width:100%;
-    height:48px;
-    margin-top:15px;
-    border:0;
-    border-radius:25px;
-    background:#7927a8;
-    color:white;
-    font-size:17px;
-    font-weight:bold;
-}
-
-/* ================= FLOATING BUTTON ================= */
-
-.floating{
-    position:fixed;
-    right:18px;
-    bottom:75px;
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:
-    radial-gradient(circle,#d94b30,#31072f);
-    border:3px solid #7f42c7;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-    box-shadow:0 5px 15px #1b0027;
-    cursor:pointer;
-}
-
-/* ================= BOTTOM NAV ================= */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    width:390px;
-    max-width:100%;
-    height:65px;
-    background:#0b0610;
-    border-top:1px solid #52215f;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    z-index:50;
-}
-
-.nav-item{
-    width:25%;
-    text-align:center;
-    font-size:10px;
-    color:#aaa;
-    cursor:pointer;
-}
-
-.nav-item.active{
-    color:white;
-}
-
-.nav-icon{
-    display:block;
-    font-size:23px;
-    margin-bottom:3px;
-}
-
-/* ================= PROFILE ================= */
-
-.profile{
-    padding:20px;
-}
-
-.avatar{
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:white;
-    color:#6e238f;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:28px;
-    font-weight:bold;
-    margin:10px auto;
-}
-
-.profile-name{
-    text-align:center;
-    margin-bottom:20px;
-    font-weight:bold;
-}
-
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-.menu button{
-    height:43px;
-    border:1px solid #70258d;
-    border-radius:8px;
-    background:linear-gradient(
-        90deg,
-        #410c61,
-        #260732
-    );
-    color:white;
-    text-align:left;
-    padding:0 15px;
-    cursor:pointer;
-}
-
-.menu button span{
-    float:right;
-}
-
-/* ================= BACK ================= */
-
-.back{
-    padding:5px 20px 15px;
-    cursor:pointer;
-    font-size:15px;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:390px){
-
-    .app{
-        width:100%;
-    }
-
-    .bottom-nav{
-        width:100%;
-    }
-
-    .match-title h2{
-        font-size:17px;
-    }
-
-    .info-box{
-        font-size:13px;
-    }
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<div id="content"></div>
-
-<div class="floating" onclick="showSupport()">
-    👾
-</div>
-
-<div class="bottom-nav">
-
-    <div class="nav-item active"
-         onclick="showHome(this)">
-        <span class="nav-icon">⌂</span>
-        Home
-    </div>
-
-    <div class="nav-item"
-         onclick="showHistory(this)">
-        <span class="nav-icon">▣</span>
-        History
-    </div>
-
-    <div class="nav-item"
-         onclick="showProfile(this)">
-        <span class="nav-icon">♙</span>
-        Profile
-    </div>
-
-    <div class="nav-item"
-         onclick="showMore(this)">
-        <span class="nav-icon">⋮</span>
-        More
-    </div>
-
-</div>
-
-</div>
-
-
-<script>
-
-/* ================= DATA ================= */
-
-const matches = [
-
-{
-    id:"53053",
-    type:"DUO",
-    time:"10:30 AM",
-    prize:"380",
-    kill:"10",
-    fee:"12",
-    players:"35/48",
-    percent:73
-},
-
-{
-    id:"53054",
-    type:"SQUAD",
-    time:"10:45 AM",
-    prize:"380",
-    kill:"7",
-    fee:"8",
-    players:"4/48",
-    percent:8
-},
-
-{
-    id:"53055",
-    type:"DUO",
-    time:"11:00 AM",
-    prize:"380",
-    kill:"10",
-    fee:"12",
-    play
