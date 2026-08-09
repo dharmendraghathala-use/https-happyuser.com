@@ -2,289 +2,570 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>HappyUser</title>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial,sans-serif;
-  background:#f4f6f8;
-  color:#222;
+body{font-family:Arial,sans-serif;background:#16051f;color:#fff}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+#login{
+ min-height:100vh;padding:100px 22px 30px;
+ background:linear-gradient(#6939e9,#260934,#100311)
 }
-.header{
-  background:#111827;
-  color:white;
-  padding:18px;
-  text-align:center;
-  font-size:24px;
-  font-weight:bold;
-}
-.balance{
-  margin:18px;
-  padding:22px;
-  border-radius:15px;
-  background:white;
-  text-align:center;
-  box-shadow:0 3px 12px #0001;
-}
-.balance small{color:#777}
-.balance h1{margin-top:8px;color:#16a34a}
-.container{padding:0 18px 25px}
 .card{
-  background:white;
-  padding:18px;
-  margin-top:15px;
-  border-radius:15px;
-  box-shadow:0 3px 12px #0001;
+ max-width:470px;margin:auto;padding:28px;
+ background:#160b1d;border:1px solid #542263;
+ border-radius:26px;box-shadow:0 15px 45px #0008
 }
-.card h2{font-size:19px;margin-bottom:14px}
-input{
-  width:100%;
-  padding:13px;
-  border:1px solid #ddd;
-  border-radius:9px;
-  margin-bottom:10px;
-  font-size:16px;
+.logo{text-align:center;font-size:42px;font-weight:800}
+.logo span{color:#c637e9}
+.sub{text-align:center;color:#aaa;margin:8px 0 25px}
+label{display:block;margin:14px 0 7px}
+input,select{
+ width:100%;padding:15px;border-radius:12px;
+ border:1px solid #592768;background:#0c0710;color:#fff;outline:0
 }
-button{
-  width:100%;
-  border:0;
-  padding:13px;
-  border-radius:9px;
-  color:white;
-  background:#2563eb;
-  font-size:16px;
-  font-weight:bold;
+.btn{
+ width:100%;padding:15px;margin-top:14px;border:0;border-radius:12px;
+ background:linear-gradient(90deg,#7620ca,#c12de2);color:#fff;font-weight:bold
 }
-.withdraw{background:#dc2626}
+.dark{background:#35243d}
+.link{text-align:center;color:#db70ff;text-decoration:underline;margin-top:22px;display:block}
+
+#app{min-height:100vh;padding-bottom:75px}
+.top{
+ height:76px;padding:0 17px;display:flex;align-items:center;
+ justify-content:space-between;background:#21062d;position:sticky;top:0;z-index:20
+}
+.top .logo{font-size:27px}
+.coin{background:#35104b;border:1px solid #6c3283;border-radius:22px;padding:9px 13px}
+
+.page{display:none}.page.active{display:block}
+
+.banner{
+ margin:15px;height:190px;border-radius:18px;
+ background:#eee;color:#111;position:relative;overflow:hidden
+}
+.banner h1{position:absolute;left:18px;top:18px;font-size:34px;font-style:italic}
+.banner h1 span{color:#d00}
+.rules{position:absolute;left:18px;bottom:15px;font-size:12px;font-weight:bold;line-height:22px}
+.character{position:absolute;right:20px;top:25px;font-size:90px}
+.dots{text-align:center}.dots i{
+ display:inline-block;width:9px;height:9px;background:#777;border-radius:50%;margin:4px
+}.dots i:first-child{background:#fff}
+
+.heading{font-size:27px;font-weight:bold;padding:18px 20px 12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
+.game{
+ height:170px;border:2px solid #9d75aa;border-radius:14px;
+ position:relative;overflow:hidden;background:linear-gradient(135deg,#41007b,#ffb900)
+}
+.game:nth-child(2){background:linear-gradient(135deg,#041c6e,#1766dc)}
+.game:nth-child(3){background:linear-gradient(135deg,#8d1862,#ffd52e)}
+.game:nth-child(4){background:linear-gradient(135deg,#087c58,#68c63c)}
+.game:nth-child(5){background:linear-gradient(135deg,#061d70,#078cff)}
+.game:nth-child(6){background:linear-gradient(135deg,#59106b,#ff791e)}
+.game:nth-child(7){background:linear-gradient(135deg,#087342,#65bc35)}
+.game:nth-child(8){background:linear-gradient(135deg,#420617,#dc422f)}
+.game:nth-child(9){background:linear-gradient(135deg,#8a1b11,#ff9c18)}
+.game:nth-child(10),.game:nth-child(11){background:#08791c}
+.game:nth-child(12){background:#eee;color:#111}
+.game .icon{text-align:center;font-size:43px;font-weight:900;margin-top:28px}
+.game .name{
+ position:absolute;bottom:37px;left:3px;right:3px;
+ text-align:center;font-size:12px;font-weight:bold;text-shadow:2px 2px 4px #000
+}
+.game button{
+ position:absolute;bottom:5px;left:10%;width:80%;
+ border:0;border-radius:8px;padding:6px;background:#7919c6;color:#fff;font-weight:bold
+}
+
+.header{display:flex;align-items:center;gap:12px;padding:15px 18px}
+.back{
+ width:42px;height:42px;border-radius:50%;background:#280d38;
+ border:1px solid #754388;color:#fff;font-size:25px
+}
+.header h2{font-size:21px}
+.tabs{
+ display:flex;margin:0 18px 18px;padding:4px;background:#281436;border-radius:30px
+}
+.tabs button{
+ flex:1;padding:12px;border:0;background:transparent;color:#fff;border-radius:25px
+}
+.tabs .active{background:#8d1bd0}
+
+.match{
+ margin:0 18px 17px;padding:16px;border-radius:18px;
+ background:linear-gradient(145deg,#230b31,#35114a);border:1px solid #6d3281
+}
+.match h3{text-align:center;font-size:16px;line-height:22px}
+.center{text-align:center;color:#aaa;font-size:12px;margin:5px}
+.infoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:13px}
+.info{text-align:center}.info b{
+ display:block;background:#8e24c3;border-radius:8px;padding:8px 2px;font-size:10px
+}.info p{padding:7px 2px;font-size:13px;font-weight:bold}
+.join{
+ width:100%;margin-top:10px;padding:12px;border:0;border-radius:10px;
+ background:linear-gradient(90deg,#7715ca,#b82ce0);color:#fff;font-weight:bold
+}
+
+.detail{
+ margin:18px;padding:20px;border-radius:20px;background:#200b2c;border:1px solid #652579
+}
+.detail h2{text-align:center;font-size:21px;line-height:28px}
+.detail .date{text-align:center;color:#aaa;margin:7px}
+.row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #43234e}
+.rule{
+ margin-top:10px;padding:13px;border-radius:12px;
+ background:#2c123b;border:1px solid #663179
+}
+
+.wallet{
+ margin:18px;padding:25px;border-radius:22px;
+ background:linear-gradient(135deg,#8122ba,#3a105c)
+}
+.wallet small{color:#ddd}.wallet h1{font-size:40px;margin-top:5px}
+.walletGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px}
+.walletBox{
+ padding:18px 10px;text-align:center;border-radius:15px;
+ background:#291333;border:1px solid #5d2a70
+}
+.walletBox button{
+ width:100%;padding:10px;margin-top:10px;border:0;border-radius:9px;
+ background:#9823cd;color:#fff;font-weight:bold
+}
+.history{margin:18px;padding:18px;border-radius:17px;background:#211027}
+.tx{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #3d2546}
+.plus{color:#35e68b}.minus{color:#ff5268}
+
+.profile{text-align:center;padding:25px 18px}
+.avatar{
+ width:90px;height:90px;margin:auto;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;font-size:42px;
+ background:linear-gradient(135deg,#a62dd8,#38105d);border:2px solid #b74de1
+}
+.profile h2{margin-top:10px}.profile p{color:#aaa;margin-top:5px}
+.menu{margin:0 18px}.menu button{
+ width:100%;padding:17px;margin-bottom:9px;border-radius:13px;
+ background:linear-gradient(90deg,#3b086d,#50118a);
+ border:1px solid #752795;color:#fff;text-align:left;display:flex;justify-content:space-between
+}
+
+.winner{margin:18px;padding:20px;border-radius:18px;background:#211027}
+.win{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #41244b}
+.rank{
+ width:37px;height:37px;border-radius:50%;background:#7820ad;
+ display:flex;align-items:center;justify-content:center
+}
+.wintext{flex:1}.prize{color:#35e68b;font-weight:bold}
+
+.modal{
+ position:fixed;inset:0;background:#000b;z-index:1000;
+ display:none;align-items:flex-end
+}
+.modal.show{display:flex}
+.modalCard{
+ width:100%;max-width:520px;max-height:90vh;overflow:auto;
+ padding:22px;border-radius:24px 24px 0 0;
+ background:linear-gradient(#34105b,#17091f);border:1px solid #7b2997
+}
+.modalTop{display:flex;justify-content:space-between;align-items:center}
+.close{
+ width:35px;height:35px;border:0;border-radius:50%;
+ background:#35153f;color:#fff;font-size:22px
+}
 .upi{
-  background:#f0fdf4;
-  border:1px solid #bbf7d0;
-  padding:12px;
-  border-radius:9px;
-  margin-bottom:12px;
-  word-break:break-all;
+ margin:13px 0;padding:15px;border-radius:12px;
+ background:#11271c;border:1px solid #267247
 }
-#status{
-  margin-top:12px;
-  text-align:center;
-  font-weight:bold;
+.note{font-size:12px;color:#aaa;line-height:18px;margin-top:10px}
+
+.bottom{
+ position:fixed;left:0;right:0;bottom:0;height:73px;
+ background:#050506;border-top:1px solid #38243d;display:flex;z-index:100
 }
-.history{
-  margin-top:10px;
-  font-size:14px;
+.bottom button{
+ flex:1;background:transparent;border:0;color:#aaa;font-size:11px
 }
-.history div{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 0;
-  border-bottom:1px solid #eee;
+.bottom button b{display:block;font-size:25px}
+.bottom button.active{color:#e040ff}
+
+.toast{
+ position:fixed;z-index:3000;bottom:90px;left:50%;
+ transform:translateX(-50%);background:#fff;color:#222;
+ padding:12px 20px;border-radius:30px;display:none
 }
-.credit{color:#16a34a}
-.debit{color:#dc2626}
+.toast.show{display:block}
+
+@media(max-width:500px){
+ .game{height:150px}.game .icon{font-size:34px}.game .name{font-size:10px}
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">HappyUser</div>
+<!-- LOGIN -->
+<div id="login">
 
-<div class="balance">
-  <small>Available Balance</small>
-  <h1>₹<span id="balance">0.00</span></h1>
+<div class="card">
+<div class="logo">Happy<span>User</span></div>
+<div class="sub">Tournament • Wallet • Profile</div>
+
+<label>Login Type</label>
+<select id="loginType">
+<option>User Login</option>
+<option>Admin Login</option>
+</select>
+
+<label>User ID</label>
+<input id="userId" placeholder="Enter User ID">
+
+<label>Password</label>
+<input id="password" type="password" placeholder="Enter Password">
+
+<button class="btn" onclick="login()">Login</button>
+<button class="btn dark" onclick="adminLogin()">Admin Login</button>
+<button class="btn dark" onclick="register()">New User / Register</button>
+<div class="link" onclick="forgot()">Forgot Password</div>
+</div>
 </div>
 
-<div class="container">
+<!-- APP -->
+<div id="app" class="hidden">
 
-  <div class="card">
-    <h2>Add Money</h2>
-
-    <div class="upi">
-      <b>UPI ID:</b><br>
-      9351881703-1@fam
-    </div>
-
-    <input
-      type="number"
-      id="addAmount"
-      placeholder="Enter amount"
-      min="1"
-    >
-
-    <button onclick="addMoney()">
-      Add Money
-    </button>
-
-    <div id="paymentStatus"></div>
-  </div>
-
-  <div class="card">
-    <h2>Withdrawal</h2>
-
-    <input
-      type="number"
-      id="withdrawAmount"
-      placeholder="Enter withdrawal amount"
-      min="1"
-    >
-
-    <input
-      type="text"
-      id="withdrawUpi"
-      placeholder="Enter withdrawal UPI ID"
-    >
-
-    <button class="withdraw" onclick="withdrawMoney()">
-      Withdraw
-    </button>
-  </div>
-
-  <div class="card">
-    <h2>Transaction History</h2>
-    <div id="history" class="history">
-      <div>No transactions yet</div>
-    </div>
-  </div>
-
+<!-- HOME -->
+<section id="home" class="page active">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
 </div>
+
+<div class="banner">
+<h1>BATTLE <span>OP</span></h1>
+<div class="character">🎮</div>
+<div class="rules">
+1. ID LEV 40+ ALLOWED<br>
+2. HUD POV ALLOWED<br>
+3. TEAMUP NOT ALLOWED<br>
+4. HACKER NOT ALLOWED
+</div>
+</div>
+
+<div class="dots"><i></i><i></i><i></i><i></i><i></i></div>
+
+<div class="heading">E-sports</div>
+
+<div class="grid">
 
 <script>
-let balance = Number(localStorage.getItem("happyuser_balance")) || 0;
-let transactions =
-  JSON.parse(localStorage.getItem("happyuser_transactions")) || [];
+const games=[
+["20","FREE FIRE MAX"],
+["⚡","HIGH PER KILL"],
+["20","FREE FIRE MAX"],
+["2.0","LONE WOLF 2.0"],
+["⚡","SURVIVAL MATCH"],
+["👥","CLASH SQUAD"],
+["🔥","LONE WOLF"],
+["2.0","LONE WOLF 2.0"],
+["⚔️","CLASH SQUAD 2.0"],
+["☠","ONLY HEAD"],
+["☠","LONE WOLF"],
+["BGMI","BATTLEGROUNDS"]
+];
 
-function updateBalance(){
-  document.getElementById("balance").textContent =
-    balance.toFixed(2);
-
-  localStorage.setItem(
-    "happyuser_balance",
-    balance.toFixed(2)
-  );
-}
-
-function saveTransactions(){
-  localStorage.setItem(
-    "happyuser_transactions",
-    JSON.stringify(transactions)
-  );
-}
-
-function showHistory(){
-  const box = document.getElementById("history");
-
-  if(transactions.length === 0){
-    box.innerHTML = "<div>No transactions yet</div>";
-    return;
-  }
-
-  box.innerHTML = transactions
-    .slice()
-    .reverse()
-    .map(t => `
-      <div>
-        <span>
-          ${t.type}<br>
-          <small>${t.date}</small>
-        </span>
-        <b class="${t.amount > 0 ? "credit" : "debit"}">
-          ${t.amount > 0 ? "+" : ""}₹${Math.abs(t.amount).toFixed(2)}
-        </b>
-      </div>
-    `)
-    .join("");
-}
-
-function addMoney(){
-  const amount =
-    Number(document.getElementById("addAmount").value);
-
-  if(!amount || amount <= 0){
-    alert("Enter a valid amount");
-    return;
-  }
-
-  /*
-    IMPORTANT:
-    Real UPI payment confirmation must come from
-    a verified payment gateway/backend.
-
-    This demo button does NOT verify an actual UPI payment.
-    It only demonstrates the balance/transaction UI.
-  */
-
-  document.getElementById("paymentStatus").innerHTML =
-    "UPI payment ke baad verified gateway confirmation par balance credit karein.";
-
-  document.getElementById("addAmount").value = "";
-}
-
-function creditVerifiedPayment(amount, transactionId){
-  amount = Number(amount);
-
-  if(!amount || amount <= 0 || !transactionId){
-    return;
-  }
-
-  balance += amount;
-
-  transactions.push({
-    type:"Add Money",
-    amount:amount,
-    transactionId:transactionId,
-    date:new Date().toLocaleString()
-  });
-
-  saveTransactions();
-  updateBalance();
-  showHistory();
-}
-
-function withdrawMoney(){
-  const amount =
-    Number(document.getElementById("withdrawAmount").value);
-
-  const upi =
-    document.getElementById("withdrawUpi").value.trim();
-
-  if(!amount || amount <= 0){
-    alert("Enter a valid withdrawal amount");
-    return;
-  }
-
-  if(!upi){
-    alert("Enter withdrawal UPI ID");
-    return;
-  }
-
-  if(amount > balance){
-    alert("Insufficient balance");
-    return;
-  }
-
-  balance -= amount;
-
-  transactions.push({
-    type:"Withdrawal",
-    amount:-amount,
-    upi:upi,
-    date:new Date().toLocaleString()
-  });
-
-  saveTransactions();
-  updateBalance();
-  showHistory();
-
-  document.getElementById("withdrawAmount").value = "";
-  document.getElementById("withdrawUpi").value = "";
-
-  alert("Withdrawal request submitted");
-}
-
-updateBalance();
-showHistory();
+document.write(games.map(g=>`
+<div class="game">
+<div class="icon">${g[0]}</div>
+<div class="name">${g[1]}</div>
+<button onclick="openTournament('${g[1]}')">OPEN</button>
+</div>
+`).join(""));
 </script>
 
-</body>
-</html>
+</div>
+</section>
+
+<!-- TOURNAMENT -->
+<section id="tournament" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="header">
+<button class="back" onclick="show('home')">‹</button>
+<h2 id="tourTitle">FREE FIRE MAX</h2>
+</div>
+
+<div class="tabs">
+<button class="active" onclick="filter('ongoing',this)">Ongoing</button>
+<button onclick="filter('upcoming',this)">Upcoming</button>
+<button onclick="filter('result',this)">Result</button>
+</div>
+
+<div id="matches"></div>
+</section>
+
+<!-- DETAILS -->
+<section id="details" class="page">
+<div class="top">
+<button class="back" onclick="show('tournament')">‹</button>
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="detail">
+<h2 id="dTitle"></h2>
+<div class="date" id="dDate"></div>
+
+<div class="row"><span>Type</span><b id="dType"></b></div>
+<div class="row"><span>Version</span><b id="dVersion"></b></div>
+<div class="row"><span>Map</span><b id="dMap"></b></div>
+<div class="row"><span>Entry Fee</span><b>₹<span id="dEntry"></span></b></div>
+<div class="row"><span>Prize Pool</span><b>₹<span id="dPrize"></span></b></div>
+<div class="row"><span>Per Kill</span><b>₹<span id="dKill"></span></b></div>
+
+<button class="btn" onclick="joinOpen()">JOIN TOURNAMENT</button>
+</div>
+
+<div class="heading">Tournament Rules</div>
+<div class="rule">📜 ID Level 40+ Allowed</div>
+<div class="rule">🚫 Team Up Not Allowed</div>
+<div class="rule">🚫 Hacker Not Allowed</div>
+<div class="rule">🎮 HUD / POV Allowed</div>
+</section>
+
+<!-- WALLET -->
+<section id="wallet" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="wallet">
+<small>Available Balance</small>
+<h1>₹<span id="balance">0.00</span></h1>
+</div>
+
+<div class="walletGrid">
+<div class="walletBox">
+<div style="font-size:30px">💰</div>
+<b>Add Money</b>
+<button onclick="addOpen()">ADD MONEY</button>
+</div>
+
+<div class="walletBox">
+<div style="font-size:30px">🏦</div>
+<b>Withdrawal</b>
+<button onclick="withdrawOpen()">WITHDRAW</button>
+</div>
+</div>
+
+<div class="history">
+<h2>Wallet History</h2>
+<div id="history"></div>
+</div>
+</section>
+
+<!-- WINNERS -->
+<section id="winners" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div>🏆 Winners</div>
+</div>
+
+<div class="winner">
+<h2>🏆 Top Players</h2>
+<div class="win"><div class="rank">1</div><div class="wintext"><b>Player Winner</b></div><div class="prize">₹380</div></div>
+<div class="win"><div class="rank">2</div><div class="wintext"><b>Pro Player</b></div><div class="prize">₹250</div></div>
+<div class="win"><div class="rank">3</div><div class="wintext"><b>FF Champion</b></div><div class="prize">₹150</div></div>
+</div>
+</section>
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="profile">
+<div class="avatar">👤</div>
+<h2 id="profileName">HappyUser</h2>
+<p id="profileId"></p>
+</div>
+
+<div class="menu">
+<button onclick="profileInfo()">My Profile <span>›</span></button>
+<button onclick="info('Change Password','Password change option ready hai.')">Change Password <span>›</span></button>
+<button onclick="navWallet()">Wallet <span>›</span></button>
+<button onclick="myMatches()">My Matches <span>›</span></button>
+<button onclick="info('Top Players','🏆 Player Winner — ₹380<br><br>🥈 Pro Player — ₹250<br><br>🥉 FF Champion — ₹150')">Top Players <span>›</span></button>
+<button onclick="info('Scratch Cards','🎁 Scratch Card feature available hai.')">Scratch Cards <span>›</span></button>
+<button onclick="info('My Challenges','🎯 Daily Tournament Challenge<br><br>🔥 Win 3 Matches')">My Challenges <span>›</span></button>
+<button onclick="info('Feedback','Feedback system ready hai.')">Feedback <span>›</span></button>
+<button onclick="info('About Us','HappyUser Tournament • Wallet • Profile')">About Us <span>›</span></button>
+<button onclick="info('Terms & Conditions','Tournament rules follow karna zaroori hai.')">Terms & Conditions <span>›</span></button>
+<button onclick="info('FAQ / Refer a Friend','Tournament join karne ke liye match open karke Join karein.')">FAQ / Refer a Friend <span>›</span></button>
+<button onclick="logout()">Logout <span>›</span></button>
+</div>
+</section>
+
+<nav class="bottom">
+<button id="nHome" class="active" onclick="navHome()"><b>⌂</b>HOME</button>
+<button id="nWallet" onclick="navWallet()"><b>◎</b>EARN</button>
+<button id="nWinner" onclick="navWinner()"><b>♔</b>WINNERS</button>
+<button id="nProfile" onclick="navProfile()"><b>♙</b>PROFILE</button>
+</nav>
+</div>
+
+<!-- JOIN MODAL -->
+<div id="joinModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2>Join Tournament</h2><button class="close" onclick="closeM('joinModal')">×</button></div>
+
+<label>Name</label>
+<input id="joinName" placeholder="Enter Name">
+
+<label>Game ID</label>
+<input id="gameId" placeholder="Enter Free Fire / BGMI ID">
+
+<button class="btn" onclick="join()">JOIN NOW</button>
+</div>
+</div>
+
+<!-- ADD MONEY -->
+<div id="addModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2>Add Money</h2><button class="close" onclick="closeM('addModal')">×</button></div>
+
+<label>Amount</label>
+<input id="addAmount" type="number" min="1" placeholder="Enter Amount">
+
+<div class="upi">
+<b>Payment UPI</b><br><br>
+9351881703-1@fam<br>
+<button class="btn" onclick="copyUPI()">COPY UPI</button>
+</div>
+
+<button class="btn" onclick="pay()">PAY WITH UPI</button>
+
+<div class="note">
+Payment complete hone ke baad real balance credit ke liye
+verified payment gateway/backend required hai.
+</div>
+</div>
+</div>
+
+<!-- WITHDRAW -->
+<div id="withdrawModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2>Withdrawal</h2><button class="close" onclick="closeM('withdrawModal')">×</button></div>
+
+<label>Amount</label>
+<input id="withdrawAmount" type="number" min="1" placeholder="Enter Amount">
+
+<label>Bank / UPI</label>
+<input id="withdrawUPI" placeholder="Enter Bank / UPI ID">
+
+<button class="btn" onclick="withdraw()">SUBMIT WITHDRAWAL</button>
+</div>
+</div>
+
+<!-- INFO -->
+<div id="infoModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2 id="infoTitle"></h2><button class="close" onclick="closeM('infoModal')">×</button></div>
+<div id="infoBody" style="margin-top:18px;line-height:24px;color:#ddd"></div>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const UPI="9351881703-1@fam";
+
+let balanceValue=Number(localStorage.getItem("huBalance")||0);
+let historyData=JSON.parse(localStorage.getItem("huHistory")||"[]");
+let joined=JSON.parse(localStorage.getItem("huJoined")||"[]");
+let current=null;
+let currentGame="FREE FIRE MAX";
+
+const data={
+"FREE FIRE MAX":[
+{id:"23079",title:"ALLOWED - HORSE BAN ❌",date:"2026-08-09 08:50 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:380,status:"ongoing"},
+{id:"23078",title:"FF DUO MATCH - POV ALLOWED",date:"2026-08-09 08:30 PM",type:"Duo",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:380,status:"result"},
+{id:"23080",title:"FREE FIRE MAX SURVIVAL",date:"2026-08-09 09:10 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
+"HIGH PER KILL":[
+{id:"23101",title:"HIGH PER KILL MATCH",date:"2026-08-09 09:30 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:20,kill:15,prize:700,status:"upcoming"}],
+"LONE WOLF 2.0":[
+{id:"23110",title:"LONE WOLF 2.0",date:"2026-08-09 10:00 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"}],
+"SURVIVAL MATCH":[
+{id:"23120",title:"SURVIVAL MATCH",date:"2026-08-09 10:20 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
+"CLASH SQUAD":[
+{id:"23130",title:"CLASH SQUAD",date:"2026-08-09 10:40 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:250,status:"upcoming"}],
+"LONE WOLF":[
+{id:"23160",title:"LONE WOLF",date:"2026-08-09 11:40 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:200,status:"upcoming"}],
+"CLASH SQUAD 2.0":[
+{id:"23140",title:"CLASH SQUAD 2.0",date:"2026-08-09 11:00 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
+"ONLY HEAD":[
+{id:"23150",title:"ONLY HEAD MATCH",date:"2026-08-09 11:20 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"}],
+"BGMI":[
+{id:"23170",title:"BATTLEGROUNDS MOBILE INDIA",date:"2026-08-09 09:45 PM",type:"Squad",version:"TPP",map:"ERANGEL",entry:20,kill:10,prize:800,status:"upcoming"}]
+};
+
+function login(){
+let id=userId.value.trim(),p=password.value;
+if(!id||!p)return toast("User ID aur Password enter karein");
+localStorage.setItem("huUser",id);
+startApp(id);
+}
+
+function startApp(id){
+loginScreenOff();
+profileName.innerText=id;
+profileId.innerText="User ID: "+id;
+update();
+}
+
+function loginScreenOff(){
+document.getElementById("login").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+}
+
+function adminLogin(){toast("Admin login ke liye secure backend authentication required hai")}
+function register(){
+let id=prompt("New User ID");
+if(id){userId.value=id;toast("User ID set ho gaya")}
+}
+function forgot(){toast("Password recovery backend se connect karein")}
+
+function show(id){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+window.scrollTo(0,0);
+}
+
+function navHome(){show("home");nav("nHome")}
+function navWallet(){show("wallet");nav("nWallet");update()}
+function navWinner(){show("winners");nav("nWinner")}
+function navProfile(){show("profile");nav("nProfile")}
+function nav(id){
+document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+function openTournament(name){
+currentGame=name;
+tourTitle.innerText=name;
+document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+document.querySelector(".tabs button").classList.add("active");
+render("ongoing");
+show("tournament");
+}
+
+f
