@@ -381,6 +381,32 @@ Payment complete hone ke baad verified payment/backend ke through balance credit
 
 <div id="toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:12px 20px;border-radius:25px;display:none;z-index:999"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script>
+/* ===== FIREBASE CLOUD SYNC =====
+   Replace ONLY these values with your Firebase Web App config.
+   Firebase Console -> Project settings -> Your apps -> Web app.
+*/
+const FIREBASE_CONFIG={
+ apiKey:"PASTE_API_KEY",
+ authDomain:"PASTE_PROJECT.firebaseapp.com",
+ databaseURL:"https://PASTE_PROJECT-default-rtdb.firebaseio.com",
+ projectId:"PASTE_PROJECT",
+ storageBucket:"PASTE_PROJECT.appspot.com",
+ messagingSenderId:"PASTE_SENDER_ID",
+ appId:"PASTE_APP_ID"
+};
+let cloudDB=null;
+let cloudReady=false;
+try{
+ if(FIREBASE_CONFIG.apiKey!=="PASTE_API_KEY"){
+  firebase.initializeApp(FIREBASE_CONFIG);
+  cloudDB=firebase.database();
+  cloudReady=true;
+ }
+}catch(e){console.warn("Firebase not configured",e);}
+</script>
 <script>
 const ADMIN_ID="9351881703";
 const ADMIN_PASS="nitudharm";
@@ -418,17 +444,69 @@ if(!S.settings.upi)S.settings.upi="9351881703-1@fam";
 if(!S.settings.payName)S.settings.payName="Dh.ji Payments";
 if(!S.settings.qr)S.settings.qr="";
 
+let cloudWriting=false;
+let cloudLoaded=false;
+
+function cloudState(){
+ return JSON.parse(JSON.stringify({
+  users:S.users,joined:S.joined,tournaments:S.tournaments,settings:S.settings,
+  rooms:S.rooms,deposits:S.deposits,withdrawals:S.withdrawals,
+  notifications:S.notifications,history:S.history
+ }));
+}
+
+function applyCloudState(d){
+ if(!d)return;
+ if(Array.isArray(d.users))S.users=d.users;
+ if(Array.isArray(d.joined))S.joined=d.joined;
+ if(Array.isArray(d.tournaments))S.tournaments=d.tournaments;
+ if(d.settings)S.settings=d.settings;
+ if(d.rooms)S.rooms=d.rooms;
+ if(Array.isArray(d.deposits))S.deposits=d.deposits;
+ if(Array.isArray(d.withdrawals))S.withdrawals=d.withdrawals;
+ if(Array.isArray(d.notifications))S.notifications=d.notifications;
+ if(Array.isArray(d.history))S.history=d.history;
+ saveLocalOnly();
+ if(typeof renderGames==='function')renderGames();
+ if(typeof renderAdmin==='function'&&currentUser===ADMIN_ID)renderAdmin();
+ if(typeof update==='function')update();
+ if(typeof updateNotificationBadge==='function')updateNotificationBadge();
+}
+
+function saveLocalOnly(){
+ localStorage.huBalance=S.balance;
+ localStorage.huHistory=JSON.stringify(S.history);
+ localStorage.huUsers=JSON.stringify(S.users);
+ localStorage.huJoined=JSON.stringify(S.joined);
+ localStorage.huTournaments=JSON.stringify(S.tournaments);
+ localStorage.huSettings=JSON.stringify(S.settings);
+ localStorage.huRooms=JSON.stringify(S.rooms);
+ localStorage.huDeposits=JSON.stringify(S.deposits);
+ localStorage.huWithdrawals=JSON.stringify(S.withdrawals);
+ localStorage.huNotifications=JSON.stringify(S.notifications);
+}
+
+function startCloudSync(){
+ if(!cloudReady)return;
+ cloudDB.ref("dhjiTournament/state").on("value",snap=>{
+  if(cloudWriting){cloudWriting=false;return;}
+  let d=snap.val();
+  if(d){cloudLoaded=true;applyCloudState(d);}
+  else{cloudDB.ref("dhjiTournament/state").set(cloudState());cloudLoaded=true;}
+ });
+}
+
+function saveCloud(){
+ if(!cloudReady||!cloudLoaded)return;
+ cloudWriting=true;
+ cloudDB.ref("dhjiTournament/state").set(cloudState()).catch(e=>{
+  cloudWriting=false;console.error(e);toast("Cloud save failed");
+ });
+}
+
 function saveAll(){
-localStorage.huBalance=S.balance;
-localStorage.huHistory=JSON.stringify(S.history);
-localStorage.huUsers=JSON.stringify(S.users);
-localStorage.huJoined=JSON.stringify(S.joined);
-localStorage.huTournaments=JSON.stringify(S.tournaments);
-localStorage.huSettings=JSON.stringify(S.settings);
-localStorage.huRooms=JSON.stringify(S.rooms);
-localStorage.huDeposits=JSON.stringify(S.deposits);
-localStorage.huWithdrawals=JSON.stringify(S.withdrawals);
-localStorage.huNotifications=JSON.stringify(S.notifications);
+saveLocalOnly();
+saveCloud();
 }
 
 function toast(x){
@@ -1078,6 +1156,7 @@ location.reload();
 window.addEventListener("load",()=>{
 applySettings();
 renderGames();
+startCloudSync();
 
 if(currentUser){
 if(currentUser===ADMIN_ID){
