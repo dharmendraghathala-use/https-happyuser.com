@@ -194,7 +194,7 @@ window.HAPPYUSER_FIREBASE_CONFIG={
 
 <div class="wallet">
 <small>Available Balance</small>
-<h1>₹<span id="balance">5.00</span></h1>
+<h1>₹5<span id="balance">5.00</span></h1>
 </div>
 
 <div class="two">
@@ -411,7 +411,7 @@ Admin se bheja gaya update user ke top-right 🔔 notification bar me dikhega.
 </div>
 
 <div class="notice">
-Payment window: <b><span id="timer">10</span> minutes.</b><br>
+Payment window: <b><span id="timer">10<span> minutes.</b><br>
 Payment complete hone ke baad verified  screenshot or user id details teligram par sand karke  balance credit karein.
 </div>
 
@@ -750,7 +750,7 @@ if(!n)return toast("Name enter karein");
 if(!/^\d{10}$/.test(m))
 return toast("10 digit mobile number enter karein");
 if(p.length<4)
-return toast("Password minimum 4 characters");
+return toast("Password minimum 6 characters");
 
 let id=m;
 
@@ -894,7 +894,7 @@ let defaults=[
 {id:"23110",game:"LONE WOLF 2.0",title:"LONE WOLF 2.0",date:"2026-08-10 10:00 PM",type:"Solo",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"},
 {id:"23120",game:"SURVIVAL MATCH",title:"SURVIVAL MATCH",date:"2026-08-10 10:20 PM",type:"Squad",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"},
 {id:"23130",game:"CLASH SQUAD",title:"CLASH SQUAD",date:"2026-08-10 10:40 PM",type:"Squad",map:"BERMUDA",entry:5,kill:4,prize:250,status:"upcoming"},
-{id:"23170",game:"BGMI",title:"BGMI MATCH",date:"2026-08-10 11:00 PM",type:"Squad",map:"ERANGEL",entry:20,kill:10,prize:800,status:"upcoming"}
+{id:"23170",game:"BGMI",title:"BGMI MATCH",date:"2026-08-10 11:00 PM",type:"Squad",map:"ERANGEL",entry:20,kill:10,prize:800,,room "id" 93518856, password 5269,status:"upcoming"}
 ];
 
 return defaults.concat(S.tournaments);
@@ -1043,14 +1043,14 @@ startTimer();
 function startTimer(){
 clearInterval(timerInterval);
 
-let sec=30;
-timer.innerText=sec;
+let mints=30;
+timer.innerText=mints;
 
 timerInterval=setInterval(()=>{
-sec--;
-timer.innerText=sec;
+minats--;
+timer.innerText=minats;
 
-if(sec<=0){
+if(minats<=0){
 clearInterval(timerInterval);
 toast("Payment window expired");
 }
