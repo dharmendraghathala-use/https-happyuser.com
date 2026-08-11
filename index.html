@@ -1,1133 +1,668 @@
-    <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Dh.ji</title>
 
 <style>
-
 *{box-sizing:border-box;margin:0;padding:0}
-
 body{font-family:Arial;background:#12051b;color:#fff}
-
 button,input,select{font:inherit}
-
 button{cursor:pointer}
-
 .hidden{display:none!important}
-
 .page{display:none}.page.active{display:block}
 
 .top{height:68px;background:#21072d;display:flex;align-items:center;justify-content:space-between;padding:0 15px;position:sticky;top:0;z-index:20}
-
 .logo{font-size:27px;font-weight:900}.logo span{color:#d638f0}
-
 .coin{background:#39104d;padding:9px 13px;border-radius:20px}
-
 .notifyBtn{position:relative;background:#39104d;color:#fff;border:0;border-radius:20px;padding:9px 11px;margin-right:7px}
-
 .notifyDot{position:absolute;top:-3px;right:-2px;background:#ff3158;color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:bold}
-
 .noticeItem{padding:12px;background:#2a1038;border-radius:10px;margin:8px 0;border:1px solid #633078}
-
 .noticeItem b{display:block;margin-bottom:4px}
-
 .statusPending{color:#ffd45a}.statusApproved{color:#35e68b}.statusRejected{color:#ff5268}
 
 .card{max-width:450px;margin:40px auto;padding:25px;background:#1d0b27;border:1px solid #633078;border-radius:22px}
-
 #login{min-height:100vh;padding:40px 15px;background:linear-gradient(#6737dc,#190621)}
-
 h2{margin-bottom:15px}
-
 label{display:block;margin:12px 0 6px}
-
 input,select{width:100%;padding:13px;background:#0c0710;color:#fff;border:1px solid #663078;border-radius:10px}
-
 .btn{width:100%;padding:13px;margin-top:12px;border:0;border-radius:10px;background:linear-gradient(90deg,#7620ca,#c32ce5);color:#fff;font-weight:bold}
-
 .dark{background:#38203f}
-
 .heading{font-size:24px;font-weight:bold;padding:18px}
-
 .banner{margin:14px;height:170px;border-radius:18px;background:linear-gradient(135deg,#eee,#bbb);color:#111;padding:20px}
-
 .banner h1{font-size:35px;font-style:italic}.banner span{color:#d00}
-
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 9px}
-
 .game{height:155px;border:2px solid #9d75aa;border-radius:14px;background:linear-gradient(135deg,#42007b,#ffb900);position:relative;overflow:hidden}
-
 .game:nth-child(2){background:linear-gradient(135deg,#041c6e,#1766dc)}
-
 .game:nth-child(3){background:linear-gradient(135deg,#8d1862,#ffd52e)}
-
 .game:nth-child(4){background:linear-gradient(135deg,#087c58,#68c63c)}
-
 .game:nth-child(5){background:linear-gradient(135deg,#061d70,#078cff)}
-
 .game:nth-child(6){background:linear-gradient(135deg,#59106b,#ff791e)}
-
 .icon{text-align:center;font-size:38px;font-weight:bold;margin-top:25px}
-
 .gname{text-align:center;font-size:11px;font-weight:bold;margin:15px 2px}
-
 .game button{position:absolute;bottom:5px;left:10%;width:80%;border:0;border-radius:7px;padding:6px;background:#7919c6;color:#fff}
 
 .header{display:flex;align-items:center;gap:10px;padding:15px}
-
 .back{width:40px;height:40px;border:0;border-radius:50%;background:#351440;color:#fff;font-size:25px}
-
 .tabs{display:flex;margin:0 15px 15px;background:#291335;border-radius:25px;padding:4px}
-
 .tabs button{flex:1;padding:10px;border:0;background:none;color:#fff;border-radius:20px}
-
 .tabs .active{background:#8d1bd0}
-
 .match,.box{margin:12px 15px;padding:16px;border-radius:17px;background:#230b31;border:1px solid #68327a}
-
 .match h3{text-align:center}.muted{color:#aaa;font-size:12px;text-align:center;margin:5px}
-
 .info{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:12px}
-
 .info div{text-align:center;background:#8e24c3;padding:7px;border-radius:7px;font-size:10px}
-
 .info b{display:block;margin-top:5px;font-size:13px}
 
 .bottom{position:fixed;bottom:0;left:0;right:0;height:68px;background:#050506;display:flex;z-index:50}
-
 .bottom button{flex:1;background:none;border:0;color:#aaa;font-size:10px}
-
 .bottom b{display:block;font-size:23px}.bottom .active{color:#e040ff}
 
 .wallet{margin:15px;padding:25px;border-radius:20px;background:linear-gradient(135deg,#8122ba,#3a105c)}
-
 .wallet h1{font-size:38px}
-
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 15px}
-
 .two .box{text-align:center;margin:0}
-
 .history{margin:15px;padding:15px;background:#211027;border-radius:15px}
-
 .tx{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #43244b}
-
 .plus{color:#35e68b}.minus{color:#ff5268}
-
 .profile{text-align:center;padding:25px}.avatar{width:80px;height:80px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:35px;background:#7020a0}
-
 .menu{padding:0 15px 80px}.menu button{width:100%;padding:14px;margin:5px 0;text-align:left;color:#fff;background:#39104d;border:1px solid #6b2b7d;border-radius:10px}
 
 .modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:100}
-
 .modal.show{display:flex}
-
 .modalCard{width:100%;max-width:520px;max-height:92vh;overflow:auto;background:#210a2d;padding:20px;border-radius:22px 22px 0 0}
-
 .modalTop{display:flex;justify-content:space-between;align-items:center}
-
 .close{background:#42194d;color:#fff;border:0;border-radius:50%;width:35px;height:35px;font-size:22px}
-
 .qr{background:#fff;color:#111;padding:12px;text-align:center;border-radius:10px;margin-top:12px}
-
 .qr img{width:190px;max-width:100%}
-
 .notice{padding:12px;background:#2b1239;border-radius:10px;margin-top:10px;font-size:12px;color:#ddd}
-
 .adminTitle{padding:18px;background:#280934;font-size:22px;font-weight:bold}
-
 .list{margin:10px 0;padding:12px;background:#2a1038;border-radius:10px}
-
 .smallbtn{padding:7px 10px;border:0;border-radius:7px;background:#8d1bd0;color:#fff;margin:3px}
-
-.danger{background:#b32645}
-
-.ok{background:#188d55}
-
+.danger{background:#b32645}.ok{background:#188d55}
 @media(max-width:500px){.game{height:145px}.grid{gap:6px}}
-
 </style>
 
 <script>
-
-window.HAPPYUSER_FIREBASE_CONFIG = {
-
-  apiKey: "AIzaSyCDjZlqz2haR538suu1oc1xoAnlSnxI3po",
-
-  authDomain: "happyuserer-45844.firebaseapp.com",
-
-  databaseURL: "https://happyuserer-45844-default-rtdb.firebaseio.com",
-
-  projectId: "happyuserer-45844",
-
-  storageBucket: "happyuserer-45844.firebasestorage.app",
-
-  messagingSenderId: "505209736403",
-
-  appId: "1:505209736403:web:7fbfb7a79526535d729826"
-
+window.HAPPYUSER_FIREBASE_CONFIG={
+ apiKey:"AIzaSyBey5NdPijY5GBzd_PiC4jGUQoL8NhQ3Y",
+ authDomain:"happyuser51.firebaseapp.com",
+ projectId:"happyuser51",
+ storageBucket:"happyuser51.firebasestorage.app",
+ messagingSenderId:"179813106176",
+ appId:"1:179813106176:web:22415817344256b5fe4ee5",
+ measurementId:"G-YLB5CSFW1S"
 };
-
 </script>
-
 </head>
-
-
 
 <body>
 
-
-
 <div id="login">
-
 <div class="card">
-
 <div class="logo" style="text-align:center">Dh.<span>ji</span></div>
-
 <p style="text-align:center;color:#aaa;margin:8px 0 20px">Tournament • Wallet • Profile</p>
 
-
-
 <label>Login Type</label>
-
 <select id="loginType">
-
 <option value="user">User Login</option>
-
 <option value="admin">Admin Login</option>
-
 </select>
 
-
-
 <label>User ID / Admin ID</label>
-
 <input id="uid" placeholder="Enter User ID">
 
-
-
 <label>Password</label>
-
 <input id="pass" type="password" placeholder="Enter Password">
 
-
-
 <button class="btn" onclick="doLogin()">LOGIN</button>
-
 <button class="btn dark" onclick="openRegister()">NEW USER / REGISTER</button>
-
 </div>
-
 </div>
-
-
 
 <div id="app" class="hidden">
 
-
-
 <section id="home" class="page active">
-
-<div class="top"><div class="logo">Dh.<span>ji</span></div><div><button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button><span class="coin">👑 ₹<span class="bal">0</span></span></div></div>
-
-
-
-<div class="banner">
-
-<h1 id="bannerTitle">happy <span>Dh.ji</span></h1>
-
-<p style="margin-top:20px">ID LEVEL 40+ ALLOWED</p>
-
-<p>HUD / POV ALLOWED</p>
-
-<p>TEAM UP NOT ALLOWED</p>
-
-<p>HACKER NOT ALLOWED</p>
-
+<div class="top">
+<div class="logo">Dh.<span>ji</span></div>
+<div>
+<button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button>
+<span class="coin">👑 ₹<span class="bal">0</span></span>
+</div>
 </div>
 
-
+<div class="banner">
+<h1 id="bannerTitle">happy <span>Dh.ji</span></h1>
+<p style="margin-top:20px">ID LEVEL 40+ ALLOWED</p>
+<p>HUD / POV ALLOWED</p>
+<p>TEAM UP NOT ALLOWED</p>
+<p>HACKER NOT ALLOWED</p>
+</div>
 
 <div class="heading">Dh.ji-Sports</div>
-
 <div id="games" class="grid"></div>
-
 </section>
 
-
-
 <section id="tournament" class="page">
-
-<div class="top"><div class="logo">Dh.<span>ji</span></div><div><button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button><span class="coin">₹<span class="bal">0</span></span></div></div>
+<div class="top">
+<div class="logo">Dh.<span>ji</span></div>
+<div>
+<button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button>
+<span class="coin">₹<span class="bal">0</span></span>
+</div>
+</div>
 
 <div class="header">
-
 <button class="back" onclick="show('home')">‹</button>
-
 <h2 id="tourName">Tournament</h2>
-
 </div>
 
 <div class="tabs">
-
 <button class="active" onclick="filterT('ongoing',this)">Ongoing</button>
-
 <button onclick="filterT('upcoming',this)">Upcoming</button>
-
 <button onclick="filterT('result',this)">Result</button>
-
 </div>
-
 <div id="matches"></div>
-
 </section>
 
-
-
 <section id="details" class="page">
-
 <div class="top">
-
 <button class="back" onclick="show('tournament')">‹</button>
-
 <div class="logo">Dh.<span>ji</span></div>
-
 <div>₹<span class="bal">0</span></div>
-
 </div>
 
 <div class="box">
-
 <h2 id="dt"></h2>
-
 <p class="muted" id="dd"></p>
-
 <div id="detailData"></div>
-
 <button class="btn" id="joinBtn" onclick="joinOpen()">JOIN / PARTICIPATE</button>
-
 </div>
 
 <div class="heading">Tournament Rules</div>
-
 <div class="box">📜 ID Level 40+ Allowed<br><br>🚫 Team Up Not Allowed<br><br>🚫 Hacker Not Allowed<br><br>🎮 HUD / POV Allowed</div>
-
 </section>
 
-
-
 <section id="wallet" class="page">
-
-<div class="top"><div class="logo">Dh.<span>ji</span></div><div><button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button><span>₹<span class="bal">0</span></span></div></div>
+<div class="top">
+<div class="logo">Dh.<span>ji</span></div>
+<div>
+<button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button>
+<span>₹<span class="bal">0</span></span>
+</div>
+</div>
 
 <div class="wallet">
-
 <small>Available Balance</small>
-
 <h1>₹<span id="balance">0.00</span></h1>
-
 </div>
 
 <div class="two">
-
 <div class="box">💰<br><b>Add Money</b><button class="btn" onclick="addOpen()">ADD</button></div>
-
 <div class="box">🏦<br><b>Withdrawal</b><button class="btn" onclick="withdrawOpen()">WITHDRAW</button></div>
-
 </div>
 
 <div class="history">
-
 <h2>Wallet History</h2>
-
 <div id="history"></div>
-
 </div>
-
 </section>
-
-
 
 <section id="winners" class="page">
-
 <div class="top"><div class="logo">Dh.<span>ji</span></div><div>🏆 Winners</div></div>
-
 <div class="box">
-
 <h2>🏆 Top Players</h2>
-
 <p style="padding:12px;border-bottom:1px solid #43244b">🥇 Player Winner — ₹100</p>
-
 <p style="padding:12px;border-bottom:1px solid #43244b">🥈 Pro Player — ₹80</p>
-
 <p style="padding:12px">🥉 FF Champion — ₹50</p>
-
 </div>
-
 </section>
 
-
-
 <section id="profile" class="page">
-
-<div class="top"><div class="logo">Dh.<span>ji</span></div><div><button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button><span>₹<span class="bal">0</span></span></div></div>
+<div class="top">
+<div class="logo">Dh.<span>ji</span></div>
+<div>
+<button class="notifyBtn" onclick="openNotifications()">🔔<span id="notifyCount" class="notifyDot hidden">0</span></button>
+<span>₹<span class="bal">0</span></span>
+</div>
+</div>
 
 <div class="profile">
-
 <div class="avatar">👤</div>
-
 <h2 id="pname"></h2>
-
 <p id="pid" style="color:#aaa"></p>
-
 </div>
 
 <div class="menu">
-
 <button onclick="profileInfo()">My Profile ›</button>
-
 <button onclick="openNotifications()">🔔 Notifications / Admin Updates ›</button>
-
 <button onclick="myMatches()">My Matches / Participants ›</button>
-
 <button onclick="navWallet()">Wallet ›</button>
-
 <button onclick="show('winners')">Top Players ›</button>
-
 <button onclick="info('About Us','Dh.ji Tournament Platform')">About Us ›</button>
-
 <button onclick="logout()">Logout ›</button>
-
 </div>
-
 </section>
 
-
-
 <section id="admin" class="page">
-
 <div class="top">
-
 <div class="logo">Dh.<span>ji</span></div>
-
 <div style="display:flex;align-items:center;gap:8px">
-
 <span>MASTER / ADMIN</span>
-
 <button class="smallbtn danger" onclick="adminLogout()">Logout</button>
-
 </div>
-
 </div>
-
-
 
 <div class="adminTitle">🔐 Master Admin Panel</div>
 
-
-
 <div class="box">
-
 <h3>Admin Account</h3>
-
 <p style="margin-top:8px">Admin ID: 9351881703</p>
-
 <p>Password: •••••••••</p>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>Logo / App Settings</h3>
-
 <label>Logo Text</label>
-
 <input id="setLogo">
-
 <label>Banner Title</label>
-
 <input id="setBanner">
 
-
-
 <h3 style="margin-top:20px">💳 UPI Payment Settings</h3>
-
 <label>Payment Name</label>
-
 <input id="setPayName" placeholder="Dh.ji Payments">
-
 <label>Payment UPI ID</label>
-
 <input id="setUpi" placeholder="example@upi">
-
 <label>QR Image URL</label>
-
 <input id="setQr" placeholder="https://.../qr.png">
 
 <div class="notice">
-
 User Add Money page par yahi UPI aur QR show hoga.
-
 </div>
 
 <button class="btn" onclick="saveSettings()">SAVE SETTINGS</button>
-
 <button class="btn dark" onclick="testPayment()">TEST UPI PAYMENT</button>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>Create Tournament</h3>
-
 <label>Game</label>
-
 <select id="newGame">
-
 <option>FREE FIRE MAX</option>
-
 <option>HIGH PER KILL</option>
-
 <option>LONE WOLF 2.0</option>
-
 <option>SURVIVAL MATCH</option>
-
 <option>CLASH SQUAD</option>
-
 <option>BGMI</option>
-
 </select>
 
 <label>Title</label><input id="newTitle">
-
 <label>Date / Time</label><input id="newDate" placeholder="2026-08-10 08:00 PM">
-
 <label>Type</label><input id="newType" value="Squad">
-
 <label>Map</label><input id="newMap" value="BERMUDA">
-
 <label>Entry Fee</label><input id="newEntry" type="number" value="10">
-
 <label>Per Kill</label><input id="newKill" type="number" value="8">
-
 <label>Prize Pool</label><input id="newPrize" type="number" value="380">
 
 <label>Status</label>
-
 <select id="newStatus">
-
-<option>ongoing</option><option>upcoming</option><option>result</option>
-
+<option>ongoing</option>
+<option>upcoming</option>
+<option>result</option>
 </select>
 
 <button class="btn" onclick="createTournament()">CREATE TOURNAMENT</button>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>Room ID / Password</h3>
-
 <label>Tournament ID</label><input id="roomTid">
-
 <label>Room ID</label><input id="roomId">
-
 <label>Room Password</label><input id="roomPass">
-
 <button class="btn" onclick="saveRoom()">SAVE ROOM</button>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>Users / Ban Control</h3>
-
 <div id="usersList"></div>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>💳 Add Money Details</h3>
-
 <div id="depositList"></div>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>🏦 Withdrawal Details</h3>
-
 <div id="withdrawList"></div>
-
 </div>
 
-
-
 <div class="box">
-
 <h3>🔔 Send Notification / Update</h3>
+<p style="color:#aaa;font-size:12px;margin:6px 0">
+Admin se bheja gaya update user ke top-right 🔔 notification bar me dikhega.
+</p>
 
-<p style="color:#aaa;font-size:12px;margin:6px 0">Admin se bheja gaya update user ke top-right 🔔 notification bar me dikhega.</p>
+<label>Title</label>
+<input id="noteTitle" placeholder="Tournament Update">
 
-<label>Title</label><input id="noteTitle" placeholder="Tournament Update">
-
-<label>Message</label><input id="noteMessage" placeholder="Room ID / result / important update">
+<label>Message</label>
+<input id="noteMessage" placeholder="Room ID / result / important update">
 
 <label>Send To</label>
-
 <select id="noteTarget">
-
 <option value="all">All Users</option>
-
 <option value="joined">Tournament Participants</option>
-
 </select>
 
-<label>Tournament ID (participants only)</label><input id="noteTournament" placeholder="Tournament ID">
+<label>Tournament ID (participants only)</label>
+<input id="noteTournament" placeholder="Tournament ID">
 
 <button class="btn" onclick="sendNotification()">SEND UPDATE</button>
-
 </div>
-
-
 
 <div class="box">
-
 <h3>Tournaments Control</h3>
-
 <div id="adminTours"></div>
-
 </div>
-
-
 
 <div style="height:90px"></div>
-
 </section>
 
-
-
 <nav class="bottom">
-
 <button id="nHome" class="active" onclick="navHome()">⌂<b>HOME</b></button>
-
 <button id="nWallet" onclick="navWallet()">◎<b>EARN</b></button>
-
 <button id="nWinner" onclick="navWinner()">♔<b>WINNERS</b></button>
-
 <button id="nProfile" onclick="navProfile()">♙<b>PROFILE</b></button>
-
 </nav>
-
 </div>
-
-
-
-<!-- REGISTER -->
 
 <div id="registerModal" class="modal">
-
 <div class="modalCard">
-
 <div class="modalTop"><h2>New Registration</h2><button class="close" onclick="closeM('registerModal')">×</button></div>
-
 <label>Name</label><input id="rName">
-
 <label>Mobile Number</label><input id="rMobile" maxlength="10" inputmode="numeric" placeholder="10 digit mobile number">
-
 <label>Password</label><input id="rPass" type="password">
-
 <button class="btn" onclick="register()">REGISTER</button>
-
 </div>
-
 </div>
-
-
-
-<!-- JOIN -->
 
 <div id="joinModal" class="modal">
-
 <div class="modalCard">
-
 <div class="modalTop"><h2>Join Tournament</h2><button class="close" onclick="closeM('joinModal')">×</button></div>
-
 <label>Name</label><input id="jName">
-
 <label>Game User ID</label><input id="jGameId">
-
 <button class="btn" onclick="joinTournament()">JOIN / PARTICIPATE</button>
-
 </div>
-
 </div>
-
-
-
-<!-- ADD MONEY -->
 
 <div id="addModal" class="modal">
-
 <div class="modalCard">
-
 <div class="modalTop"><h2>Add Money</h2><button class="close" onclick="closeM('addModal')">×</button></div>
-
 <label>Amount — Minimum ₹30</label>
-
 <input id="addAmount" type="number" min="30" placeholder="Minimum ₹30">
 
-
-
 <div class="qr">
-
-<b>QR PAYMENT</b><br><small id="payNameText"></small>
-
+<b>QR PAYMENT</b><br>
+<small id="payNameText"></small>
 <div id="qrArea"></div>
-
 <p style="margin-top:10px">UPI: <b id="upiText"></b></p>
-
 <button class="smallbtn" onclick="copyUPI()">COPY UPI</button>
-
 </div>
-
-
 
 <div class="notice">
-
 Payment window: <b><span id="timer">30</span> seconds</b><br>
-
 Payment complete hone ke baad verified payment/backend ke through balance credit karein.
-
 </div>
-
-
 
 <button class="btn" onclick="startPayment()">PAY WITH UPI</button>
-
 </div>
-
 </div>
-
-
-
-<!-- WITHDRAW -->
 
 <div id="withdrawModal" class="modal">
-
 <div class="modalCard">
-
 <div class="modalTop"><h2>Withdrawal</h2><button class="close" onclick="closeM('withdrawModal')">×</button></div>
-
 <label>Amount</label><input id="wAmount" type="number" min="1">
-
 <label>Bank / UPI</label><input id="wUpi">
-
 <div class="notice">Withdrawal processing time: up to 20 minutes.</div>
-
 <button class="btn" onclick="withdraw()">SUBMIT WITHDRAWAL</button>
-
 </div>
-
 </div>
-
-
-
-<!-- INFO -->
 
 <div id="infoModal" class="modal">
-
 <div class="modalCard">
-
 <div class="modalTop"><h2 id="infoTitle"></h2><button class="close" onclick="closeM('infoModal')">×</button></div>
-
 <div id="infoBody" style="line-height:24px;margin-top:15px"></div>
-
 </div>
-
 </div>
-
-
 
 <div id="notificationModal" class="modal">
-
 <div class="modalCard">
-
 <div class="modalTop"><h2>🔔 Notifications</h2><button class="close" onclick="closeM('notificationModal')">×</button></div>
-
 <div id="notificationList" style="margin-top:12px"></div>
-
 </div>
-
 </div>
-
-
 
 <div id="toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:12px 20px;border-radius:25px;display:none;z-index:999"></div>
 
-
-
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 <script>
-
-/* ===== FIREBASE CLOUD SYNC =====
-
-   Replace ONLY these values with your Firebase Web App config.
-
-   Firebase Console -> Project settings -> Your apps -> Web app.
-
-*/
-
 const FIREBASE_CONFIG={
-
- apiKey:"PASTE_API_KEY",
-
- authDomain:"PASTE_PROJECT.firebaseapp.com",
-
- databaseURL:"https://PASTE_PROJECT-default-rtdb.firebaseio.com",
-
- projectId:"PASTE_PROJECT",
-
- storageBucket:"PASTE_PROJECT.appspot.com",
-
- messagingSenderId:"PASTE_SENDER_ID",
-
- appId:"PASTE_APP_ID"
-
+apiKey:"AIzaSyBey5NdPijY5GBzd_PiC4jGUQoL8NhQ3Y",
+authDomain:"happyuser51.firebaseapp.com",
+projectId:"happyuser51",
+storageBucket:"happyuser51.firebasestorage.app",
+messagingSenderId:"179813106176",
+appId:"1:179813106176:web:22415817344256b5fe4ee5",
+measurementId:"G-YLB5CSFW1S"
 };
 
 let cloudDB=null;
-
 let cloudReady=false;
-
-try{
-
- if(FIREBASE_CONFIG.apiKey!=="PASTE_API_KEY"){
-
-  firebase.initializeApp(FIREBASE_CONFIG);
-
-  cloudDB=firebase.database();
-
-  cloudReady=true;
-
- }
-
-}catch(e){console.warn("Firebase not configured",e);}
-
-</script>
-
-<script>
-
-const ADMIN_ID="9351881703";
-
-const ADMIN_PASS="nitudharm";
-
-
-
-let S={
-
-balance:Number(localStorage.huBalance||0),
-
-history:JSON.parse(localStorage.huHistory||"[]"),
-
-users:JSON.parse(localStorage.huUsers||"[]"),
-
-joined:JSON.parse(localStorage.huJoined||"[]"),
-
-tournaments:JSON.parse(localStorage.huTournaments||"[]"),
-
-settings:JSON.parse(localStorage.huSettings||"{}"),
-
-rooms:JSON.parse(localStorage.huRooms||"{}"),
-
-deposits:JSON.parse(localStorage.huDeposits||"[]"),
-
-withdrawals:JSON.parse(localStorage.huWithdrawals||"[]"),
-
-notifications:JSON.parse(localStorage.huNotifications||"[]")
-
-};
-
-
-
-let currentUser=localStorage.huUser||"";
-
-let current=null;
-
-let currentGame="FREE FIRE MAX";
-
-let timerInterval;
-
-
-
-const defaultGames=[
-
-["20","FREE FIRE MAX"],
-
-["⚡","HIGH PER KILL"],
-
-["20","LONE WOLF 2.0"],
-
-["2.0","SURVIVAL MATCH"],
-
-["⚡","CLASH SQUAD"],
-
-["👥","BGMI"]
-
-];
-
-
-
-if(!S.settings.logo)S.settings.logo="Dh.ji";
-
-if(!S.settings.banner)S.settings.banner="Dh.ji";
-
-if(!S.settings.upi)S.settings.upi="9351881703-1@fam";
-
-if(!S.settings.payName)S.settings.payName="Dh.ji Payments";
-
-if(!S.settings.qr)S.settings.qr="";
-
-
-
 let cloudWriting=false;
-
 let cloudLoaded=false;
 
+try{
+firebase.initializeApp(FIREBASE_CONFIG);
+cloudDB=firebase.firestore();
+cloudReady=true;
+}catch(e){
+console.warn("Firestore initialization failed",e);
+}
 
+const ADMIN_ID="9351881703";
+const ADMIN_PASS="nitudharm";
+
+let S={
+balance:Number(localStorage.huBalance||0),
+history:JSON.parse(localStorage.huHistory||"[]"),
+users:JSON.parse(localStorage.huUsers||"[]"),
+joined:JSON.parse(localStorage.huJoined||"[]"),
+tournaments:JSON.parse(localStorage.huTournaments||"[]"),
+settings:JSON.parse(localStorage.huSettings||"{}"),
+rooms:JSON.parse(localStorage.huRooms||"{}"),
+deposits:JSON.parse(localStorage.huDeposits||"[]"),
+withdrawals:JSON.parse(localStorage.huWithdrawals||"[]"),
+notifications:JSON.parse(localStorage.huNotifications||"[]")
+};
+
+let currentUser=localStorage.huUser||"";
+let current=null;
+let currentGame="FREE FIRE MAX";
+let timerInterval;
+
+const defaultGames=[
+["20","FREE FIRE MAX"],
+["⚡","HIGH PER KILL"],
+["20","LONE WOLF 2.0"],
+["2.0","SURVIVAL MATCH"],
+["⚡","CLASH SQUAD"],
+["👥","BGMI"]
+];
+
+if(!S.settings.logo)S.settings.logo="Dh.ji";
+if(!S.settings.banner)S.settings.banner="Dh.ji";
+if(!S.settings.upi)S.settings.upi="9351881703-1@fam";
+if(!S.settings.payName)S.settings.payName="Dh.ji Payments";
+if(!S.settings.qr)S.settings.qr="";
 
 function cloudState(){
-
- return JSON.parse(JSON.stringify({
-
-  users:S.users,joined:S.joined,tournaments:S.tournaments,settings:S.settings,
-
-  rooms:S.rooms,deposits:S.deposits,withdrawals:S.withdrawals,
-
-  notifications:S.notifications,history:S.history
-
- }));
-
+return JSON.parse(JSON.stringify({
+users:S.users,
+joined:S.joined,
+tournaments:S.tournaments,
+settings:S.settings,
+rooms:S.rooms,
+deposits:S.deposits,
+withdrawals:S.withdrawals,
+notifications:S.notifications,
+history:S.history
+}));
 }
-
-
 
 function applyCloudState(d){
+if(!d)return;
 
- if(!d)return;
-
- if(Array.isArray(d.users))S.users=d.users;
-
- if(Array.isArray(d.joined))S.joined=d.joined;
-
- if(Array.isArray(d.tournaments))S.tournaments=d.tournaments;
-
- if(d.settings)S.settings=d.settings;
-
- if(d.rooms)S.rooms=d.rooms;
-
- if(Array.isArray(d.deposits))S.deposits=d.deposits;
-
- if(Array.isArray(d.withdrawals))S.withdrawals=d.withdrawals;
-
- if(Array.isArray(d.notifications))S.notifications=d.notifications;
-
- if(Array.isArray(d.history))S.history=d.history;
-
- saveLocalOnly();
-
- if(typeof renderGames==='function')renderGames();
-
- if(typeof renderAdmin==='function'&&currentUser===ADMIN_ID)renderAdmin();
-
- if(typeof update==='function')update();
-
- if(typeof updateNotificationBadge==='function')updateNotificationBadge();
-
-}
-
-
-
-function saveLocalOnly(){
-
- localStorage.huBalance=S.balance;
-
- localStorage.huHistory=JSON.stringify(S.history);
-
- localStorage.huUsers=JSON.stringify(S.users);
-
- localStorage.huJoined=JSON.stringify(S.joined);
-
- localStorage.huTournaments=JSON.stringify(S.tournaments);
-
- localStorage.huSettings=JSON.stringify(S.settings);
-
- localStorage.huRooms=JSON.stringify(S.rooms);
-
- localStorage.huDeposits=JSON.stringify(S.deposits);
-
- localStorage.huWithdrawals=JSON.stringify(S.withdrawals);
-
- localStorage.huNotifications=JSON.stringify(S.notifications);
-
-}
-
-
-
-function startCloudSync(){
-
- if(!cloudReady)return;
-
- cloudDB.ref("dhjiTournament/state").on("value",snap=>{
-
-  if(cloudWriting){cloudWriting=false;return;}
-
-  let d=snap.val();
-
-  if(d){cloudLoaded=true;applyCloudState(d);}
-
-  else{cloudDB.ref("dhjiTournament/state").set(cloudState());cloudLoaded=true;}
-
- });
-
-}
-
-
-
-function saveCloud(){
-
- if(!cloudReady||!cloudLoaded)return;
-
- cloudWriting=true;
-
- cloudDB.ref("dhjiTournament/state").set(cloudState()).catch(e=>{
-
-  cloudWriting=false;console.error(e);toast("Cloud save failed");
-
- });
-
-}
-
-
-
-function saveAll(){
+if(Array.isArray(d.users))S.users=d.users;
+if(Array.isArray(d.joined))S.joined=d.joined;
+if(Array.isArray(d.tournaments))S.tournaments=d.tournaments;
+if(d.settings)S.settings=d.settings;
+if(d.rooms)S.rooms=d.rooms;
+if(Array.isArray(d.deposits))S.deposits=d.deposits;
+if(Array.isArray(d.withdrawals))S.withdrawals=d.withdrawals;
+if(Array.isArray(d.notifications))S.notifications=d.notifications;
+if(Array.isArray(d.history))S.history=d.history;
 
 saveLocalOnly();
 
-saveCloud();
-
+if(typeof renderGames==="function")renderGames();
+if(typeof renderAdmin==="function"&&currentUser===ADMIN_ID)renderAdmin();
+if(typeof update==="function")update();
+if(typeof updateNotificationBadge==="function")updateNotificationBadge();
+if(typeof applySettings==="function")applySettings();
 }
 
+function saveLocalOnly(){
+localStorage.huBalance=S.balance;
+localStorage.huHistory=JSON.stringify(S.history);
+localStorage.huUsers=JSON.stringify(S.users);
+localStorage.huJoined=JSON.stringify(S.joined);
+localStorage.huTournaments=JSON.stringify(S.tournaments);
+localStorage.huSettings=JSON.stringify(S.settings);
+localStorage.huRooms=JSON.stringify(S.rooms);
+localStorage.huDeposits=JSON.stringify(S.deposits);
+localStorage.huWithdrawals=JSON.stringify(S.withdrawals);
+localStorage.huNotifications=JSON.stringify(S.notifications);
+}
 
+function startCloudSync(){
+if(!cloudReady)return;
+
+cloudDB.collection("dhjiTournament").doc("state")
+.onSnapshot(snap=>{
+if(cloudWriting){
+cloudWriting=false;
+return;
+}
+
+if(snap.exists){
+cloudLoaded=true;
+applyCloudState(snap.data());
+}else{
+cloudLoaded=true;
+cloudDB.collection("dhjiTournament").doc("state")
+.set(cloudState())
+.catch(e=>console.error(e));
+}
+},error=>{
+console.error("Firestore realtime error",error);
+toast("Cloud connection error");
+});
+}
+
+function saveCloud(){
+if(!cloudReady||!cloudLoaded)return;
+
+cloudWriting=true;
+
+cloudDB.collection("dhjiTournament").doc("state")
+.set(cloudState())
+.then(()=>{
+cloudWriting=false;
+})
+.catch(e=>{
+cloudWriting=false;
+console.error(e);
+toast("Cloud save failed");
+});
+}
+
+function saveAll(){
+saveLocalOnly();
+saveCloud();
+}
 
 function toast(x){
-
 let t=document.getElementById("toast");
-
-t.innerText=x;t.style.display="block";
-
+t.innerText=x;
+t.style.display="block";
 setTimeout(()=>t.style.display="none",2500);
-
 }
-
-
 
 function unreadNotifications(){
-
 let u=currentUser;
-
 if(!u||u===ADMIN_ID)return 0;
 
-return S.notifications.filter(n=>(n.target==="all"||n.targetUsers?.includes(u))&&!n.readBy?.includes(u)).length;
-
+return S.notifications.filter(
+n=>(n.target==="all"||n.targetUsers?.includes(u))&&
+!n.readBy?.includes(u)
+).length;
 }
 
-
-
 function updateNotificationBadge(){
-
 let b=document.getElementById("notifyCount");
-
 if(!b)return;
 
 let n=unreadNotifications();
-
 b.innerText=n;
-
 b.classList.toggle("hidden",n===0);
-
 }
-
-
 
 function openNotifications(){
+if(!currentUser||currentUser===ADMIN_ID)
+return toast("User notification panel");
 
-if(!currentUser||currentUser===ADMIN_ID)return toast("User notification panel");
+let list=S.notifications
+.filter(n=>n.target==="all"||n.targetUsers?.includes(currentUser))
+.slice().reverse();
 
-let list=S.notifications.filter(n=>n.target==="all"||n.targetUsers?.includes(currentUser)).slice().reverse();
-
-notificationList.innerHTML=list.length?list.map(n=>`
-
+notificationList.innerHTML=list.length?
+list.map(n=>`
 <div class="noticeItem" style="${!n.readBy?.includes(currentUser)?'border-left:4px solid #e040ff;':''}">
-
 <b>📢 ${n.title}</b>
-
 <div style="margin-top:5px">${n.message}</div>
-
 <small style="color:#aaa;display:block;margin-top:7px">${n.date} • Admin Update</small>
-
-</div>`).join(""):"<p style='color:#aaa'>No notifications</p>";
+</div>`).join("")
+:"<p style='color:#aaa'>No notifications</p>";
 
 S.notifications.forEach(n=>{
-
-if((n.target==="all"||n.targetUsers?.includes(currentUser))){
-
+if(n.target==="all"||n.targetUsers?.includes(currentUser)){
 n.readBy=n.readBy||[];
-
 if(!n.readBy.includes(currentUser))n.readBy.push(currentUser);
-
 }
-
 });
 
-saveAll(); updateNotificationBadge();
-
+saveAll();
+updateNotificationBadge();
 notificationModal.classList.add("show");
-
 }
 
-
-
 function sendNotification(){
-
 let title=noteTitle.value.trim();
-
 let message=noteMessage.value.trim();
-
 let target=noteTarget.value;
-
 let tid=noteTournament.value.trim();
 
 if(!title||!message)return toast("Title aur message enter karein");
@@ -1135,945 +670,633 @@ if(!title||!message)return toast("Title aur message enter karein");
 let targetUsers=[];
 
 if(target==="joined"){
-
 if(!tid)return toast("Tournament ID enter karein");
 
-targetUsers=[...new Set(S.joined.filter(x=>String(x.tournamentId)===String(tid)).map(x=>x.userId))];
+targetUsers=[
+...new Set(
+S.joined
+.filter(x=>String(x.tournamentId)===String(tid))
+.map(x=>x.userId)
+)
+];
 
-if(!targetUsers.length)return toast("Is tournament me koi participant nahi");
-
+if(!targetUsers.length)
+return toast("Is tournament me koi participant nahi");
 }
 
 S.notifications.push({
-
 id:String(Date.now()),
-
 title,
-
 message,
-
 target,
-
 targetUsers,
-
 readBy:[],
-
 date:new Date().toLocaleString(),
-
 from:"ADMIN"
-
 });
 
 saveAll();
-
 updateNotificationBadge();
 
-noteTitle.value="";noteMessage.value="";noteTournament.value="";
+noteTitle.value="";
+noteMessage.value="";
+noteTournament.value="";
 
 renderAdmin();
-
 toast("Notification sent");
-
 }
 
-
-
 function show(id){
+if(currentUser===ADMIN_ID&&id!=="admin")
+return toast("Admin Panel only");
 
-if(currentUser===ADMIN_ID && id!=="admin")return toast("Admin Panel only");
-
-if(currentUser!==ADMIN_ID && id==="admin")return toast("Admin login required");
+if(currentUser!==ADMIN_ID&&id==="admin")
+return toast("Admin login required");
 
 if(!currentUser)return;
 
-
-
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
 let page=document.getElementById(id);
-
 if(page)page.classList.add("active");
 
 window.scrollTo(0,0);
-
 }
-
-
 
 function nav(id){
+document.querySelectorAll(".bottom button")
+.forEach(x=>x.classList.remove("active"));
 
-document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));
-
-if(document.getElementById(id))document.getElementById(id).classList.add("active");
-
+if(document.getElementById(id))
+document.getElementById(id).classList.add("active");
 }
-
-
 
 function navHome(){show("home");nav("nHome")}
-
 function navWallet(){show("wallet");nav("nWallet");update()}
-
 function navWinner(){show("winners");nav("nWinner")}
-
 function navProfile(){show("profile");nav("nProfile")}
 
-
-
 function openRegister(){
-
 document.getElementById("registerModal").classList.add("show");
-
 }
 
-
-
 function register(){
-
 let n=rName.value.trim();
-
 let m=rMobile.value.trim();
-
 let p=rPass.value;
 
-
-
 if(!n)return toast("Name enter karein");
-
-if(!/^\d{10}$/.test(m))return toast("10 digit mobile number enter karein");
-
-if(p.length<4)return toast("Password minimum 4 characters");
-
-
+if(!/^\d{10}$/.test(m))
+return toast("10 digit mobile number enter karein");
+if(p.length<4)
+return toast("Password minimum 4 characters");
 
 let id=m;
 
-if(S.users.some(x=>x.id===id))return toast("User already registered");
-
-
+if(S.users.some(x=>x.id===id))
+return toast("User already registered");
 
 S.users.push({
-
-id:id,name:n,mobile:m,password:p,banned:false,balance:0,created:new Date().toLocaleString()
-
+id:id,
+name:n,
+mobile:m,
+password:p,
+banned:false,
+balance:0,
+created:new Date().toLocaleString()
 });
 
-
-
 saveAll();
-
 closeM("registerModal");
 
 uid.value=id;
-
 pass.value=p;
 
 toast("Registration successful. User ID: "+id);
-
 }
 
-
-
 function doLogin(){
-
 let type=loginType.value;
-
 let id=uid.value.trim();
-
 let p=pass.value;
 
-
-
 if(type==="admin"){
-
-if(id===ADMIN_ID && p===ADMIN_PASS){
-
+if(id===ADMIN_ID&&p===ADMIN_PASS){
 currentUser=ADMIN_ID;
-
 localStorage.huUser=ADMIN_ID;
-
 loginOff();
 
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
 document.getElementById("admin").classList.add("active");
-
 renderAdmin();
-
 return;
-
 }
 
 return toast("Invalid Admin ID or Password");
-
 }
 
-
-
-/* USER LOGIN */
-
-if(id===ADMIN_ID){
-
+if(id===ADMIN_ID)
 return toast("Admin ID se User Panel open nahi hoga. Admin login type select karein.");
-
-}
-
-
 
 let u=S.users.find(x=>x.id===id&&x.password===p);
 
 if(!u)return toast("Invalid User ID or Password");
-
 if(u.banned)return toast("Your account is banned");
 
-
-
 currentUser=id;
-
 localStorage.huUser=id;
 
 loginOff();
 
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
 document.getElementById("home").classList.add("active");
 
 startUser();
-
 }
 
 function loginOff(){
-
 login.classList.add("hidden");
 
-
-
 if(currentUser===ADMIN_ID){
-
 app.classList.remove("hidden");
 
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
 document.getElementById("admin").classList.add("active");
-
 }else{
-
 app.classList.remove("hidden");
-
 }
-
 }
-
-
 
 function startUser(){
-
 let u=S.users.find(x=>x.id===currentUser);
 
 pname.innerText=u?u.name:currentUser;
-
 pid.innerText="User ID: "+currentUser;
 
 applySettings();
-
 renderGames();
-
 update();
-
 updateNotificationBadge();
-
 }
-
-
 
 function openAdmin(){
-
 loginOff();
-
 applySettings();
-
 renderGames();
-
 show("admin");
-
 renderAdmin();
-
 }
 
-
-
 function applySettings(){
-
 document.querySelectorAll(".logo").forEach(x=>{
-
 x.innerHTML=S.settings.logo.replace("ji","<span>ji</span>");
-
 });
 
 bannerTitle.innerHTML=S.settings.banner;
-
 }
-
-
 
 function renderGames(){
-
 games.innerHTML=defaultGames.map(g=>`
-
 <div class="game">
-
 <div class="icon">${g[0]}</div>
-
 <div class="gname">${g[1]}</div>
-
 <button onclick="openTournament('${g[1]}')">OPEN</button>
-
 </div>`).join("");
-
 }
-
-
 
 function openTournament(game){
-
 currentGame=game;
-
 tourName.innerText=game;
-
 show("tournament");
-
 renderTournament("ongoing");
-
 }
-
-
 
 function filterT(s,b){
-
-document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".tabs button")
+.forEach(x=>x.classList.remove("active"));
 
 b.classList.add("active");
-
 renderTournament(s);
-
 }
 
-
-
 function allTours(){
-
 let defaults=[
-
 {id:"23079",game:"FREE FIRE MAX",title:"FREE FIRE MAX MATCH",date:"2026-08-10 08:50 PM",type:"Squad",map:"BERMUDA",entry:10,kill:8,prize:380,status:"ongoing"},
-
 {id:"23080",game:"FREE FIRE MAX",title:"SURVIVAL MATCH",date:"2026-08-10 09:10 PM",type:"Squad",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"},
-
 {id:"23101",game:"HIGH PER KILL",title:"HIGH PER KILL",date:"2026-08-10 09:30 PM",type:"Squad",map:"BERMUDA",entry:20,kill:15,prize:700,status:"upcoming"},
-
 {id:"23110",game:"LONE WOLF 2.0",title:"LONE WOLF 2.0",date:"2026-08-10 10:00 PM",type:"Solo",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"},
-
 {id:"23120",game:"SURVIVAL MATCH",title:"SURVIVAL MATCH",date:"2026-08-10 10:20 PM",type:"Squad",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"},
-
 {id:"23130",game:"CLASH SQUAD",title:"CLASH SQUAD",date:"2026-08-10 10:40 PM",type:"Squad",map:"BERMUDA",entry:5,kill:4,prize:250,status:"upcoming"},
-
 {id:"23170",game:"BGMI",title:"BGMI MATCH",date:"2026-08-10 11:00 PM",type:"Squad",map:"ERANGEL",entry:20,kill:10,prize:800,status:"upcoming"}
-
 ];
 
 return defaults.concat(S.tournaments);
-
 }
-
-
 
 function renderTournament(status){
-
-let arr=allTours().filter(x=>x.game===currentGame&&x.status===status);
-
-
+let arr=allTours()
+.filter(x=>x.game===currentGame&&x.status===status);
 
 if(!arr.length){
-
 matches.innerHTML='<div class="box" style="text-align:center">No matches available</div>';
-
 return;
-
 }
-
-
 
 matches.innerHTML=arr.map(m=>`
-
 <div class="match">
-
 <h3>${m.title}</h3>
-
 <div class="muted">#${m.id} • ${m.date}</div>
-
 <div class="info">
-
 <div>🏆 Prize<b>₹${m.prize}</b></div>
-
 <div>⚔ Kill<b>₹${m.kill}</b></div>
-
 <div>💰 Entry<b>₹${m.entry}</b></div>
-
 <div>Type<b>${m.type}</b></div>
-
 <div>Map<b>${m.map}</b></div>
-
 <div>👥 Users<b>${participants(m.id)}</b></div>
-
 </div>
-
 <button class="btn" onclick='details(${JSON.stringify(m)})'>
-
 ${status==="result"?"VIEW RESULT":"VIEW / JOIN"}
-
 </button>
-
 </div>`).join("");
-
 }
-
-
 
 function participants(id){
-
-return S.joined.filter(x=>String(x.tournamentId)===String(id)).length;
-
+return S.joined.filter(
+x=>String(x.tournamentId)===String(id)
+).length;
 }
 
-
-
 function details(m){
-
 current=m;
 
 dt.innerText=m.title;
-
 dd.innerText=m.date;
 
 detailData.innerHTML=`
-
 <div class="tx"><span>Type</span><b>${m.type}</b></div>
-
 <div class="tx"><span>Map</span><b>${m.map}</b></div>
-
 <div class="tx"><span>Entry Fee</span><b>₹${m.entry}</b></div>
-
 <div class="tx"><span>Prize Pool</span><b>₹${m.prize}</b></div>
-
 <div class="tx"><span>Per Kill</span><b>₹${m.kill}</b></div>
-
 <div class="tx"><span>Participants</span><b>${participants(m.id)}</b></div>
+<div class="notice">
+<b>👥 Participant List</b><br>
+${S.joined.filter(x=>String(x.tournamentId)===String(m.id)).length?
+S.joined
+.filter(x=>String(x.tournamentId)===String(m.id))
+.map((x,i)=>`${i+1}. ${x.name} (${x.gameId})`)
+.join("<br>"):
+"No participants yet"}
+</div>
 
-<div class="notice"><b>👥 Participant List</b><br>${S.joined.filter(x=>String(x.tournamentId)===String(m.id)).length?
-
-S.joined.filter(x=>String(x.tournamentId)===String(m.id)).map((x,i)=>`${i+1}. ${x.name} (${x.gameId})`).join("<br>"):
-
-"No participants yet"}</div>
-
-${(currentUser!==ADMIN_ID&&S.joined.some(x=>String(x.tournamentId)===String(m.id)&&x.userId===currentUser)&&S.rooms[m.id])?
-
-`<div class="notice">🔐 Room details for participants only<br>Room ID: <b>${S.rooms[m.id].id}</b><br>Room Password: <b>${S.rooms[m.id].pass}</b></div>`:""}
-
+${currentUser!==ADMIN_ID&&
+S.joined.some(x=>String(x.tournamentId)===String(m.id)&&x.userId===currentUser)&&
+S.rooms[m.id]?
+`<div class="notice">
+🔐 Room details for participants only<br>
+Room ID: <b>${S.rooms[m.id].id}</b><br>
+Room Password: <b>${S.rooms[m.id].pass}</b>
+</div>`:""}
 `;
 
-joinBtn.style.display=m.status==="result"?"none":"block";
+joinBtn.style.display=
+m.status==="result"?"none":"block";
 
 show("details");
-
 }
-
-
 
 function joinOpen(){
-
 if(!current)return;
 
-if(!currentUser||currentUser===ADMIN_ID)return toast("User login required");
+if(!currentUser||currentUser===ADMIN_ID)
+return toast("User login required");
 
-if(current.status==="result")return toast("Result match join nahi ho sakta");
+if(current.status==="result")
+return toast("Result match join nahi ho sakta");
 
 jName.value="";
-
 jGameId.value="";
-
 joinModal.classList.add("show");
-
 }
 
-
-
 function joinTournament(){
-
 let n=jName.value.trim();
-
 let gid=jGameId.value.trim();
 
+if(!n||!gid)
+return toast("Name aur Game User ID enter karein");
 
+if(S.balance<Number(current.entry))
+return toast("Wallet balance kam hai");
 
-if(!n||!gid)return toast("Name aur Game User ID enter karein");
-
-if(S.balance<Number(current.entry))return toast("Wallet balance kam hai");
-
-
-
-if(S.joined.some(x=>x.tournamentId===current.id&&x.userId===currentUser))
-
+if(S.joined.some(
+x=>x.tournamentId===current.id&&x.userId===currentUser
+))
 return toast("Already joined");
-
-
 
 S.balance-=Number(current.entry);
 
-
-
 S.joined.push({
-
 tournamentId:current.id,
-
 title:current.title,
-
 userId:currentUser,
-
 name:n,
-
 gameId:gid,
-
 entry:Number(current.entry),
-
 date:new Date().toLocaleString()
-
 });
-
-
 
 S.history.push({
-
 type:"Tournament Entry #"+current.id,
-
 amount:-Number(current.entry),
-
 date:new Date().toLocaleString()
-
 });
 
-
-
 saveAll();
-
 closeM("joinModal");
-
 update();
-
 details(current);
 
 toast("Join successful");
-
 }
 
-
-
 function addOpen(){
-
 addAmount.value="";
-
 upiText.innerText=S.settings.upi;
-
 payNameText.innerText=S.settings.payName||"Dh.ji Payments";
 
 qrArea.innerHTML=S.settings.qr?
-
 `<img src="${S.settings.qr}" alt="QR">`:
-
 `<div style="font-size:60px">▣</div><b>QR not configured</b>`;
 
 addModal.classList.add("show");
-
 startTimer();
-
 }
 
-
-
 function startTimer(){
-
 clearInterval(timerInterval);
 
 let sec=30;
-
 timer.innerText=sec;
 
 timerInterval=setInterval(()=>{
-
 sec--;
-
 timer.innerText=sec;
 
 if(sec<=0){
-
 clearInterval(timerInterval);
-
 toast("Payment window expired");
-
 }
-
 },1000);
-
 }
-
-
 
 function copyUPI(){
-
 navigator.clipboard?.writeText(S.settings.upi);
-
 toast("UPI copied");
-
 }
 
-
-
 function startPayment(){
-
 let a=Number(addAmount.value);
 
-if(a<30)return toast("Minimum Add Money ₹30");
+if(a<30)
+return toast("Minimum Add Money ₹30");
 
-if(!currentUser||currentUser===ADMIN_ID)return toast("User login required");
-
-
+if(!currentUser||currentUser===ADMIN_ID)
+return toast("User login required");
 
 S.deposits.push({
-
-id:String(Date.now()),userId:currentUser,
-
-amount:a,upi:S.settings.upi,status:"pending",
-
+id:String(Date.now()),
+userId:currentUser,
+amount:a,
+upi:S.settings.upi,
+status:"pending",
 date:new Date().toLocaleString()
-
 });
 
 saveAll();
 
-
-
-let url="upi://pay?pa="+encodeURIComponent(S.settings.upi)+
-
+let url="upi://pay?pa="+
+encodeURIComponent(S.settings.upi)+
 "&pn="+encodeURIComponent(S.settings.payName||"Dh.ji")+
-
 "&am="+a.toFixed(2)+"&cu=INR";
 
-
-
 location.href=url;
-
 toast("Add Money request saved. Payment verify hone ke baad admin balance credit karega.");
-
 }
-
-
 
 function withdrawOpen(){
-
 wAmount.value="";
-
 wUpi.value="";
-
 withdrawModal.classList.add("show");
-
 }
 
-
-
 function withdraw(){
-
 let a=Number(wAmount.value);
-
 let u=wUpi.value.trim();
 
-
-
 if(a<=0)return toast("Valid amount enter karein");
-
 if(!u)return toast("Bank / UPI enter karein");
-
 if(a>S.balance)return toast("Insufficient balance");
 
-
-
 S.balance-=a;
-
-
 
 let wid=String(Date.now());
 
 S.withdrawals.push({
-
-id:wid,userId:currentUser,amount:a,upi:u,status:"pending",
-
+id:wid,
+userId:currentUser,
+amount:a,
+upi:u,
+status:"pending",
 date:new Date().toLocaleString()
-
 });
 
 S.history.push({
-
 type:"Withdrawal #"+wid,
-
-amount:-a,upi:u,status:"Processing - up to 20 min",
-
+amount:-a,
+upi:u,
+status:"Processing - up to 20 min",
 date:new Date().toLocaleString()
-
 });
 
-
-
 saveAll();
-
 closeM("withdrawModal");
-
 update();
 
 toast("Withdrawal submitted. Processing up to 20 minutes.");
-
 }
 
-
-
 function update(){
-
-document.querySelectorAll(".bal").forEach(x=>x.innerText=S.balance.toFixed(2));
+document.querySelectorAll(".bal")
+.forEach(x=>x.innerText=S.balance.toFixed(2));
 
 balance.innerText=S.balance.toFixed(2);
 
-
-
 history.innerHTML=S.history.length?
-
 S.history.slice().reverse().map(x=>`
-
 <div class="tx">
-
 <span>${x.type}<br><small>${x.date}</small></span>
-
-<b class="${x.amount>=0?'plus':'minus'}">${x.amount>=0?'+':'-'}₹${Math.abs(x.amount).toFixed(2)}</b>
-
-</div>`).join(""):
-
-"<p style='color:#aaa'>No transactions</p>";
-
+<b class="${x.amount>=0?'plus':'minus'}">
+${x.amount>=0?'+':'-'}₹${Math.abs(x.amount).toFixed(2)}
+</b>
+</div>`).join("")
+:"<p style='color:#aaa'>No transactions</p>";
 }
 
-
-
 function profileInfo(){
-
 let u=S.users.find(x=>x.id===currentUser);
 
 info("My Profile",`
-
 Name: ${u?.name||currentUser}<br>
-
 User ID: ${currentUser}<br>
-
 Mobile: ${u?.mobile||"-"}<br>
-
 Balance: ₹${S.balance.toFixed(2)}<br>
-
 Joined Tournaments: ${S.joined.filter(x=>x.userId===currentUser).length}<br>
-
 Add Money Requests: ${S.deposits.filter(x=>x.userId===currentUser).length}<br>
-
 Withdrawal Requests: ${S.withdrawals.filter(x=>x.userId===currentUser).length}
-
 `);
-
 }
-
-
 
 function myMatches(){
-
 let a=S.joined.filter(x=>x.userId===currentUser);
 
-info("My Matches",a.length?a.map(x=>`
-
+info(
+"My Matches",
+a.length?
+a.map(x=>`
 <div class="list">
-
 <b>${x.title}</b><br>
-
 User ID: ${x.userId}<br>
-
 Game ID: ${x.gameId}<br>
-
 Entry: ₹${x.entry}<br>
-
 Date: ${x.date}
-
-${S.rooms[x.tournamentId]?`<br><br>Room ID: ${S.rooms[x.tournamentId].id}<br>Room Password: ${S.rooms[x.tournamentId].pass}`:""}
-
-</div>`).join(""):"No joined tournament");
-
+${S.rooms[x.tournamentId]?
+`<br><br>Room ID: ${S.rooms[x.tournamentId].id}<br>
+Room Password: ${S.rooms[x.tournamentId].pass}`:""}
+</div>`).join("")
+:"No joined tournament"
+);
 }
 
-
-
 function createTournament(){
-
 let m={
-
 id:String(Date.now()),
-
 game:newGame.value,
-
 title:newTitle.value.trim()||"New Tournament",
-
 date:newDate.value||"To Be Announced",
-
 type:newType.value||"Squad",
-
 map:newMap.value||"BERMUDA",
-
 entry:Number(newEntry.value||0),
-
 kill:Number(newKill.value||0),
-
 prize:Number(newPrize.value||0),
-
 status:newStatus.value
-
 };
-
-
 
 S.tournaments.push(m);
 
 saveAll();
-
 renderAdmin();
 
 toast("Tournament created");
-
 }
 
-
-
 function saveRoom(){
-
 let id=roomTid.value.trim();
 
 if(!id)return toast("Tournament ID enter karein");
 
-S.rooms[id]={id:roomId.value.trim(),pass:roomPass.value.trim()};
+S.rooms[id]={
+id:roomId.value.trim(),
+pass:roomPass.value.trim()
+};
 
 saveAll();
-
 toast("Room details saved");
-
 }
 
-
-
 function testPayment(){
-
 let upi=(setUpi.value||"").trim();
 
 if(!upi)return toast("Payment UPI ID enter karein");
 
 let name=(setPayName.value||"Dh.ji Payments").trim();
 
-let url="upi://pay?pa="+encodeURIComponent(upi)+
-
+let url="upi://pay?pa="+
+encodeURIComponent(upi)+
 "&pn="+encodeURIComponent(name)+
-
 "&am=30.00&cu=INR";
 
 location.href=url;
-
 }
 
-
-
 function saveSettings(){
-
 S.settings.logo=setLogo.value.trim()||"Dh.ji";
-
 S.settings.banner=setBanner.value.trim()||"BATTLE OP";
-
 S.settings.payName=setPayName.value.trim()||"Dh.ji Payments";
-
 S.settings.upi=setUpi.value.trim()||"9351881703-1@fam";
-
 S.settings.qr=setQr.value.trim();
 
 saveAll();
-
 applySettings();
-
 renderGames();
 
 toast("Settings saved");
-
 }
-
-
 
 function renderDeposits(){
-
-depositList.innerHTML=S.deposits.length?S.deposits.slice().reverse().map(d=>`
-
+depositList.innerHTML=S.deposits.length?
+S.deposits.slice().reverse().map(d=>`
 <div class="list">
-
 <b>₹${Number(d.amount).toFixed(2)}</b><br>
-
 User ID: ${d.userId}<br>
-
 UPI: ${d.upi}<br>
-
-Status: <span class="${d.status==="pending"?"statusPending":d.status==="approved"?"statusApproved":"statusRejected"}">${d.status.toUpperCase()}</span><br>
-
+Status:
+<span class="${d.status==="pending"?"statusPending":d.status==="approved"?"statusApproved":"statusRejected"}">
+${d.status.toUpperCase()}
+</span><br>
 Date: ${d.date}<br>
-
-${d.status==="pending"?`<button class="smallbtn ok" onclick="approveDeposit('${d.id}')">APPROVE / CREDIT</button>
-
-<button class="smallbtn danger" onclick="rejectDeposit('${d.id}')">REJECT</button>`:""}
-
-</div>`).join(""):"No add money requests";
-
+${d.status==="pending"?
+`<button class="smallbtn ok" onclick="approveDeposit('${d.id}')">
+APPROVE / CREDIT
+</button>
+<button class="smallbtn danger" onclick="rejectDeposit('${d.id}')">
+REJECT
+</button>`:""}
+</div>`).join("")
+:"No add money requests";
 }
-
-
 
 function renderWithdrawals(){
-
-withdrawList.innerHTML=S.withdrawals.length?S.withdrawals.slice().reverse().map(w=>`
-
+withdrawList.innerHTML=S.withdrawals.length?
+S.withdrawals.slice().reverse().map(w=>`
 <div class="list">
-
 <b>₹${Number(w.amount).toFixed(2)}</b><br>
-
 User ID: ${w.userId}<br>
-
 Bank / UPI: ${w.upi}<br>
-
-Status: <span class="${w.status==="pending"?"statusPending":w.status==="approved"?"statusApproved":"statusRejected"}">${w.status.toUpperCase()}</span><br>
-
+Status:
+<span class="${w.status==="pending"?"statusPending":w.status==="approved"?"statusApproved":"statusRejected"}">
+${w.status.toUpperCase()}
+</span><br>
 Date: ${w.date}<br>
-
-${w.status==="pending"?`<button class="smallbtn ok" onclick="approveWithdrawal('${w.id}')">MARK PAID</button>
-
-<button class="smallbtn danger" onclick="rejectWithdrawal('${w.id}')">REJECT / REFUND</button>`:""}
-
-</div>`).join(""):"No withdrawal requests";
-
+${w.status==="pending"?
+`<button class="smallbtn ok" onclick="approveWithdrawal('${w.id}')">
+MARK PAID
+</button>
+<button class="smallbtn danger" onclick="rejectWithdrawal('${w.id}')">
+REJECT / REFUND
+</button>`:""}
+</div>`).join("")
+:"No withdrawal requests";
 }
 
-
-
 function approveDeposit(id){
-
 let d=S.deposits.find(x=>x.id===id);
 
 if(!d||d.status!=="pending")return;
@@ -2084,48 +1307,47 @@ if(!u)return toast("User not found");
 
 d.status="approved";
 
-if(d.userId===currentUser)S.balance+=Number(d.amount);
-
-else{
-
+if(d.userId===currentUser)
+S.balance+=Number(d.amount);
+else
 u.balance=Number(u.balance||0)+Number(d.amount);
 
-}
-
-S.history.push({type:"Add Money #"+id,amount:Number(d.amount),date:new Date().toLocaleString()});
-
-S.notifications.push({
-
-id:String(Date.now()),title:"Add Money Approved",
-
-message:"₹"+Number(d.amount).toFixed(2)+" add money request approved.",
-
-target:"all",targetUsers:[d.userId],readBy:[],date:new Date().toLocaleString()
-
+S.history.push({
+type:"Add Money #"+id,
+amount:Number(d.amount),
+date:new Date().toLocaleString()
 });
 
-saveAll();renderAdmin();toast("Add Money approved");
+S.notifications.push({
+id:String(Date.now()),
+title:"Add Money Approved",
+message:"₹"+Number(d.amount).toFixed(2)+" add money request approved.",
+target:"all",
+targetUsers:[d.userId],
+readBy:[],
+date:new Date().toLocaleString()
+});
 
+saveAll();
+renderAdmin();
+
+toast("Add Money approved");
 }
 
-
-
 function rejectDeposit(id){
-
 let d=S.deposits.find(x=>x.id===id);
 
 if(!d||d.status!=="pending")return;
 
 d.status="rejected";
 
-saveAll();renderAdmin();toast("Add Money request rejected");
+saveAll();
+renderAdmin();
 
+toast("Add Money request rejected");
 }
 
-
-
 function approveWithdrawal(id){
-
 let w=S.withdrawals.find(x=>x.id===id);
 
 if(!w||w.status!=="pending")return;
@@ -2133,23 +1355,22 @@ if(!w||w.status!=="pending")return;
 w.status="approved";
 
 S.notifications.push({
-
-id:String(Date.now()),title:"Withdrawal Update",
-
+id:String(Date.now()),
+title:"Withdrawal Update",
 message:"Withdrawal ₹"+Number(w.amount).toFixed(2)+" marked as paid.",
-
-target:"all",targetUsers:[w.userId],readBy:[],date:new Date().toLocaleString()
-
+target:"all",
+targetUsers:[w.userId],
+readBy:[],
+date:new Date().toLocaleString()
 });
 
-saveAll();renderAdmin();toast("Withdrawal marked paid");
+saveAll();
+renderAdmin();
 
+toast("Withdrawal marked paid");
 }
 
-
-
 function rejectWithdrawal(id){
-
 let w=S.withdrawals.find(x=>x.id===id);
 
 if(!w||w.status!=="pending")return;
@@ -2158,94 +1379,69 @@ w.status="rejected";
 
 let u=S.users.find(x=>x.id===w.userId);
 
-if(u)u.balance=Number(u.balance||0)+Number(w.amount);
+if(u)
+u.balance=Number(u.balance||0)+Number(w.amount);
 
-if(w.userId===currentUser)S.balance+=Number(w.amount);
+if(w.userId===currentUser)
+S.balance+=Number(w.amount);
 
 S.notifications.push({
-
-id:String(Date.now()),title:"Withdrawal Rejected",
-
+id:String(Date.now()),
+title:"Withdrawal Rejected",
 message:"Withdrawal ₹"+Number(w.amount).toFixed(2)+" rejected and refunded.",
-
-target:"all",targetUsers:[w.userId],readBy:[],date:new Date().toLocaleString()
-
+target:"all",
+targetUsers:[w.userId],
+readBy:[],
+date:new Date().toLocaleString()
 });
 
-saveAll();renderAdmin();toast("Withdrawal rejected and refunded");
+saveAll();
+renderAdmin();
 
+toast("Withdrawal rejected and refunded");
 }
 
-
-
 function renderAdmin(){
-
 setLogo.value=S.settings.logo;
-
 setBanner.value=S.settings.banner;
-
 setPayName.value=S.settings.payName||"Dh.ji Payments";
-
 setUpi.value=S.settings.upi;
-
 setQr.value=S.settings.qr;
 
-
-
 usersList.innerHTML=S.users.length?
-
 S.users.map(u=>`
-
 <div class="list">
-
 <b>${u.name}</b><br>
-
 User ID: ${u.id}<br>
-
 Mobile: ${u.mobile}<br>
-
 Status: ${u.banned?"BANNED":"ACTIVE"}<br>
-
-<button class="smallbtn ${u.banned?'ok':'danger'}" onclick="toggleBan('${u.id}')">
-
+<button class="smallbtn ${u.banned?'ok':'danger'}"
+onclick="toggleBan('${u.id}')">
 ${u.banned?"UNBAN":"BAN USER"}
-
 </button>
-
-</div>`).join(""):"No registered users";
-
-
+</div>`).join("")
+:"No registered users";
 
 renderDeposits();
-
 renderWithdrawals();
 
 adminTours.innerHTML=allTours().map(t=>`
-
 <div class="list">
-
 <b>${t.title}</b><br>
-
 ID: ${t.id}<br>
-
 Game: ${t.game}<br>
-
 Participants: ${participants(t.id)}<br>
-
 Status: ${t.status}<br>
-
 ${S.tournaments.some(x=>x.id===t.id)?
-
-`<button class="smallbtn danger" onclick="deleteTournament('${t.id}')">DELETE</button>`:"Default Tournament"}
-
+`<button class="smallbtn danger"
+onclick="deleteTournament('${t.id}')">
+DELETE
+</button>`:
+"Default Tournament"}
 </div>`).join("");
-
 }
 
-
-
 function toggleBan(id){
-
 let u=S.users.find(x=>x.id===id);
 
 if(!u)return;
@@ -2253,92 +1449,60 @@ if(!u)return;
 u.banned=!u.banned;
 
 saveAll();
-
 renderAdmin();
 
 toast(u.banned?"User banned":"User unbanned");
-
 }
 
-
-
 function deleteTournament(id){
-
-S.tournaments=S.tournaments.filter(x=>x.id!==id);
+S.tournaments=S.tournaments.filter(
+x=>x.id!==id
+);
 
 saveAll();
-
 renderAdmin();
 
 toast("Tournament deleted");
-
 }
-
-
 
 function info(t,b){
-
 infoTitle.innerText=t;
-
 infoBody.innerHTML=b;
-
 infoModal.classList.add("show");
-
 }
-
-
 
 function closeM(id){
-
 document.getElementById(id).classList.remove("show");
-
 }
-
-
 
 function adminLogout(){
-
 currentUser="";
-
 localStorage.removeItem("huUser");
 
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
+document.getElementById("admin")
+.classList.remove("active");
 
-/* Return to the login screen and keep all saved app data intact */
+document.getElementById("app")
+.classList.add("hidden");
 
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-
-document.getElementById("admin").classList.remove("active");
-
-document.getElementById("app").classList.add("hidden");
-
-document.getElementById("login").classList.remove("hidden");
+document.getElementById("login")
+.classList.remove("hidden");
 
 toast("Admin logged out");
-
 }
-
-
 
 function logout(){
-
 localStorage.removeItem("huUser");
-
 location.reload();
-
 }
 
-
-
 window.addEventListener("load",()=>{
-
 applySettings();
-
 renderGames();
-
 startCloudSync();
-
-
 
 if(currentUser){
 
@@ -2346,9 +1510,11 @@ if(currentUser===ADMIN_ID){
 
 loginOff();
 
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
-document.getElementById("admin").classList.add("active");
+document.getElementById("admin")
+.classList.add("active");
 
 renderAdmin();
 
@@ -2360,34 +1526,23 @@ if(u&&!u.banned){
 
 loginOff();
 
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
-document.getElementById("home").classList.add("active");
+document.getElementById("home")
+.classList.add("active");
 
 startUser();
 
 }else{
 
 localStorage.removeItem("huUser");
-
 currentUser="";
-
 }
-
 }
-
 }
-
-}); 
-
+});
 </script>
 
-
-
 </body>
-
-</html>                                                                                                                                         ab ek dam shi bna bhai 
-
-
-
-Dharmendra Choudhary my contact 
+</html>
