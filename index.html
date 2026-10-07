@@ -1,1045 +1,733 @@
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.ui.components.DhButton
-import com.example.ui.components.StatPill
-import com.example.ui.theme.*
-import com.example.ui.viewmodel.HappyUserViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HappyUser</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#16051f;color:#fff}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-@Composable
-fun DetailsScreen(
-    viewModel: HappyUserViewModel,
-    modifier: Modifier = Modifier
-) {
-    val context = LocalContext.current
-    val tournament by viewModel.selectedTournamentDetails.collectAsState()
-    val cloudState by viewModel.cloudState.collectAsState()
-    val currentUser by viewModel.currentUser.collectAsState()
-
-    if (tournament == null) {
-        Box(
-            modifier = modifier.fillMaxSize().background(DhDarkBg),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("No tournament selected", color = DhTextWhite)
-        }
-        return
-    }
-
-    val currentTournament = tournament!!
-    val room = cloudState.rooms[currentTournament.id]
-    val joinedList = cloudState.joined.filter { it.tournamentId == currentTournament.id }
-    val isUserJoined = joinedList.any { it.userId == currentUser }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DhDarkBg)
-            .verticalScroll(rememberScrollState())
-            .padding(14.dp)
-    ) {
-        // Back Button & Title
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 12.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(36.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF280B37))
-                    .clickable { viewModel.navigateTo("TOURNAMENT") },
-                contentAlignment = Alignment.Center
-            ) {
-                Text("‹", color = DhTextWhite, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "Match Overview",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = DhTextWhite
-            )
-        }
-
-        // Main Match Details Card
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = DhCardDarker),
-            border = BorderStroke(1.dp, DhBorderPurple),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = currentTournament.game.uppercase(),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = DhLogoMagenta
-                )
-                Text(
-                    text = currentTournament.title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = DhTextWhite,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-                Text(
-                    text = "⏰ Schedule: ${currentTournament.date}",
-                    fontSize = 12.sp,
-                    color = DhGold
-                )
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    StatPill(label = "Entry Fee", value = "₹${currentTournament.entry.toInt()}", modifier = Modifier.weight(1f))
-                    StatPill(label = "Per Kill", value = "₹${currentTournament.kill.toInt()}", modifier = Modifier.weight(1f))
-                    StatPill(label = "Win Prize", value = "₹${currentTournament.prize.toInt()}", modifier = Modifier.weight(1f))
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(14.dp))
-
-        // Live Room Credentials Box (Visible to joined users or admin)
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF280A38)),
-            border = BorderStroke(1.dp, DhGold),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "🔐 Live Custom Room ID & Password",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = DhGold
-                )
-
-                if (isUserJoined) {
-                    if (room != null && room.id.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column {
-                                Text("ROOM ID: ${room.id}", color = DhTextWhite, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                                Text("PASSWORD: ${room.pass}", color = DhTextWhite, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                            }
-                            Button(
-                                onClick = {
-                                    viewModel.copyToClipboard("Room ID: ${room.id}, Pass: ${room.pass}", "Room Details", context)
-                                },
-                                colors = ButtonDefaults.buttonColors(containerColor = DhActiveTabPurple)
-                            ) {
-                                Text("COPY", color = Color.White, fontSize = 11.sp)
-                            }
-                        }
-                    } else {
-                        Text(
-                            text = "Room ID & Password will be published 15 minutes before match time.",
-                            fontSize = 12.sp,
-                            color = DhTextMuted,
-                            modifier = Modifier.padding(top = 6.dp)
-                        )
-                    }
-                } else {
-                    Text(
-                        text = "Join this tournament to unlock Live Room ID and Password.",
-                        fontSize = 12.sp,
-                        color = DhTextMuted,
-                        modifier = Modifier.padding(top = 6.dp)
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Joined Players List
-        Text(
-            text = "👥 Registered Players (${joinedList.size})",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = DhTextWhite
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        if (joinedList.isEmpty()) {
-            Text("No players joined yet. Be the first!", color = DhTextMuted, fontSize = 12.sp)
-        } else {
-            joinedList.forEachIndexed { index, player ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 6.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(DhCardDarker)
-                        .padding(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("#${index + 1} ${player.name}", color = DhTextWhite, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                        Text("UID: ${player.gameId}", color = DhGold, fontSize = 11.sp)
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        if (!isUserJoined && currentTournament.status == "ongoing") {
-            DhButton(
-                text = "JOIN MATCH NOW (₹${currentTournament.entry.toInt()})",
-                onClick = { viewModel.setShowJoinDialog(true) }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
-    }
+#login{
+ min-height:100vh;padding:100px 22px 30px;
+ background:linear-gradient(#6939e9,#260934,#100311)
 }
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.ui.theme.*
-import com.example.ui.viewmodel.HappyUserViewModel
-
-@Composable
-fun WinnersScreen(
-    viewModel: HappyUserViewModel,
-    modifier: Modifier = Modifier
-) {
-    val cloudState by viewModel.cloudState.collectAsState()
-    val completedTournaments = cloudState.tournaments.filter { it.status == "result" }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DhDarkBg)
-            .verticalScroll(rememberScrollState())
-            .padding(14.dp)
-    ) {
-        Text(
-            text = "👑 Tournament Hall of Fame & Results",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = DhTextWhite
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        if (completedTournaments.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 40.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("🏆", fontSize = 40.sp)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("No Completed Match Results Yet", color = DhTextWhite, fontWeight = FontWeight.Bold)
-                    Text("Results will appear here after matches finish", color = DhTextMuted, fontSize = 12.sp)
-                }
-            }
-        } else {
-            completedTournaments.forEach { t ->
-                Card(
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = DhCardDarker),
-                    border = BorderStroke(1.dp, DhBorderPurple),
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
-                ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Text(t.title, color = DhTextWhite, fontSize = 15.sp, fontWeight = FontWeight.Bold)
-                        Text("Game: ${t.game} • Date: ${t.date}", color = DhTextMuted, fontSize = 11.sp)
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(0xFF280B37))
-                                .padding(10.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("🥇", fontSize = 20.sp)
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Winner Declared", color = DhGold, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                                }
-                                Text("Prize: ₹${t.prize.toInt()}", color = DhGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
-    }
+.card{
+ max-width:470px;margin:auto;padding:28px;
+ background:#160b1d;border:1px solid #542263;
+ border-radius:26px;box-shadow:0 15px 45px #0008
 }
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.ui.components.DhButton
-import com.example.ui.theme.*
-import com.example.ui.viewmodel.HappyUserViewModel
+.logo{text-align:center;font-size:42px;font-weight:800}
+.logo span{color:#c637e9}
+.sub{text-align:center;color:#aaa;margin:8px 0 25px}
+label{display:block;margin:14px 0 7px}
+input,select{
+ width:100%;padding:15px;border-radius:12px;
+ border:1px solid #592768;background:#0c0710;color:#fff;outline:0
+}
+.btn{
+ width:100%;padding:15px;margin-top:14px;border:0;border-radius:12px;
+        background:linear-gradient(90deg,#7620ca,#c12de2);color:#fff;font-weight:bold
+}
+.dark{background:#35243d}
+.link{text-align:center;color:#db70ff;text-decoration:underline;margin-top:22px;display:block}
 
-@Composable
-fun ProfileScreen(
-    viewModel: HappyUserViewModel,
-    modifier: Modifier = Modifier
-) {
-    val currentUser by viewModel.currentUser.collectAsState()
-    val cloudState by viewModel.cloudState.collectAsState()
-    val userInfo = cloudState.users.find { it.id == currentUser }
+#app{min-height:100vh;padding-bottom:75px}
+.top{
+ height:76px;padding:0 17px;display:flex;align-items:center;
+ justify-content:space-between;background:#21062d;position:sticky;top:0;z-index:20
+}
+.top .logo{font-size:27px}
+.coin{background:#35104b;border:1px solid #6c3283;border-radius:22px;padding:9px 13px}
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DhDarkBg)
-            .verticalScroll(rememberScrollState())
-            .padding(14.dp)
-    ) {
-        Text(
-            text = "👤 Player Profile",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = DhTextWhite
-        )
+.page{display:none}.page.active{display:block}
 
-        Spacer(modifier = Modifier.height(14.dp))
-
-        // Profile Card
-        Card(
-            shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(containerColor = DhCardDarker),
-            border = BorderStroke(1.5.dp, DhBorderPurple),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .clip(CircleShape)
-                        .background(DhActiveTabPurple),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("🎮", fontSize = 32.sp)
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Text(
-                    text = userInfo?.name?.ifBlank { "Pro Gamer" } ?: "Pro Gamer",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = DhTextWhite
-                )
-
-                Text(
-                    text = "Mobile: ${currentUser ?: "Guest"}",
-                    fontSize = 12.sp,
-                    color = DhTextMuted
-                )
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    ProfileStatBox(title = "Wallet Balance", value = "₹${userInfo?.balance?.toInt() ?: 0}", modifier = Modifier.weight(1f))
-                    ProfileStatBox(title = "Status", value = "Verified", modifier = Modifier.weight(1f))
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(18.dp))
-
-        // Options List
-        ProfileMenuItem("📜 Rules & Fair Play Regulations") {
-            viewModel.showInfoDialog(
-                "📜 Rules & Regulations",
-                "1. Hacking, teaming or using third-party scripts will result in an immediate permaban.\n2. Room ID & Password will be available 15 minutes before the match start time.\n3. Make sure your In-Game Name matches your registration details."
-            )
-        }
-
-        ProfileMenuItem("💬 Customer Support & Help") {
-            viewModel.showInfoDialog(
-                "💬 Customer Support",
-                "For any deposit or tournament queries, contact Official Dh.ji Support via WhatsApp / Telegram or call us directly at 9351881703."
-            )
-        }
-
-        ProfileMenuItem("🛡️ About Dh.ji eSports") {
-            viewModel.showInfoDialog(
-                "🛡️ About Dh.ji",
-                "Dh.ji is India's leading daily eSports tournament platform for Free Fire Max, BGMI, and Lone Wolf."
-            )
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        DhButton(
-            text = "LOGOUT ACCOUNT",
-            onClick = { viewModel.logout() },
-            isDark = true
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-    }
+.banner{
+ margin:15px;height:190px;border-radius:18px;
+ background:#eee;color:#111;position:relative;overflow:hidden
+}
+.banner h1{position:absolute;left:18px;top:18px;font-size:34px;font-style:italic}
+.banner h1 span{color:#d00}
+.rules{position:absolute;left:18px;bottom:15px;font-size:12px;font-weight:bold;line-height:22px}
+.character{position:absolute;right:20px;top:25px;font-size:90px}
+.dots{text-align:center}.dots i{
+ display:inline-block;width:9px;height:9px;background:#777;border-radius:50%;margin:4px
+}.dots i:first-child{background:#fff}
+        heading{font-size:27px;font-weight:bold;padding:18px 20px 12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
+.game{
+ height:170px;border:2px solid #9d75aa;border-radius:14px;
+ position:relative;overflow:hidden;background:linear-gradient(135deg,#41007b,#ffb900)
+}
+.game:nth-child(2){background:linear-gradient(135deg,#041c6e,#1766dc)}
+.game:nth-child(3){background:linear-gradient(135deg,#8d1862,#ffd52e)}
+.game:nth-child(4){background:linear-gradient(135deg,#087c58,#68c63c)}
+.game:nth-child(5){background:linear-gradient(135deg,#061d70,#078cff)}
+.game:nth-child(6){background:linear-gradient(135deg,#59106b,#ff791e)}
+.game:nth-child(7){background:linear-gradient(135deg,#087342,#65bc35)}
+.game:nth-child(8){background:linear-gradient(135deg,#420617,#dc422f)}
+.game:nth-child(9){background:linear-gradient(135deg,#8a1b11,#ff9c18)}
+.game:nth-child(10),.game:nth-child(11){background:#08791c}
+.game:nth-child(12){background:#eee;color:#111}
+.game .icon{text-align:center;font-size:43px;font-weight:900;margin-top:28px}
+.game .name{
+ position:absolute;bottom:37px;left:3px;right:3px;
+        text-align:center;font-size:12px;font-weight:bold;text-shadow:2px 2px 4px #000
+}
+.game button{
+ position:absolute;bottom:5px;left:10%;width:80%;
+ border:0;border-radius:8px;padding:6px;background:#7919c6;color:#fff;font-weight:bold
 }
 
-@Composable
-fun ProfileStatBox(title: String, value: String, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFF230D2E))
-            .padding(10.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(title, color = DhTextMuted, fontSize = 10.sp)
-            Text(value, color = DhGold, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-        }
-    }
+.header{display:flex;align-items:center;gap:12px;padding:15px 18px}
+.back{
+ width:42px;height:42px;border-radius:50%;background:#280d38;
+ border:1px solid #754388;color:#fff;font-size:25px
+}
+.header h2{font-size:21px}
+.tabs{
+ display:flex;margin:0 18px 18px;padding:4px;background:#281436;border-radius:30px
+}
+.tabs button{
+ flex:1;padding:12px;border:0;background:transparent;color:#fff;border-radius:25px
+}
+.tabs .active{background:#8d1bd0}
+
+.match{
+ margin:0 18px 17px;padding:16px;border-radius:18px;
+ background:linear-gradient(145deg,#230b31,#35114a);border:1px solid #6d3281
+}
+.match h3{text-align:center;font-size:16px;line-height:22px}
+.center{text-align:center;color:#aaa;font-size:12px;margin:5px}
+.infoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:13px}
+.info{text-align:center}.info b{
+ display:block;background:#8e24c3;border-radius:8px;padding:8px 2px;font-size:10px
+}.info p{padding:7px 2px;font-size:13px;font-weight:bold}
+.join{
+ width:100%;margin-top:10px;padding:12px;border:0;border-radius:10px;
+ background:linear-gradient(90deg,#7715ca,#b82ce0);color:#fff;font-weight:bold
 }
 
-@Composable
-fun ProfileMenuItem(title: String, onClick: () -> Unit) {
-    Card(
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = DhCardDarker),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp)
-            .clickable { onClick() }
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(title, color = DhTextWhite, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-            Text("›", color = DhTextMuted, fontSize = 18.sp)
-        }
-    }
+.detail{
+        margin:18px;padding:20px;border-radius:20px;background:#200b2c;border:1px solid #652579
 }
-import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
-import java.net.HttpURLConnection
-import java.net.URL
-
-object FirebaseRealtimeManager {
-
-    private const val TAG = "FirebaseRealtimeManager"
-    private const val CLOUD_URL = "https://aistudio-e36ba-default-rtdb.firebaseio.com/dhjiTournament/state.json"
-
-    private val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-        encodeDefaults = true
-    }
-
-    private val _cloudState = MutableStateFlow(CloudState(tournaments = DEFAULT_TOURNAMENTS))
-    val cloudState: StateFlow<CloudState> = _cloudState.asStateFlow()
-
-    private val _isSyncing = MutableStateFlow(false)
-    val isSyncing: StateFlow<Boolean> = _isSyncing.asStateFlow()
-
-    private val scope = CoroutineScope(Dispatchers.IO)
-    private var isPolling = false
-
-    fun startRealtimeSync() {
-        if (isPolling) return
-        isPolling = true
-        scope.launch {
-            while (isPolling) {
-                fetchRemoteState()
-                delay(3000)
-            }
-        }
-    }
-
-    private fun fetchRemoteState() {
-        try {
-            _isSyncing.value = true
-            val url = URL(CLOUD_URL)
-            val connection = url.openConnection() as HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.connectTimeout = 5000
-            connection.readTimeout = 5000
-
-            if (connection.responseCode == 200) {
-                val stream = connection.inputStream
-                val text = stream.bufferedReader().use { it.readText() }
-                if (text.isNotBlank() && text != "null") {
-                    val remoteState = json.decodeFromString<CloudState>(text)
-                    mergeRemoteState(remoteState)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Fetch remote failed: ${e.message}")
-        } finally {
-            _isSyncing.value = false
-        }
-    }
-
-    private fun mergeRemoteState(remote: CloudState) {
-        val mergedTournaments = if (remote.tournaments.isEmpty() && _cloudState.value.tournaments.isEmpty()) {
-            DEFAULT_TOURNAMENTS
-        } else {
-            remote.tournaments
-        }
-
-        val updated = remote.copy(tournaments = mergedTournaments)
-        _cloudState.value = updated
-    }
-
-    fun pushStateToCloud(newState: CloudState) {
-        _cloudState.value = newState
-        scope.launch {
-            try {
-                _isSyncing.value = true
-                val payload = json.encodeToString(CloudState.serializer(), newState)
-                val url = URL(CLOUD_URL)
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "PUT"
-                connection.doOutput = true
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.connectTimeout = 5000
-
-                connection.outputStream.use { os ->
-                    os.write(payload.toByteArray(Charsets.UTF_8))
-                }
-
-                val code = connection.responseCode
-                Log.d(TAG, "Push to cloud HTTP status: $code")
-            } catch (e: Exception) {
-                Log.e(TAG, "Push to cloud error: ${e.message}")
-            } finally {
-                _isSyncing.value = false
-            }
-        }
-    }
-
-    val DEFAULT_TOURNAMENTS = listOf(
-        CloudTournament(
-            id = "t1",
-            game = "FREE FIRE MAX",
-            title = "🔥 FF MAX GRAND TOURNAMENT #101",
-            date = "Today, 08:00 PM",
-            type = "SOLO",
-            map = "BERMUDA",
-            entry = 10.0,
-            kill = 5.0,
-            prize = 100.0,
-            status = "ongoing"
-        ),
-        CloudTournament(
-            id = "t2",
-            game = "LONE WOLF 2.0",
-            title = "🐺 LONE WOLF 1V1 DUEL #205",
-            date = "Today, 09:30 PM",
-            type = "SOLO",
-            map = "IRON CAGE",
-            entry = 15.0,
-            kill = 10.0,
-            prize = 150.0,
-            status = "ongoing"
-        )
-    )
+.detail h2{text-align:center;font-size:21px;line-height:28px}
+.detail .date{text-align:center;color:#aaa;margin:7px}
+.row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #43234e}
+.rule{
+ margin-top:10px;padding:13px;border-radius:12px;
+ background:#2c123b;border:1px solid #663179
 }
-                        import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.data.cloud.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
-class HappyUserViewModel : ViewModel() {
-
-    val cloudState: StateFlow<CloudState> = FirebaseRealtimeManager.cloudState
-    val isSyncing: StateFlow<Boolean> = FirebaseRealtimeManager.isSyncing
-
-    private val _currentScreen = MutableStateFlow("HOME")
-    val currentScreen: StateFlow<String> = _currentScreen.asStateFlow()
-
-    private val _currentUser = MutableStateFlow<String?>(null)
-    val currentUser: StateFlow<String?> = _currentUser.asStateFlow()
-
-    private val _isAdmin = MutableStateFlow(false)
-    val isAdmin: StateFlow<Boolean> = _isAdmin.asStateFlow()
-
-    private val _selectedGameFilter = MutableStateFlow("ALL")
-    val selectedGameFilter: StateFlow<String> = _selectedGameFilter.asStateFlow()
-
-    private val _selectedStatusTab = MutableStateFlow("ongoing")
-    val selectedStatusTab: StateFlow<String> = _selectedStatusTab.asStateFlow()
-
-    private val _selectedTournamentDetails = MutableStateFlow<CloudTournament?>(null)
-    val selectedTournamentDetails: StateFlow<CloudTournament?> = _selectedTournamentDetails.asStateFlow()
-
-    private val _showRegisterDialog = MutableStateFlow(false)
-    val showRegisterDialog: StateFlow<Boolean> = _showRegisterDialog.asStateFlow()
-
-    private val _showJoinDialog = MutableStateFlow(false)
-    val showJoinDialog: StateFlow<Boolean> = _showJoinDialog.asStateFlow()
-
-    private val _showAddMoneyDialog = MutableStateFlow(false)
-    val showAddMoneyDialog: StateFlow<Boolean> = _showAddMoneyDialog.asStateFlow()
-
-    private val _showWithdrawDialog = MutableStateFlow(false)
-    val showWithdrawDialog: StateFlow<Boolean> = _showWithdrawDialog.asStateFlow()
-
-    private val _showNotificationsDialog = MutableStateFlow(false)
-    val showNotificationsDialog: StateFlow<Boolean> = _showNotificationsDialog.asStateFlow()
-
-    private val _showInfoDialog = MutableStateFlow<Pair<String, String>?>(null)
-    val showInfoDialog: StateFlow<Pair<String, String>?> = _showInfoDialog.asStateFlow()
-
-    private val _toastEvent = MutableSharedFlow<String>()
-    val toastEvent: SharedFlow<String> = _toastEvent.asSharedFlow()
-
-    val balance: StateFlow<Double> = combine(currentUser, cloudState) { user, state ->
-        if (user == null) 0.0
-        else state.users.find { it.id == user }?.balance ?: 10.0
-    }.stateIn(viewModelScope, SharingStarted.Lazily, 10.0)
-
-    val userNotifications: StateFlow<List<CloudNotification>> = combine(currentUser, cloudState) { user, state ->
-        state.notifications.filter { it.target == "all" || it.target == user }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-
-    val unreadNotificationsCount: StateFlow<Int> = userNotifications.map { it.size }
-        .stateIn(viewModelScope, SharingStarted.Lazily, 0)
-
-    init {
-        FirebaseRealtimeManager.startRealtimeSync()
-    }
-
-    fun navigateTo(screen: String) {
-        _currentScreen.value = screen
-    }
-
-    fun login(mobile: String, pass: String) {
-        viewModelScope.launch {
-            if (mobile == "9351881703" && pass == "nitudharm") {
-                _isAdmin.value = true
-                _currentUser.value = "ADMIN"
-                _currentScreen.value = "ADMIN"
-                _toastEvent.emit("Logged in as Super Admin")
-                return@launch
-            }
-
-            val state = cloudState.value
-            val foundUser = state.users.find { it.mobile == mobile && it.pass == pass }
-
-            if (foundUser != null) {
-                if (foundUser.banned) {
-                    _toastEvent.emit("Account suspended by Admin.")
-                    return@launch
-                }
-                _currentUser.value = foundUser.id
-                _isAdmin.value = false
-                _currentScreen.value = "HOME"
-                _toastEvent.emit("Welcome back, ${foundUser.name}!")
-            } else {
-                _toastEvent.emit("Invalid credentials or unregistered number.")
-            }
-        }
-    }
-
-    fun register(name: String, mobile: String, pass: String) {
-        viewModelScope.launch {
-            if (mobile.length < 10 || name.isBlank() || pass.isBlank()) {
-                _toastEvent.emit("Please enter valid registration details.")
-                return@launch
-            }
-
-            val currentState = cloudState.value
-            if (currentState.users.any { it.mobile == mobile }) {
-                _toastEvent.emit("Mobile number already registered. Please login.")
-                return@launch
-            }
-
-            val newUser = CloudUser(
-                id = mobile,
-                name = name,
-                mobile = mobile,
-                pass = pass,
-                balance = 10.0
-            )
-
-            val updatedUsers = currentState.users + newUser
-            val newState = currentState.copy(users = updatedUsers)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-
-            _currentUser.value = newUser.id
-            _showRegisterDialog.value = false
-            _currentScreen.value = "HOME"
-            _toastEvent.emit("Registration successful! ₹10 bonus added.")
-        }
-    }
-
-    fun logout() {
-        _currentUser.value = null
-        _isAdmin.value = false
-        _currentScreen.value = "LOGIN"
-    }
-
-    fun adminLogout() {
-        logout()
-    }
-
-    fun selectGameCategory(game: String) {
-        _selectedGameFilter.value = game
-    }
-
-    fun setStatusTab(tab: String) {
-        _selectedStatusTab.value = tab
-    }
-
-    fun openTournamentDetails(tournament: CloudTournament) {
-        _selectedTournamentDetails.value = tournament
-        _currentScreen.value = "DETAILS"
-    }
-
-    fun selectTournament(tournament: CloudTournament) {
-        _selectedTournamentDetails.value = tournament
-    }
-
-    fun setShowRegisterDialog(show: Boolean) { _showRegisterDialog.value = show }
-    fun setShowJoinDialog(show: Boolean) { _showJoinDialog.value = show }
-    fun setShowAddMoneyDialog(show: Boolean) { _showAddMoneyDialog.value = show }
-    fun setShowWithdrawDialog(show: Boolean) { _showWithdrawDialog.value = show }
-    fun setShowNotificationsDialog(show: Boolean) { _showNotificationsDialog.value = show }
-
-    fun openNotifications() {
-        _showNotificationsDialog.value = true
-    }
-
-    fun showInfoDialog(title: String, body: String) {
-        _showInfoDialog.value = title to body
-    }
-
-    fun dismissInfoDialog() {
-        _showInfoDialog.value = null
-    }
-
-    fun joinTournament(inGameName: String, gameUid: String) {
-        viewModelScope.launch {
-            val user = currentUser.value
-            val tournament = selectedTournamentDetails.value
-
-            if (user == null || tournament == null) return@launch
-
-            if (inGameName.isBlank() || gameUid.isBlank()) {
-                _toastEvent.emit("Please enter In-Game Name and UID.")
-                return@launch
-            }
-
-            val currentState = cloudState.value
-            val userInfo = currentState.users.find { it.id == user }
-            val currentBal = userInfo?.balance ?: 10.0
-
-            if (currentBal < tournament.entry) {
-                _toastEvent.emit("Insufficient balance! Please add coins.")
-                _showJoinDialog.value = false
-                _showAddMoneyDialog.value = true
-                return@launch
-            }
-
-            val updatedUsers = currentState.users.map {
-                if (it.id == user) it.copy(balance = it.balance - tournament.entry) else it
-            }
-
-            val newJoin = CloudJoinedUser(
-                tournamentId = tournament.id,
-                userId = user,
-                name = inGameName,
-                gameId = gameUid
-            )
-
-            val updatedState = currentState.copy(
-                users = updatedUsers,
-                joined = currentState.joined + newJoin
-            )
-
-            FirebaseRealtimeManager.pushStateToCloud(updatedState)
-            _showJoinDialog.value = false
-            _toastEvent.emit("Joined match successfully!")
-        }
-    }
-
-    fun startAddMoney(amount: Double, context: Context) {
-        viewModelScope.launch {
-            val user = currentUser.value ?: return@launch
-            val newDeposit = CloudDeposit(
-                id = "dep_${System.currentTimeMillis()}",
-                userId = user,
-                amount = amount,
-                date = "Just now",
-                status = "approved"
-            )
-
-            val currentState = cloudState.value
-            val updatedUsers = currentState.users.map {
-                if (it.id == user) it.copy(balance = it.balance + amount) else it
-            }
-
-            val newState = currentState.copy(
-                users = updatedUsers,
-                deposits = currentState.deposits + newDeposit
-            )
-
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _showAddMoneyDialog.value = false
-            _toastEvent.emit("₹${amount.toInt()} coins added to wallet!")
-        }
-    }
-
-    fun submitWithdrawal(amount: Double, upi: String) {
-        viewModelScope.launch {
-            val user = currentUser.value ?: return@launch
-            if (amount < 50) {
-                _toastEvent.emit("Minimum withdrawal amount is ₹50")
-                return@launch
-            }
-            if (upi.isBlank()) {
-                _toastEvent.emit("Please enter valid UPI ID")
-                return@launch
-            }
-
-            val currentState = cloudState.value
-            val userInfo = currentState.users.find { it.id == user }
-            if ((userInfo?.balance ?: 0.0) < amount) {
-                _toastEvent.emit("Insufficient wallet balance.")
-                return@launch
-            }
-
-            val newWithdrawal = CloudWithdrawal(
-                id = "w_${System.currentTimeMillis()}",
-                userId = user,
-                amount = amount,
-                upi = upi,
-                status = "pending"
-            )
-
-            val updatedUsers = currentState.users.map {
-                if (it.id == user) it.copy(balance = it.balance - amount) else it
-            }
-
-            val newState = currentState.copy(
-                users = updatedUsers,
-                withdrawals = currentState.withdrawals + newWithdrawal
-            )
-
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _showWithdrawDialog.value = false
-            _toastEvent.emit("Withdrawal request submitted!")
-        }
-    }
-
-    fun copyToClipboard(text: String, label: String, context: Context) {
-        viewModelScope.launch {
-            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText(label, text)
-            clipboard.setPrimaryClip(clip)
-            _toastEvent.emit("Copied to clipboard!")
-        }
-    }
-
-    // Admin Operations
-    fun adminCreateTournament(
-        game: String, title: String, date: String,
-        type: String, map: String, entry: Double,
-        kill: Double, prize: Double, status: String
-    ) {
-        viewModelScope.launch {
-            val newT = CloudTournament(
-                id = "t_${System.currentTimeMillis()}",
-                game = game, title = title, date = date,
-                type = type, map = map, entry = entry,
-                kill = kill, prize = prize, status = status
-            )
-            val currentState = cloudState.value
-            val newState = currentState.copy(tournaments = currentState.tournaments + newT)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("New tournament published!")
-        }
-    }
-
-    fun adminSaveRoom(tournamentId: String, roomId: String, pass: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val newRooms = currentState.rooms.toMutableMap()
-            newRooms[tournamentId] = CloudRoom(id = roomId, pass = pass)
-            val newState = currentState.copy(rooms = newRooms)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Room credentials updated!")
-        }
-    }
-
-    fun adminApproveDeposit(depId: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val dep = currentState.deposits.find { it.id == depId } ?: return@launch
-            val updatedDeposits = currentState.deposits.map {
-                if (it.id == depId) it.copy(status = "approved") else it
-            }
-            val updatedUsers = currentState.users.map {
-                if (it.id == dep.userId) it.copy(balance = it.balance + dep.amount) else it
-            }
-            val newState = currentState.copy(deposits = updatedDeposits, users = updatedUsers)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Deposit approved and credited!")
-        }
-    }
-
-    fun adminRejectDeposit(depId: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val updatedDeposits = currentState.deposits.map {
-                if (it.id == depId) it.copy(status = "rejected") else it
-            }
-            val newState = currentState.copy(deposits = updatedDeposits)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Deposit rejected.")
-        }
-    }
-
-    fun adminApproveWithdrawal(wId: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val updatedWithdrawals = currentState.withdrawals.map {
-                if (it.id == wId) it.copy(status = "paid") else it
-            }
-            val newState = currentState.copy(withdrawals = updatedWithdrawals)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Withdrawal marked as paid.")
-        }
-    }
-
-    fun adminRejectWithdrawal(wId: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val w = currentState.withdrawals.find { it.id == wId } ?: return@launch
-            val updatedWithdrawals = currentState.withdrawals.map {
-                if (it.id == wId) it.copy(status = "rejected") else it
-            }
-            val updatedUsers = currentState.users.map {
-                if (it.id == w.userId) it.copy(balance = it.balance + w.amount) else it
-            }
-            val newState = currentState.copy(withdrawals = updatedWithdrawals, users = updatedUsers)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Withdrawal rejected & refunded.")
-        }
-    }
-
-    fun adminToggleBan(userId: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val updatedUsers = currentState.users.map {
-                if (it.id == userId) it.copy(banned = !it.banned) else it
-            }
-            val newState = currentState.copy(users = updatedUsers)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("User status updated.")
-        }
-    }
-
-    fun saveAdminSettings(logo: String, banner: String, payName: String, upi: String, qr: String) {
-        viewModelScope.launch {
-            val currentState = cloudState.value
-            val newSettings = CloudSettings(logo = logo, banner = banner, payName = payName, upi = upi, qr = qr)
-            val newState = currentState.copy(settings = newSettings)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Global settings saved.")
-        }
-    }
-
-    fun adminSendNotification(title: String, message: String, target: String, tournamentId: String) {
-        viewModelScope.launch {
-            val newNotification = CloudNotification(
-                id = "n_${System.currentTimeMillis()}",
-                title = title,
-                message = message,
-                date = "Just now",
-                target = target,
-                tournamentId = tournamentId
-            )
-            val currentState = cloudState.value
-            val newState = currentState.copy(notifications = currentState.notifications + newNotification)
-            FirebaseRealtimeManager.pushStateToCloud(newState)
-            _toastEvent.emit("Broadcast sent!")
-        }
-    }
+.wallet{
+ margin:18px;padding:25px;border-radius:22px;
+ background:linear-gradient(135deg,#8122ba,#3a105c)
 }
+.wallet small{color:#ddd}.wallet h1{font-size:40px;margin-top:5px}
+.walletGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px}
+.walletBox{
+ padding:18px 10px;text-align:center;border-radius:15px;
+ background:#291333;border:1px solid #5d2a70
+}
+.walletBox button{
+ width:100%;padding:10px;margin-top:10px;border:0;border-radius:9px;
+ background:#9823cd;color:#fff;font-weight:bold
+}
+.history{margin:18px;padding:18px;border-radius:17px;background:#211027}
+        tx{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #3d2546}
+.plus{color:#35e68b}.minus{color:#ff5268}
+
+.profile{text-align:center;padding:25px 18px}
+.avatar{
+ width:90px;height:90px;margin:auto;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;font-size:42px;
+ background:linear-gradient(135deg,#a62dd8,#38105d);border:2px solid #b74de1
+}
+.profile h2{margin-top:10px}.profile p{color:#aaa;margin-top:5px}
+.menu{margin:0 18px}.menu button{
+ width:100%;padding:17px;margin-bottom:9px;border-radius:13px;
+ background:linear-gradient(90deg,#3b086d,#50118a);
+ border:1px solid #752795;color:#fff;text-align:left;display:flex;justify-content:space-between
+}
+
+.winner{margin:18px;padding:20px;border-radius:18px;background:#211027}
+.win{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #41244b}
+.rank{
+ width:37px;height:37px;border-radius:50%;background:#7820ad;
+ display:flex;align-items:center;justify-content:center
+}
+        .wintext{flex:1}.prize{color:#35e68b;font-weight:bold}
+
+.modal{
+ position:fixed;inset:0;background:#000b;z-index:1000;
+ display:none;align-items:flex-end
+}
+.modal.show{display:flex}
+.modalCard{
+    width:100%;max-width:520px;max-height:90vh;overflow:auto;
+ padding:22px;border-radius:24px 24px 0 0;
+ background:linear-gradient(#34105b,#17091f);border:1px solid #7b2997
+}
+.modalTop{display:flex;justify-content:space-between;align-items:center}
+.close{
+ width:35px;height:35px;border:0;border-radius:50%;
+ background:#35153f;color:#fff;font-size:22px
+}
+.upi{
+ margin:13px 0;padding:15px;border-radius:12px;
+ background:#11271c;border:1px solid #267247
+}
+.note{font-size:12px;color:#aaa;line-height:18px;margin-top:10px}
+
+.bottom{
+ position:fixed;left:0;right:0;bottom:0;height:73px;
+ background:#050506;border-top:1px solid #38243d;display:flex;z-index:100
+}
+.bottom button{
+ flex:1;background:transparent;border:0;color:#aaa;font-size:11px
+}
+.bottom button b{display:block;font-size:25px}
+.bottom button.active{color:#e040ff}
+
+.toast{
+        position:fixed;z-index:3000;bottom:90px;left:50%;
+ transform:translateX(-50%);background:#fff;color:#222;
+ padding:12px 20px;border-radius:30px;display:none
+}
+.toast.show{display:block}
+
+@media(max-width:500px){
+ .game{height:150px}.game .icon{font-size:34px}.game .name{font-size:10px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+
+<div class="card">
+<div class="logo">Happy<span>User</span></div>
+<div class="sub">Tournament • Wallet • Profile</div>
+
+<label>Login Type</label>
+<select id="loginType">
+<option>User Login</option>
+<option>Admin Login</option>
+</select>
+
+<label>User ID</label>
+<input id="userId" placeholder="Enter User ID">
+
+<label>Password</label>
+<input id="password" type="password" placeholder="Enter Password">
+
+<button class="btn" onclick="login()">Login</button>
+<button class="btn dark" onclick="adminLogin()">Admin Login</button>
+<button class="btn dark" onclick="register()">New User / Register</button>
+<div class="link" onclick="forgot()">Forgot Password</div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+        <!-- HOME -->
+<section id="home" class="page active">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="banner">
+<h1>BATTLE <span>OP</span></h1>
+<div class="character">🎮</div>
+<div class="rules">
+1. ID LEV 40+ ALLOWED<br>
+2. HUD POV ALLOWED<br>
+3. TEAMUP NOT ALLOWED<br>
+4. HACKER NOT ALLOWED
+</div>
+</div>
+
+<div class="dots"><i></i><i></i><i></i><i></i><i></i></div>
+
+<div class="heading">E-sports</div>
+
+<div class="grid">
+
+<script>
+const games=[
+["20","FREE FIRE MAX"],
+["⚡","HIGH PER KILL"],
+["20","FREE FIRE MAX"],
+["2.0","LONE WOLF 2.0"],
+["⚡","SURVIVAL MATCH"],
+["👥","CLASH SQUAD"],
+["🔥","LONE WOLF"],
+["2.0","LONE WOLF 2.0"],
+["⚔️","CLASH SQUAD 2.0"],
+["☠","ONLY HEAD"],
+["☠","LONE WOLF"],
+["BGMI","BATTLEGROUNDS"]
+];
+        document.write(games.map(g=>`
+<div class="game">
+<div class="icon">${g[0]}</div>
+<div class="name">${g[1]}</div>
+<button onclick="openTournament('${g[1]}')">OPEN</button>
+</div>
+`).join(""));
+</script>
+
+</div>
+</section>
+
+<!-- TOURNAMENT -->
+<section id="tournament" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="header">
+<button class="back" onclick="show('home')">‹</button>
+<h2 id="tourTitle">FREE FIRE MAX</h2>
+</div>
+
+<div class="tabs">
+<button class="active" onclick="filter('ongoing',this)">Ongoing</button>
+<button onclick="filter('upcoming',this)">Upcoming</button>
+<button onclick="filter('result',this)">Result</button>
+</div>
+
+<div id="matches"></div>
+</section>
+
+<!-- DETAILS -->
+<section id="details" class="page">
+<div class="top">
+<button class="back" onclick="show('tournament')">‹</button>
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="detail">
+<h2 id="dTitle"></h2>
+<div class="date" id="dDate"></div>
+
+<div class="row"><span>Type</span><b id="dType"></b></div>
+<div class="row"><span>Version</span><b id="dVersion"></b></div>
+<div class="row"><span>Map</span><b id="dMap"></b></div>
+<div class="row"><span>Entry Fee</span><b>₹<span id="dEntry"></span></b></div>
+<div class="row"><span>Prize Pool</span><b>₹<span id="dPrize"></span></b></div>
+<div class="row"><span>Per Kill</span><b>₹<span id="dKill"></span></b></div>
+
+<button class="btn" onclick="joinOpen()">JOIN TOURNAMENT</button>
+</div>
+        <div class="heading">Tournament Rules</div>
+<div class="rule">📜 ID Level 40+ Allowed</div>
+<div class="rule">🚫 Team Up Not Allowed</div>
+<div class="rule">🚫 Hacker Not Allowed</div>
+<div class="rule">🎮 HUD / POV Allowed</div>
+</section>
+
+<!-- WALLET -->
+<section id="wallet" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="wallet">
+<small>Available Balance</small>
+<h1>₹<span id="balance">0.00</span></h1>
+</div>
+
+<div class="walletGrid">
+<div class="walletBox">
+<div style="font-size:30px">💰</div>
+<b>Add Money</b>
+<button onclick="addOpen()">ADD MONEY</button>
+</div>
+
+<div class="walletBox">
+<div style="font-size:30px">🏦</div>
+<b>Withdrawal</b>
+<button onclick="withdrawOpen()">WITHDRAW</button>
+</div>
+</div>
+
+<div class="history">
+<h2>Wallet History</h2>
+<div id="history"></div>
+</div>
+</section>
+
+<!-- WINNERS -->
+<section id="winners" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div>🏆 Winners</div>
+</div>
+
+<div class="winner">
+<h2>🏆 Top Players</h2>
+<div class="win"><div class="rank">1</div><div class="wintext"><b>Player Winner</b></div><div class="prize">₹380</div></div>
+<div class="win"><div class="rank">2</div><div class="wintext"><b>Pro Player</b></div><div class="prize">₹250</div></div>
+<div class="win"><div class="rank">3</div><div class="wintext"><b>FF Champion</b></div><div class="prize">₹150</div></div>
+</div>
+</section>
+<!-- PROFILE -->
+<section id="profile" class="page">
+<div class="top">
+<div class="logo">Happy<span>User</span></div>
+<div class="coin">👑 <span class="bal">0</span></div>
+</div>
+
+<div class="profile">
+<div class="avatar">👤</div>
+<h2 id="profileName">HappyUser</h2>
+<p id="profileId"></p>
+</div>
+        <div class="menu">
+<button onclick="profileInfo()">My Profile <span>›</span></button>
+<button onclick="info('Change Password','Password change option ready hai.')">Change Password <span>›</span></button>
+<button onclick="navWallet()">Wallet <span>›</span></button>
+<button onclick="myMatches()">My Matches <span>›</span></button>
+<button onclick="info('Top Players','🏆 Player Winner — ₹380<br><br>🥈 Pro Player — ₹250<br><br>🥉 FF Champion — ₹150')">Top Players <span>›</span></button>
+<button onclick="info('Scratch Cards','🎁 Scratch Card feature available hai.')">Scratch Cards <span>›</span></button>
+<button onclick="info('My Challenges','🎯 Daily Tournament Challenge<br><br>🔥 Win 3 Matches')">My Challenges <span>›</span></button>
+<button onclick="info('Feedback','Feedback system ready hai.')">Feedback <span>›</span></button>
+<button onclick="info('About Us','HappyUser Tournament • Wallet • Profile')">About Us <span>›</span></button>
+<button onclick="info('Terms & Conditions','Tournament rules follow karna zaroori hai.')">Terms & Conditions <span>›</span></button>
+<button onclick="info('FAQ / Refer a Friend','Tournament join karne ke liye match open karke Join karein.')">FAQ / Refer a Friend <span>›</span></button>
+<button onclick="logout()">Logout <span>›</span></button>
+</div>
+</section>
+
+<nav class="bottom">
+<button id="nHome" class="active" onclick="navHome()"><b>⌂</b>HOME</button>
+<button id="nWallet" onclick="navWallet()"><b>◎</b>EARN</button>
+<button id="nWinner" onclick="navWinner()"><b>♔</b>WINNERS</button>
+<button id="nProfile" onclick="navProfile()"><b>♙</b>PROFILE</button>
+</nav>
+</div>
+        <!-- JOIN MODAL -->
+<div id="joinModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2>Join Tournament</h2><button class="close" onclick="closeM('joinModal')">×</button></div>
+
+<label>Name</label>
+<input id="joinName" placeholder="Enter Name">
+
+<label>Game ID</label>
+<input id="gameId" placeholder="Enter Free Fire / BGMI ID">
+
+<button class="btn" onclick="join()">JOIN NOW</button>
+</div>
+</div>
+
+<!-- ADD MONEY -->
+<div id="addModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2>Add Money</h2><button class="close" onclick="closeM('addModal')">×</button></div>
+
+<label>Amount</label>
+<input id="addAmount" type="number" min="1" placeholder="Enter Amount">
+
+<div class="upi">
+<b>Payment UPI</b><br><br>
+9351881703-1@fam<br>
+<button class="btn" onclick="copyUPI()">COPY UPI</button>
+</div>
+
+<button class="btn" onclick="pay()">PAY WITH UPI</button>
+
+<div class="note">
+Payment complete hone ke baad real balance credit ke liye
+verified payment gateway/backend required hai.
+</div>
+</div>
+</div>
+
+<!-- WITHDRAW -->
+<div id="withdrawModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2>Withdrawal</h2><button class="close" onclick="closeM('withdrawModal')">×</button></div>
+        <label>Amount</label>
+<input id="withdrawAmount" type="number" min="1" placeholder="Enter Amount">
+
+<label>Bank / UPI</label>
+<input id="withdrawUPI" placeholder="Enter Bank / UPI ID">
+
+<button class="btn" onclick="withdraw()">SUBMIT WITHDRAWAL</button>
+</div>
+</div>
+
+<!-- INFO -->
+<div id="infoModal" class="modal">
+<div class="modalCard">
+<div class="modalTop"><h2 id="infoTitle"></h2><button class="close" onclick="closeM('infoModal')">×</button></div>
+<div id="infoBody" style="margin-top:18px;line-height:24px;color:#ddd"></div>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const UPI="9351881703-1@fam";
+
+let balanceValue=Number(localStorage.getItem("huBalance")||0);
+let historyData=JSON.parse(localStorage.getItem("huHistory")||"[]");
+let joined=JSON.parse(localStorage.getItem("huJoined")||"[]");
+let current=null;
+let currentGame="FREE FIRE MAX";
+
+const data={
+"FREE FIRE MAX":[
+{id:"23079",title:"ALLOWED - HORSE BAN ❌",date:"2026-08-09 08:50 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:380,status:"ongoing"},
+{id:"23078",title:"FF DUO MATCH - POV ALLOWED",date:"2026-08-09 08:30 PM",type:"Duo",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:380,status:"result"},
+{id:"23080",title:"FREE FIRE MAX SURVIVAL",date:"2026-08-09 09:10 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
+"HIGH PER KILL":[
+{id:"23101",title:"HIGH PER KILL MATCH",date:"2026-08-09 09:30 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:20,kill:15,prize:700,status:"upcoming"}],
+"LONE WOLF 2.0":[
+{id:"23110",title:"LONE WOLF 2.0",date:"2026-08-09 10:00 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"}],
+        "SURVIVAL MATCH":[
+{id:"23120",title:"SURVIVAL MATCH",date:"2026-08-09 10:20 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
+"CLASH SQUAD":[
+{id:"23130",title:"CLASH SQUAD",date:"2026-08-09 10:40 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:250,status:"upcoming"}],
+"LONE WOLF":[
+{id:"23160",title:"LONE WOLF",date:"2026-08-09 11:40 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:5,kill:4,prize:200,status:"upcoming"}],
+"CLASH SQUAD 2.0":[
+{id:"23140",title:"CLASH SQUAD 2.0",date:"2026-08-09 11:00 PM",type:"Squad",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:500,status:"upcoming"}],
+"ONLY HEAD":[
+{id:"23150",title:"ONLY HEAD MATCH",date:"2026-08-09 11:20 PM",type:"Solo",version:"TPP",map:"BERMUDA",entry:10,kill:8,prize:300,status:"upcoming"}],
+"BGMI":[
+{id:"23170",title:"BATTLEGROUNDS MOBILE INDIA",date:"2026-08-09 09:45 PM",type:"Squad",version:"TPP",map:"ERANGEL",entry:20,kill:10,prize:800,status:"upcoming"}]
+};
+
+function login(){
+let id=userId.value.trim(),p=password.value;
+if(!id||!p)return toast("User ID aur Password enter karein");
+localStorage.setItem("huUser",id);
+startApp(id);
+}
+        function startApp(id){
+loginScreenOff();
+profileName.innerText=id;
+profileId.innerText="User ID: "+id;
+update();
+}
+
+function loginScreenOff(){
+document.getElementById("login").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+}
+
+function adminLogin(){toast("Admin login ke liye secure backend authentication required hai")}
+function register(){
+let id=prompt("New User ID");
+if(id){userId.value=id;toast("User ID set ho gaya")}
+}
+function forgot(){toast("Password recovery backend se connect karein")}
+
+function show(id){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+window.scrollTo(0,0);
+}
+
+function navHome(){show("home");nav("nHome")}
+function navWallet(){show("wallet");nav("nWallet");update()}
+function navWinner(){show("winners");nav("nWinner")}
+function navProfile(){show("profile");nav("nProfile")}
+function nav(id){
+document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+}
+
+function openTournament(name){
+currentGame=name;
+tourTitle.innerText=name;
+document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("actifunction filter(type,el){
+document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+render(type);
+}
+
+function render(status){
+let arr=(data[currentGame]||[]).filter(x=>x.status===status);
+if(!arr.length){
+matches.innerHTML="<div class='history'><h3 style='text-align:center'>No matches available</h3></div>";
+return;
+}
+matches.innerHTML=arr.map(m=>`
+<div class="match">
+<h3>${m.title}</h3>
+<div class="center">#${m.id} • ${m.date}</div>
+<div class="infoGrid">
+<div class="info"><b>🏆 Prize Pool</b><p>₹${m.prize}</p></div>
+<div class="info"><b>🛡 Per Kill</b><p>₹${m.kill}</p></div>
+<div class="info"><b>↪ Entry Fee</b><p>₹${m.entry}</p></div>
+<div class="info"><b>Type</b><p>${m.type}</p></div>
+<div class="info"><b>Version</b><p>${m.version}</p></div>
+<div class="info"><b>Map</b><p>${m.map}</p></div>
+</div>
+<button class="join" onclick='details(${JSON.stringify(m)})'>${status==="result"?"VIEW RESULT":"VIEW MATCH"}</button>
+</div>`).join("");
+}
+
+function details(m){
+current=m;
+dTitle.innerText=m.title;
+dDate.innerText=m.date;
+dType.innerText=m.type;
+dVersion.innerText=m.version;
+dMap.innerText=m.map;
+dEntry.innerText=m.entry;
+dPrize.innerText=m.prize;
+dKill.innerText=m.kill;
+show("details");
+}
+
+function joinOpen(){
+if(current.status==="result")return toast("Result match join nahi ho sakta");
+joinModal.classList.add("show");
+}
+
+function join(){
+let name=joinName.value.trim(),gid=gameId.value.trim();
+if(!name||!gid)return toast("Name aur Game ID enter karein");
+if(balanceValue<current.entry)return toast("Wallet balance kam hai");
+
+balanceValue-=current.entry;
+
+joined.push({
+title:current.title,
+id:current.id,
+gameId:gid,
+entry:current.entry,
+date:new Date().toLocaleString()
+});
+
+historyData.push({
+type:"Tournament Entry #"+current.id,
+amount:-current.entry,
+date:new Date().toLocaleString()
+});
+
+save();update();closeM("joinModal");
+toast("Tournament successfully joined");
+}
+
+function addOpen(){
+addAmount.value="";
+addModal.classList.add("show");
+}
+
+function copyUPI(){
+navigator.clipboard?.writeText(UPI);
+toast("UPI copied: "+UPI);
+}
+
+function pay(){
+let a=Number(addAmount.value);
+if(!a||a<=0)return toast("Valid amount enter karein");
+
+location.href=
+"upi://pay?pa="+encodeURIComponent(UPI)+
+"&pn="+encodeURIComponent("HappyUser")+
+"&am="+a.toFixed(2)+"&cu=INR";
+}
+
+function withdrawOpen(){
+withdrawAmount.value="";
+withdrawUPI.value="";
+withdrawModal.classList.add("show");
+}
+
+function withdraw(){
+let a=Number(withdrawAmount.value);
+let u=withdrawUPI.value.trim();
+
+if(!a||a<=0)return toast("Valid amount enter karein");
+if(!u)return toast("Bank / UPI ID enter karein");
+if(a>balanceValue)return toast("Insufficient balance");
+
+balanceValue-=a;
+
+historyData.push({
+type:"Withdrawal",
+amount:-a,
+date:new Date().toLocaleString(),
+upi:u,
+status:"Pending"
+});
+
+save();update();closeM("withdrawModal");
+toast("Withdrawal request submitted");
+}
+
+function profileInfo(){
+info("My Profile",
+"User ID: "+profileId.innerText+
+"<br><br>Balance: ₹"+balanceValue.toFixed(2));
+}
+
+function myMatches(){
+let text=joined.length?
+joined.map(x=>`<div class="rule"><b>${x.title}</b><br>Game ID: ${x.gameId}<br>Entry: ₹${x.entry}<br>${x.date}</div>`).join("")
+:"No joined matches.";
+info("My Matches",text);
+}
+
+function info(title,body){
+infoTitle.innerText=title;
+infoBody.innerHTML=body;
+infoModal.classList.add("show");
+}
+
+function closeM(id){document.getElementById(id).classList.remove("show")}
+
+function save(){
+localStorage.setItem("huBalance",balanceValue);
+localStorage.setItem("huHistory",JSON.stringify(historyData));
+    localStorage.setItem("huJoined",JSON.stringify(joined));
+}
+
+function update(){
+document.querySelectorAll(".bal").forEach(x=>x.innerText=Math.floor(balanceValue));
+balance.innerText=balanceValue.toFixed(2);
+
+history.innerHTML=historyData.length?
+historyData.slice().reverse().map(x=>`
+<div class="tx">
+<span>${x.type}<br><small>${x.date}</small></span>
+<b class="${x.amount>=0?"plus":"minus"}">${x.amount>=0?"+":"-"}₹${Math.abs(x.amount).toFixed(2)}</b>
+</div>`).join("")
+:"<p style='color:#aaa;margin-top:15px'>No transactions yet</p>";
+}
+
+function logout(){
+localStorage.removeItem("huUser");
+location.reload();
+}
+
+function toast(msg){
+let t=document.getElementById("toast");
+t.innerText=msg;t.classList.add("show");
+setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+window.addEventListener("load",()=>{
+let u=localStorage.getItem("huUser");
+if(u)startApp(u);
+});
+</script>
+
+</body>
+</html>
