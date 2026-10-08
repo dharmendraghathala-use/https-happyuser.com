@@ -1,2 +1,347 @@
-jaat ji 
-aaj7 baba
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dh.ji Tournament</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:#fff}
+header{padding:18px;background:linear-gradient(135deg,#6c2cff,#ff3d81);text-align:center}
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0}
+nav{display:flex;gap:8px;overflow:auto;padding:10px;background:#151b30;position:sticky;top:0;z-index:5}
+nav button{border:0;padding:10px 14px;border-radius:20px;background:#252d49;color:#fff;white-space:nowrap}
+.container{max-width:900px;margin:auto;padding:15px}
+.card{background:#151b30;border:1px solid #293454;border-radius:16px;padding:16px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.badge{display:inline-block;padding:5px 9px;border-radius:12px;background:#24345e;color:#8fc8ff;font-size:12px}
+.btn{border:0;border-radius:10px;padding:11px 15px;background:#7c3cff;color:white;font-weight:bold;cursor:pointer}
+.btn.green{background:#16a36b}
+.btn.gray{background:#303a55}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #394463;background:#0e1426;color:#fff;margin:7px 0 12px}
+.hidden{display:none}
+.hero{padding:20px;border-radius:18px;background:linear-gradient(135deg,#171e3b,#25134a)}
+.stat{font-size:25px;font-weight:bold}
+.small{color:#aeb8d4;font-size:13px}
+table{width:100%;border-collapse:collapse}
+td,th{padding:10px;border-bottom:1px solid #2b3553;text-align:left}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:12px 18px;border-radius:10px;display:none}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🔥 Dh.ji Tournament</h1>
+<p>Gaming Tournament Platform</p>
+</header>
+
+<nav>
+<button onclick="show('home')">🏠 Home</button>
+<button onclick="show('tournaments')">🎮 Tournaments</button>
+<button onclick="show('leaderboard')">🏆 Leaderboard</button>
+<button onclick="show('profile')">👤 Profile</button>
+<button onclick="logout()">🚪 Logout</button>
+</nav>
+
+<main class="container">
+
+<section id="login" class="card">
+<h2>🔐 Welcome to Dh.ji</h2>
+<p class="small">Login or create your account</p>
+<input id="loginName" placeholder="Enter your name">
+<input id="loginUid" placeholder="Enter Player UID">
+<button class="btn" onclick="login()">Login / Create Account</button>
+</section>
+
+<section id="app" class="hidden">
+
+<div id="home">
+<div class="hero">
+<h2>Welcome, <span id="welcome"></span> 👋</h2>
+<p>Join tournaments and compete on the leaderboard.</p>
+</div>
+
+<div class="grid">
+<div class="card">
+<div class="small">Joined</div>
+<div class="stat" id="joinedCount">0</div>
+</div>
+
+<div class="card">
+<div class="small">Points</div>
+<div class="stat" id="points">0</div>
+</div>
+
+<div class="card">
+<div class="small">Status</div>
+<div class="stat">🟢 Active</div>
+</div>
+</div>
+
+<h2>🔥 Featured Tournaments</h2>
+<div id="homeTournaments"></div>
+</div>
+
+<div id="tournaments" class="hidden">
+<h2>🎮 Tournaments</h2>
+<div id="tournamentList"></div>
+</div>
+
+<div id="leaderboard" class="hidden">
+<h2>🏆 Leaderboard</h2>
+
+<div class="card">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Player</th>
+<th>Points</th>
+</tr>
+</thead>
+<tbody id="leaders"></tbody>
+</table>
+</div>
+</div>
+
+<div id="profile" class="hidden">
+<h2>👤 Profile</h2>
+
+<div class="card">
+<p>Name: <b id="profileName"></b></p>
+<p>Player UID: <b id="profileUid"></b></p>
+<p>Joined tournaments: <b id="profileJoined"></b></p>
+<p>Points: <b id="profilePoints"></b></p>
+</div>
+</div>
+
+</section>
+</main>
+
+<div id="toast"></div>
+
+<script>
+
+const tournaments=[
+{
+id:1,
+title:"Dh.ji Free Fire Battle #1",
+game:"Free Fire",
+status:"Upcoming",
+date:"Soon",
+entry:"FREE",
+prize:"Leaderboard Points"
+},
+{
+id:2,
+title:"Dh.ji Squad Challenge",
+game:"Free Fire",
+status:"Ongoing",
+date:"Today",
+entry:"FREE",
+prize:"Leaderboard Points"
+},
+{
+id:3,
+title:"Dh.ji Clash #3",
+game:"Free Fire",
+status:"Upcoming",
+date:"Soon",
+entry:"FREE",
+prize:"Leaderboard Points"
+}
+];
+
+let user=JSON.parse(localStorage.getItem("dhjiUser")||"null");
+let joined=JSON.parse(localStorage.getItem("dhjiJoined")||"[]");
+let points=Number(localStorage.getItem("dhjiPoints")||0);
+
+function $(id){
+return document.getElementById(id);
+}
+
+function toast(text){
+$("toast").textContent=text;
+$("toast").style.display="block";
+
+setTimeout(()=>{
+$("toast").style.display="none";
+},1800);
+}
+
+function login(){
+
+const name=$("loginName").value.trim();
+const uid=$("loginUid").value.trim();
+
+if(!name||!uid){
+toast("Name and Player UID required");
+return;
+}
+
+user={
+name:name,
+uid:uid
+};
+
+localStorage.setItem(
+"dhjiUser",
+JSON.stringify(user)
+);
+
+start();
+}
+
+function start(){
+
+$("login").classList.add("hidden");
+$("app").classList.remove("hidden");
+
+$("welcome").textContent=user.name;
+$("profileName").textContent=user.name;
+$("profileUid").textContent=user.uid;
+
+render();
+show("home");
+}
+
+function logout(){
+
+localStorage.removeItem("dhjiUser");
+
+location.reload();
+}
+
+function show(id){
+
+["home","tournaments","leaderboard","profile"]
+.forEach(x=>{
+$(x).classList.toggle("hidden",x!==id);
+});
+
+render();
+}
+
+function join(id){
+
+if(!user){
+toast("Please login first");
+return;
+}
+
+if(!joined.includes(id)){
+
+joined.push(id);
+
+localStorage.setItem(
+"dhjiJoined",
+JSON.stringify(joined)
+);
+
+toast("Tournament joined!");
+
+}else{
+
+toast("Already joined");
+
+}
+
+render();
+}
+
+function card(t){
+
+const isJoined=joined.includes(t.id);
+
+return `
+<div class="card">
+
+<span class="badge">${t.status}</span>
+
+<h3>${t.title}</h3>
+
+<p>🎮 ${t.game}</p>
+
+<p>📅 ${t.date}</p>
+
+<p>
+Entry: <b>${t.entry}</b>
+<br>
+Reward: ${t.prize}
+</p>
+
+<button
+class="btn ${isJoined?'gray':'green'}"
+onclick="join(${t.id})">
+
+${isJoined?'✅ Joined':'Join Tournament'}
+
+</button>
+
+</div>
+`;
+}
+
+function render(){
+
+if(!user)return;
+
+$("tournamentList").innerHTML=
+tournaments.map(card).join("");
+
+$("homeTournaments").innerHTML=
+tournaments.slice(0,2).map(card).join("");
+
+$("joinedCount").textContent=
+joined.length;
+
+$("points").textContent=
+points;
+
+$("profileJoined").textContent=
+joined.length;
+
+$("profilePoints").textContent=
+points;
+
+const demo=[
+{
+n:user.name,
+p:points
+},
+{
+n:"Dh.ji Player 1",
+p:120
+},
+{
+n:"Dh.ji Player 2",
+p:95
+},
+{
+n:"Dh.ji Player 3",
+p:70
+}
+];
+
+demo.sort((a,b)=>b.p-a.p);
+
+$("leaders").innerHTML=
+demo.map((x,i)=>`
+<tr>
+<td>${i+1}</td>
+<td>${x.n}</td>
+<td>${x.p}</td>
+</tr>
+`).join("");
+}
+
+if(user){
+start();
+}
+
+</script>
+
+</body>
+  </html>
